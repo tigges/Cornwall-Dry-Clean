@@ -9,6 +9,22 @@ const hours = {
 };
 
 const dayNames = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+const weekdayIndex = { Sun: 0, Mon: 1, Tue: 2, Wed: 3, Thu: 4, Fri: 5, Sat: 6 };
+
+function londonNow() {
+  const parts = new Intl.DateTimeFormat("en-GB", {
+    timeZone: "Europe/London",
+    weekday: "short",
+    hour: "numeric",
+    minute: "numeric",
+    hourCycle: "h23",
+  }).formatToParts(new Date());
+  const values = Object.fromEntries(parts.filter((part) => part.type !== "literal").map((part) => [part.type, part.value]));
+  return {
+    day: weekdayIndex[values.weekday] ?? 0,
+    hour: Number(values.hour) + Number(values.minute) / 60,
+  };
+}
 
 function formatHour(hour) {
   const suffix = hour >= 12 ? "pm" : "am";
@@ -30,28 +46,36 @@ function updateOpenStatus() {
   const status = document.querySelector("[data-open-status]");
   if (!status) return;
 
-  const now = new Date();
-  const day = now.getDay();
-  const currentHour = now.getHours() + now.getMinutes() / 60;
-  const today = hours[day];
+  const now = londonNow();
+  const today = hours[now.day];
 
-  if (today && currentHour >= today.open && currentHour < today.close) {
+  if (today && now.hour >= today.open && now.hour < today.close) {
     status.textContent = `Open now · closes ${formatHour(today.close)}`;
     return;
   }
 
-  if (today && currentHour < today.open) {
+  if (today && now.hour < today.open) {
     status.textContent = `Closed · opens today at ${formatHour(today.open)}`;
     return;
   }
 
-  status.textContent = `Closed · opens ${nextOpen(day)}`;
+  status.textContent = `Closed · opens ${nextOpen(now.day)}`;
 }
 
 function highlightToday() {
-  const today = String(new Date().getDay());
+  const today = String(londonNow().day);
   document.querySelectorAll(".hours [data-day]").forEach((row) => {
-    row.classList.toggle("is-today", row.dataset.day === today);
+    const isToday = row.dataset.day === today;
+    row.classList.toggle("is-today", isToday);
+
+    let badge = row.querySelector(".today-badge");
+    if (isToday && !badge) {
+      badge = document.createElement("span");
+      badge.className = "today-badge";
+      badge.textContent = "Today";
+      row.querySelector("th").append(badge);
+    }
+    if (!isToday && badge) badge.remove();
   });
 }
 

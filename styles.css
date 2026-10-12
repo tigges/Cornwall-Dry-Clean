@@ -144,6 +144,11 @@ p {
   transform: translateY(-1px);
 }
 
+:focus-visible {
+  outline: 2px solid var(--brass);
+  outline-offset: 3px;
+}
+
 .btn-primary,
 .btn-header {
   background: var(--brass-soft);
@@ -392,6 +397,16 @@ p {
   border-radius: 1.1rem;
 }
 
+.service-card h3::before {
+  content: attr(data-num);
+  display: block;
+  margin-bottom: 0.85rem;
+  color: var(--brass);
+  font-family: var(--serif);
+  font-size: 0.95rem;
+  letter-spacing: 0.08em;
+}
+
 .service-card p,
 .review-card blockquote {
   color: var(--stone);
@@ -512,16 +527,40 @@ p {
 
 .hours th,
 .hours td {
-  padding: 0.65rem 0;
+  padding: 0.7rem 0.75rem;
   border-bottom: 1px solid var(--line);
   text-align: left;
   font-weight: 400;
+}
+
+.hours th {
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+}
+
+.hours tr.is-today {
+  background: rgba(232, 195, 106, 0.22);
 }
 
 .hours tr.is-today th,
 .hours tr.is-today td {
   font-weight: 600;
   color: var(--teal);
+}
+
+.today-badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.12rem 0.5rem;
+  border-radius: 999px;
+  background: var(--teal);
+  color: var(--linen);
+  font-family: var(--sans);
+  font-size: 0.68rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
 }
 
 .map-wrap {
