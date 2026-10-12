@@ -1,7 +1,6 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="Cornwall Dry Cleaners">
-  <rect width="64" height="64" rx="14" fill="#1C3D3A"/>
-  <circle cx="32" cy="18" r="2.8" fill="#E8C36A"/>
-  <path d="M14 27c9-7.2 27-7.2 36 0" fill="none" stroke="#E8C36A" stroke-width="3.6" stroke-linecap="round"/>
-  <path d="M32 18v6.5" fill="none" stroke="#E8C36A" stroke-width="3.6" stroke-linecap="round"/>
-  <path d="M17 28.5 32 48.5 47 28.5" fill="none" stroke="#F6F1E7" stroke-width="3.6" stroke-linecap="round" stroke-linejoin="round"/>
+  <rect width="64" height="64" rx="14" fill="#003868"/>
+  <path d="M16 24.5c8.2-6.4 23.8-6.4 32 0" fill="none" stroke="#ffffff" stroke-width="3.2" stroke-linecap="round"/>
+  <path d="M32 16v6.2" fill="none" stroke="#ffffff" stroke-width="3.2" stroke-linecap="round"/>
+  <path d="M18.5 25.5 32 46.5 45.5 25.5" fill="none" stroke="#ffffff" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"/>
 </svg>

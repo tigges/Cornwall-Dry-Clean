@@ -9,7 +9,7 @@ The [Google Business listing](https://maps.app.goo.gl/cw7sznF2TJq2SkL69) is the 
 - **Name:** Cornwall Dry Cleaners
 - **Address:** 23 Haven Lane, Ealing, London W5 2HZ
 - **Phone:** 020 8991 9413
-- **Rating:** 4.9 / 5 from 44 Google reviews
+- **Rating:** 4.9 / 5 from 45 Google reviews
 - **Hours:** Monday–Friday 8am–6pm, Saturday 9am–5pm, Sunday closed
 - **Company:** Cornwall Dry Cleaners Limited, on Haven Lane since 2003
 
@@ -24,6 +24,15 @@ The listing already has trust. It does not have a clear place to send people. Th
 3. Make calling and getting directions the main actions.
 
 No booking system, no fake email, no extra pages. A neighbourhood shop converts on the phone and at the counter.
+
+## Homepage mockups
+
+The shopfront is a white fascia, script *Cornwall*, gothic DRY CLEANERS, and a navy awning (`#003868` / `#2F5480`). Three cleaner front-page options use those colours and the uploaded photos:
+
+- [Compare options](mockups/index.html)
+- [A · Fascia White](mockups/a.html)
+- [B · Blue Awning](mockups/b.html)
+- [C · Haven Lane](mockups/c.html)
 
 ## Preview locally
 
