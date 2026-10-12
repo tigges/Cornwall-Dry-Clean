@@ -93,6 +93,19 @@ p {
   border: 0;
 }
 
+.mockup-banner {
+  margin: 0;
+  padding: 0.7rem 1rem;
+  background: #003868;
+  color: #fff;
+  text-align: center;
+  font-size: 0.92rem;
+}
+.mockup-banner a {
+  color: #fff;
+  font-weight: 600;
+}
+
 .skip-link {
   position: absolute;
   left: 1rem;
