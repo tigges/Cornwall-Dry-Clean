@@ -1,16 +1,16 @@
 :root {
-  --ink: #14211f;
-  --teal: #1c3d3a;
-  --teal-mid: #2a5c57;
-  --brass: #c4a25a;
-  --brass-soft: #e8c36a;
-  --linen: #f6f1e7;
-  --paper: #fbf8f2;
-  --sand: #e8dfd0;
-  --stone: #5f5a52;
-  --white: #fffdf8;
-  --line: rgba(20, 33, 31, 0.12);
-  --shadow: 0 20px 50px rgba(20, 33, 31, 0.12);
+  --ink: #122033;
+  --teal: #003868;
+  --teal-mid: #2f5480;
+  --brass: #2f5480;
+  --brass-soft: #ffffff;
+  --linen: #e8eef4;
+  --paper: #f6f8fb;
+  --sand: #e8eef4;
+  --stone: #5c6570;
+  --white: #ffffff;
+  --line: rgba(18, 32, 51, 0.1);
+  --shadow: 0 20px 50px rgba(0, 40, 80, 0.12);
   --serif: "Cormorant Garamond", "Palatino Linotype", Palatino, serif;
   --sans: "Outfit", "Avenir Next", "Segoe UI", sans-serif;
   --space: clamp(1.25rem, 3vw, 2rem);
@@ -112,8 +112,8 @@ p {
   top: -4rem;
   z-index: 20;
   padding: 0.7rem 1rem;
-  background: var(--brass-soft);
-  color: var(--ink);
+  background: var(--teal);
+  color: #fff;
   text-decoration: none;
 }
 
@@ -162,10 +162,20 @@ p {
   outline-offset: 3px;
 }
 
-.btn-primary,
+.btn-primary {
+  background: var(--teal);
+  color: #fff;
+}
+
+.hero .btn-primary,
 .btn-header {
-  background: var(--brass-soft);
-  color: var(--ink);
+  background: #fff;
+  color: var(--teal);
+}
+
+.btn-header {
+  background: var(--teal);
+  color: #fff;
 }
 
 .btn-secondary {
@@ -194,7 +204,7 @@ p {
   position: sticky;
   top: 0;
   z-index: 10;
-  background: rgba(251, 248, 242, 0.92);
+  background: rgba(246, 248, 251, 0.92);
   backdrop-filter: blur(14px);
   border-bottom: 1px solid var(--line);
 }
@@ -294,9 +304,8 @@ p {
   position: absolute;
   inset: 0;
   background:
-    linear-gradient(120deg, rgba(20, 33, 31, 0.55), rgba(28, 61, 58, 0.72)),
-    url("https://images.unsplash.com/photo-1489987707025-afc232f7ea0f?auto=format&fit=crop&w=1800&q=80")
-      center / cover;
+    linear-gradient(120deg, rgba(0, 41, 77, 0.62), rgba(0, 56, 104, 0.72)),
+    url("assets/shop-front.jpg") center 30% / cover;
 }
 
 .hero-grid {
@@ -354,7 +363,7 @@ p {
 
 .stars {
   margin: 0.2rem 0 0.7rem;
-  color: var(--brass);
+  color: #c9a227;
   letter-spacing: 0.12em;
 }
 
@@ -553,7 +562,7 @@ p {
 }
 
 .hours tr.is-today {
-  background: rgba(232, 195, 106, 0.22);
+  background: rgba(47, 84, 128, 0.12);
 }
 
 .hours tr.is-today th,
@@ -602,7 +611,7 @@ p {
 }
 
 .site-footer a {
-  color: var(--brass-soft);
+  color: #fff;
 }
 
 .copyright {
@@ -631,8 +640,8 @@ p {
 }
 
 .mobile-cta a:first-child {
-  background: var(--brass-soft);
-  color: var(--ink);
+  background: #fff;
+  color: var(--teal);
 }
 
 @media (min-width: 760px) {
