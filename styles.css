@@ -48,7 +48,6 @@ a {
 h1,
 h2,
 h3,
-.brand-name,
 .hero-score,
 .stat,
 .phone-xl {
@@ -216,34 +215,33 @@ p {
   min-height: 4.4rem;
 }
 
-.brand {
-  display: flex;
-  align-items: center;
-  gap: 0.7rem;
-  margin-right: auto;
-  text-decoration: none;
-}
-
-.brand img {
-  border-radius: 10px;
-}
-
-.brand-text {
+.logo {
   display: flex;
   flex-direction: column;
-  line-height: 1.05;
+  margin-right: auto;
+  text-decoration: none;
+  line-height: 0.85;
 }
 
-.brand-name {
-  font-size: 1.35rem;
+.logo-script {
+  font-family: "Great Vibes", "Snell Roundhand", cursive;
+  font-size: 2.35rem;
+  font-weight: 400;
+  color: #2f5480;
 }
 
-.brand-sub,
-.site-footer .brand-name + p {
-  font-size: 0.72rem;
-  letter-spacing: 0.12em;
+.logo-caps {
+  margin-top: 0.15rem;
+  font-size: 0.62rem;
+  font-weight: 600;
+  letter-spacing: 0.28em;
   text-transform: uppercase;
-  color: var(--stone);
+  color: #2f5480;
+}
+
+.site-footer .logo-script,
+.site-footer .logo-caps {
+  color: #fff;
 }
 
 .nav {
@@ -621,9 +619,8 @@ p {
   color: rgba(246, 241, 231, 0.78);
 }
 
-.site-footer .brand-name {
-  color: var(--linen);
-  font-size: 1.6rem;
+.site-footer .logo {
+  margin-bottom: 0.7rem;
 }
 
 .site-footer a {
