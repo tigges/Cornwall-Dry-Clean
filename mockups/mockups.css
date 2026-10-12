@@ -60,6 +60,7 @@ p { margin: 0 0 0.9rem; }
   text-decoration: none;
   font-weight: 600;
   font-size: 0.95rem;
+  white-space: nowrap;
 }
 .btn-navy { background: var(--navy); color: var(--white); }
 .btn-blue { background: var(--blue); color: var(--white); }
@@ -168,6 +169,13 @@ p { margin: 0 0 0.9rem; }
 /* A: Fascia — white, photo-led, airy */
 .a-hero { padding: 3.2rem 0 2.4rem; }
 .a-hero h1 { font-size: clamp(2.6rem, 6vw, 4.6rem); max-width: 12ch; }
+.a-wordmark {
+  width: 100%;
+  border-radius: 1.2rem;
+  border: 1px solid var(--line);
+  background: #fff;
+  object-fit: contain;
+}
 .a-photo {
   margin: 0;
   border-radius: 1.4rem;
