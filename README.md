@@ -25,14 +25,15 @@ The listing already has trust. It does not have a clear place to send people. Th
 
 No booking system, no fake email, no extra pages. A neighbourhood shop converts on the phone and at the counter.
 
-## Homepage mockups
+## Site gallery
 
-The shopfront is a white fascia, script *Cornwall*, gothic DRY CLEANERS, and a navy awning (`#003868` / `#2F5480`). Three cleaner front-page options use those colours and the uploaded photos:
+Four complete site versions share the same copy, services and reviews. Colours come from the fascia and awning (`#003868` / `#2F5480`).
 
-- [Compare options](mockups/index.html)
-- [A · Fascia White](mockups/a.html)
-- [B · Blue Awning](mockups/b.html)
-- [C · Haven Lane](mockups/c.html)
+- [Gallery](index.html)
+- [1 · Neighbours](mockups/neighbours.html) — current layout, recolored blue/white
+- [2 · Fascia White](mockups/a.html)
+- [3 · Blue Awning](mockups/b.html)
+- [4 · Haven Lane](mockups/c.html)
 
 ## Preview locally
 
