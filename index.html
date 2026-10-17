@@ -3,63 +3,264 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Site gallery · Cornwall Dry Cleaners</title>
+    <title>Cornwall Dry Cleaners | Haven Lane, Ealing</title>
+    <meta
+      name="description"
+      content="Family-run dry cleaners on Haven Lane, Ealing. 4.9 on Google. Dry cleaning, stain removal, laundry, repairs and alterations. Call 020 8991 9413."
+    />
+    <link rel="canonical" href="https://cornwalldrycleaners.com/" />
+    <meta property="og:title" content="Cornwall Dry Cleaners | Haven Lane, Ealing" />
+    <meta
+      property="og:description"
+      content="The neighbourhood dry cleaners Ealing recommends. Suits, coats, laundry and repairs — cleaned with care, often ready the next day."
+    />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://cornwalldrycleaners.com/" />
+    <meta property="og:locale" content="en_GB" />
     <meta name="theme-color" content="#003868" />
     <link rel="icon" href="favicon.svg" type="image/svg+xml" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Great+Vibes&display=swap" rel="stylesheet" />
     <link rel="stylesheet" href="mockups/mockups.css" />
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "DryCleaningOrLaundry",
+        "name": "Cornwall Dry Cleaners",
+        "image": "https://cornwalldrycleaners.com/assets/shop-front.jpg",
+        "url": "https://cornwalldrycleaners.com/",
+        "telephone": "+442089919413",
+        "priceRange": "£",
+        "address": {
+          "@type": "PostalAddress",
+          "streetAddress": "23 Haven Lane",
+          "addressLocality": "Ealing",
+          "addressRegion": "London",
+          "postalCode": "W5 2HZ",
+          "addressCountry": "GB"
+        },
+        "geo": {
+          "@type": "GeoCoordinates",
+          "latitude": 51.51661,
+          "longitude": -0.300303
+        },
+        "openingHoursSpecification": [
+          {
+            "@type": "OpeningHoursSpecification",
+            "dayOfWeek": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"],
+            "opens": "08:00",
+            "closes": "18:00"
+          },
+          {
+            "@type": "OpeningHoursSpecification",
+            "dayOfWeek": "Saturday",
+            "opens": "09:00",
+            "closes": "17:00"
+          }
+        ],
+        "aggregateRating": {
+          "@type": "AggregateRating",
+          "ratingValue": "4.9",
+          "reviewCount": "45",
+          "bestRating": "5"
+        }
+      }
+    </script>
   </head>
-  <body class="chooser">
-    <div class="wrap chooser-hero" id="gallery">
-      <p class="eyebrow">Four full site versions</p>
-      <h1>Same words, services and reviews. Four ways to put them on the page.</h1>
-      <p class="muted">
-        Each option is a complete site: hero, services, how a visit works, the shop story,
-        Google reviews, hours and map. The copy is taken from the current page. The colours
-        come from the Haven Lane fascia and awning.
-      </p>
-      <div class="palette" aria-label="Brand colours from the shopfront">
-        <span class="swatch"><i style="background:#003868"></i> Awning navy #003868</span>
-        <span class="swatch"><i style="background:#2F5480"></i> Script blue #2F5480</span>
-        <span class="swatch"><i style="background:#E8EEF4"></i> Mist #E8EEF4</span>
-        <span class="swatch"><i style="background:#FFFFFF;border:1px solid #d5dbe3"></i> Fascia white</span>
+  <body>
+    <header class="top b-top">
+      <div class="wrap top-inner">
+        <a class="logo" href="/">
+          <span class="logo-script">Cornwall</span>
+          <span class="logo-caps">Dry Cleaners</span>
+        </a>
+        <nav class="nav" data-nav aria-label="Primary">
+          <a href="#services">Services</a>
+          <a href="#story">The shop</a>
+          <a href="#reviews">Reviews</a>
+          <a href="#visit">Visit</a>
+        </nav>
+        <a class="btn btn-white phone-link" href="tel:+442089919413">020 8991 9413</a>
+        <button class="nav-toggle" type="button" data-nav-toggle aria-expanded="false" aria-controls="mobile-nav">
+          <span class="sr-only">Menu</span>
+          <span></span><span></span>
+        </button>
       </div>
+      <nav id="mobile-nav" class="mobile-nav" data-mobile-nav hidden>
+        <a href="#services">Services</a>
+        <a href="#story">The shop</a>
+        <a href="#reviews">Reviews</a>
+        <a href="#visit">Visit</a>
+        <a class="btn btn-navy" href="tel:+442089919413">Call the shop</a>
+      </nav>
+    </header>
+
+    <section class="b-hero">
+      <div class="wrap">
+        <div class="b-kicker"><span>Haven Lane · Ealing Broadway</span><span>020 8991 9413</span></div>
+        <h1>The dry cleaners neighbours recommend.</h1>
+        <p class="muted" style="max-width:36rem;font-size:1.15rem">Family-run on Haven Lane. Suits, coats, laundry and repairs — often ready next day.</p>
+        <p>
+          <a class="btn btn-white" href="tel:+442089919413">Call 020 8991 9413</a>
+          <a class="btn btn-line" href="#visit" style="color:#fff">Hours</a>
+        </p>
+        <p data-open-status>Checking today’s hours…</p>
+      </div>
+    </section>
+    <figure class="wrap b-photo">
+      <div class="b-photo-frame">
+        <img src="assets/shop-front.jpg" alt="White fascia and navy awning at Cornwall Dry Cleaners" />
+        <aside class="b-rating" aria-label="Google rating">
+          <p class="b-rating-kicker">Google reviews</p>
+          <p class="b-rating-score">4.9</p>
+          <p class="stars" aria-label="4.9 out of 5 stars">★★★★★</p>
+          <p>45 Google reviews</p>
+          <a href="https://maps.app.goo.gl/cw7sznF2TJq2SkL69" target="_blank" rel="noreferrer">Google reviews</a>
+        </aside>
+      </div>
+    </figure>
+
+    <section class="section" id="services">
+      <div class="wrap">
+        <p class="eyebrow">Services</p>
+        <h2>Everyday clothes and the pieces you care about.</h2>
+        <div class="service-grid" style="margin-top:1.6rem">
+          <article class="card service-card">
+            <h3 data-num="01">Dry cleaning</h3>
+            <p class="muted">Suits, coats and office wear, cleaned and pressed.</p>
+          </article>
+          <article class="card service-card">
+            <h3 data-num="02">Stain removal</h3>
+            <p class="muted">We inspect first and say honestly what will come out.</p>
+          </article>
+          <article class="card service-card">
+            <h3 data-num="03">Laundry</h3>
+            <p class="muted">Service washes for homes and Airbnb hosts, on time.</p>
+          </article>
+          <article class="card service-card">
+            <h3 data-num="04">Repairs &amp; alterations</h3>
+            <p class="muted">Hems, zips, stitching and loose buttons.</p>
+          </article>
+          <article class="card service-card">
+            <h3 data-num="05">Formal &amp; luxury pieces</h3>
+            <p class="muted">Wedding and cocktail pieces, wool and restored goods.</p>
+          </article>
+          <article class="card service-card">
+            <h3 data-num="06">Express service</h3>
+            <p class="muted">Need it tomorrow? Ask when you drop off.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="steps">
+      <div class="wrap">
+        <p class="eyebrow">How a visit works</p>
+        <h2>Drop in on Haven Lane.</h2>
+        <ol class="step-grid">
+          <li>
+            <span>01</span>
+            <h3>Bring it in</h3>
+            <p>A minute from Haven Green. Tell us when you need it back.</p>
+          </li>
+          <li>
+            <span>02</span>
+            <h3>We check it</h3>
+            <p>Stains and repairs are inspected before we start.</p>
+          </li>
+          <li>
+            <span>03</span>
+            <h3>Collect</h3>
+            <p>Often next day, clean and pressed.</p>
+          </li>
+        </ol>
+      </div>
+    </section>
+
+    <section class="section story" id="story">
+      <div class="wrap story-grid">
+        <div class="story-copy">
+          <p class="eyebrow">The shop</p>
+          <h2>Easy to miss if you only look on the Broadway.</h2>
+          <p>Family-run on Haven Lane since 2003. The same people take clothes in, check them before you collect, and remember the regulars.</p>
+        </div>
+        <figure class="story-photo">
+          <img src="assets/fascia.jpg" alt="Cornwall script lettering and navy awning on the Haven Lane fascia" />
+        </figure>
+        <aside class="card quote-panel">
+          <blockquote>“These guys really care about the quality of the service they provide and clearly check your goods before handing them back.”</blockquote>
+          <p>Google review · December 2025</p>
+        </aside>
+      </div>
+    </section>
+
+    <section class="section" id="reviews">
+      <div class="wrap">
+        <p class="eyebrow">From the Google listing</p>
+        <h2>4.9 from people who use the shop.</h2>
+        <p class="muted">Stain removal, next-day work and repairs.</p>
+        <div class="review-grid" style="margin-top:1.5rem">
+          <figure class="card">
+            <div class="review-meta"><p class="stars">★★★★★</p><p>Wool coat</p></div>
+            <blockquote>“Tucked away on a residential street. I’m so glad I found it. Cornwall cleaned my wool coat with such care and really good value.”</blockquote>
+            <figcaption class="muted">Google review · December 2025</figcaption>
+          </figure>
+          <figure class="card">
+            <div class="review-meta"><p class="stars">★★★★★</p><p>Stain removal</p></div>
+            <blockquote>“Gina is the rock star of cleaning. I had a cocktail spilt over my suit trousers… they came back perfectly clean and pressed. Legendary service.”</blockquote>
+            <figcaption class="muted">Google review · December 2025</figcaption>
+          </figure>
+          <figure class="card">
+            <div class="review-meta"><p class="stars">★★★★★</p><p>Repairs</p></div>
+            <blockquote>“I’ve used both the repairs and dry cleaning services over the years. The staff always try to go the extra mile — fixing a loose button without me pointing it out.”</blockquote>
+            <figcaption class="muted">Google review · December 2025</figcaption>
+          </figure>
+        </div>
+        <p style="margin-top:1.5rem"><a class="btn btn-navy" href="https://maps.app.goo.gl/cw7sznF2TJq2SkL69" target="_blank" rel="noreferrer">All reviews</a></p>
+      </div>
+    </section>
+
+    <section class="section site-pad" id="visit">
+      <div class="wrap visit-grid">
+        <div>
+          <p class="eyebrow">Visit the shop</p>
+          <h2>23 Haven Lane, Ealing, W5 2HZ</h2>
+          <p class="muted">Near Ealing Broadway and Haven Green. White fascia, blue awning.</p>
+          <p class="phone-xl"><a href="tel:+442089919413">020 8991 9413</a></p>
+          <p>
+            <a class="btn btn-navy" href="tel:+442089919413">Call</a>
+            <a class="btn btn-line" href="https://www.google.com/maps/dir/?api=1&destination=23+Haven+Lane,+Ealing,+London+W5+2HZ" target="_blank" rel="noreferrer">Directions</a>
+          </p>
+          <table class="hours hours-table">
+            <caption>Opening hours</caption>
+            <tbody>
+              <tr data-day="1"><th>Monday</th><td>8:00am – 6:00pm</td></tr>
+              <tr data-day="2"><th>Tuesday</th><td>8:00am – 6:00pm</td></tr>
+              <tr data-day="3"><th>Wednesday</th><td>8:00am – 6:00pm</td></tr>
+              <tr data-day="4"><th>Thursday</th><td>8:00am – 6:00pm</td></tr>
+              <tr data-day="5"><th>Friday</th><td>8:00am – 6:00pm</td></tr>
+              <tr data-day="6"><th>Saturday</th><td>9:00am – 5:00pm</td></tr>
+              <tr data-day="0"><th>Sunday</th><td>Closed</td></tr>
+            </tbody>
+          </table>
+          <p class="muted">Call ahead on bank holidays.</p>
+        </div>
+        <iframe class="map" title="Map showing Cornwall Dry Cleaners on Haven Lane, Ealing" src="https://maps.google.com/maps?q=Cornwall+Dry+Cleaners,+23+Haven+Lane,+Ealing+W5+2HZ&z=16&output=embed" loading="lazy"></iframe>
+      </div>
+    </section>
+
+    <footer class="foot">
+      <div class="wrap">
+        <a class="logo" href="/"><span class="logo-script">Cornwall</span><span class="logo-caps">Dry Cleaners</span></a>
+        <p>23 Haven Lane, Ealing, London W5 2HZ · <a href="tel:+442089919413">020 8991 9413</a></p>
+        <p>Family-run since 2003. © <span data-year></span> Cornwall Dry Cleaners Limited</p>
+      </div>
+    </footer>
+    <div class="mobile-cta" aria-label="Quick actions">
+      <a href="tel:+442089919413">Call</a>
+      <a href="https://www.google.com/maps/dir/?api=1&destination=23+Haven+Lane,+Ealing,+London+W5+2HZ" target="_blank" rel="noreferrer">Directions</a>
     </div>
-    <div class="wrap option-grid four">
-      <a class="option-card" href="mockups/a.html">
-        <img src="assets/shop-front.jpg" alt="Option 1 Fascia White" />
-        <div>
-          <p class="eyebrow">Option 1</p>
-          <h2>Fascia White</h2>
-          <p>Quiet white page. Shop photo beside the headline, fascia close-up in the story, then the same services and reviews.</p>
-        </div>
-      </a>
-      <a class="option-card" href="mockups/b.html">
-        <img src="assets/shop-detail.jpg" alt="Option 2 Blue Awning" />
-        <div>
-          <p class="eyebrow">Option 2</p>
-          <h2>Blue Awning</h2>
-          <p>Navy first screen like the canopy. Same headline, services and reviews underneath.</p>
-        </div>
-      </a>
-      <a class="option-card" href="mockups/c.html">
-        <img src="assets/shop-front.jpg" alt="Option 3 Haven Lane" />
-        <div>
-          <p class="eyebrow">Option 3</p>
-          <h2>Haven Lane</h2>
-          <p>Useful first screen: photo, 4.9, hours, call and directions, then the shared site sections.</p>
-        </div>
-      </a>
-      <a class="option-card" href="mockups/neighbours.html">
-        <img src="assets/shop-front.jpg" alt="Option 4 Neighbours" />
-        <div>
-          <p class="eyebrow">Option 4</p>
-          <h2>Neighbours</h2>
-          <p>The current layout, now in shop blue and white, with the Haven Lane photo in the hero.</p>
-        </div>
-      </a>
-    </div>
+    <script src="script.js"></script>
   </body>
 </html>
