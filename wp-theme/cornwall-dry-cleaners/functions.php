@@ -17,6 +17,49 @@ function cornwall_theme_setup()
 }
 add_action('after_setup_theme', 'cornwall_theme_setup');
 
+/**
+ * Make this theme the site homepage when it is activated.
+ * front-page.html replaces the default Sample Page / blog index.
+ */
+function cornwall_replace_homepage()
+{
+    update_option('blogname', 'Cornwall Dry Cleaners');
+    update_option(
+        'blogdescription',
+        'Family-run dry cleaners on Haven Lane, Ealing. 4.9 on Google.'
+    );
+    update_option('timezone_string', 'Europe/London');
+    update_option('date_format', 'j F Y');
+    update_option('time_format', 'g:ia');
+
+    $home = get_page_by_path('home');
+    if ($home instanceof WP_Post) {
+        $home_id = (int) $home->ID;
+        wp_update_post(array(
+            'ID'           => $home_id,
+            'post_status'  => 'publish',
+            'post_content' => '<!-- wp:pattern {"slug":"cornwall/homepage"} /-->',
+        ));
+    } else {
+        $created = wp_insert_post(array(
+            'post_title'   => 'Home',
+            'post_name'    => 'home',
+            'post_status'  => 'publish',
+            'post_type'    => 'page',
+            'post_content' => '<!-- wp:pattern {"slug":"cornwall/homepage"} /-->',
+        ));
+        $home_id = is_wp_error($created) ? 0 : (int) $created;
+    }
+
+    if ($home_id > 0) {
+        update_option('show_on_front', 'page');
+        update_option('page_on_front', $home_id);
+    }
+
+    flush_rewrite_rules();
+}
+add_action('after_switch_theme', 'cornwall_replace_homepage');
+
 function cornwall_enqueue_assets()
 {
     wp_enqueue_style(

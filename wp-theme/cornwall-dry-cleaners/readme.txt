@@ -5,14 +5,16 @@ Tested up to: 6.8
 Requires PHP: 7.4
 License: GPLv2 or later
 
-Block theme for Cornwall Dry Cleaners on Haven Lane. The homepage is assembled from WordPress blocks and can be edited in Appearance → Editor.
+Block theme for Cornwall Dry Cleaners on Haven Lane. Activating it replaces the WordPress homepage with the Blue Awning block page.
 
-== Install on Cloudways ==
+== Cloudways git pull ==
 
-1. Zip the `cornwall-dry-cleaners` folder.
-2. In WordPress: Appearance → Themes → Add New → Upload Theme.
-3. Activate **Cornwall Dry Cleaners**.
-4. Settings → Reading → Your homepage displays → A static page (or just visit the site — `front-page.html` is used automatically).
-5. Appearance → Editor to change copy, photos, buttons and hours.
+Pull branch `cursor/cloudways-wp-theme-fed1` into
+`public_html/wp-content/themes/cornwall-dry-cleaners`, then activate
+**Cornwall Dry Cleaners**. Do not pull the full repo into `public_html`.
 
-The static GitHub Pages site is unchanged. This theme is the WordPress version of the same Blue Awning homepage.
+== Upload zip ==
+
+1. Zip the `cornwall-dry-cleaners` folder (or use `wp-theme/cornwall-dry-cleaners.zip`).
+2. Appearance → Themes → Add New → Upload Theme.
+3. Activate **Cornwall Dry Cleaners**. The homepage is replaced automatically.
