@@ -1,0 +1,65 @@
+{
+  "$schema": "https://schemas.wp.org/trunk/theme.json",
+  "version": 3,
+  "settings": {
+    "appearanceTools": true,
+    "layout": {
+      "contentSize": "70rem",
+      "wideSize": "70rem"
+    },
+    "color": {
+      "defaultPalette": false,
+      "palette": [
+        { "slug": "navy", "color": "#003868", "name": "Awning navy" },
+        { "slug": "blue", "color": "#2F5480", "name": "Script blue" },
+        { "slug": "mist", "color": "#E8EEF4", "name": "Mist" },
+        { "slug": "paper", "color": "#F6F8FB", "name": "Paper" },
+        { "slug": "white", "color": "#FFFFFF", "name": "Fascia white" },
+        { "slug": "ink", "color": "#122033", "name": "Ink" },
+        { "slug": "stone", "color": "#5C6570", "name": "Stone" }
+      ]
+    },
+    "typography": {
+      "fontFamilies": [
+        {
+          "slug": "dm-sans",
+          "name": "DM Sans",
+          "fontFamily": "\"DM Sans\", \"Avenir Next\", \"Segoe UI\", sans-serif"
+        },
+        {
+          "slug": "great-vibes",
+          "name": "Great Vibes",
+          "fontFamily": "\"Great Vibes\", \"Snell Roundhand\", cursive"
+        }
+      ]
+    },
+    "spacing": {
+      "units": ["px", "em", "rem", "%", "vw"]
+    }
+  },
+  "styles": {
+    "color": {
+      "background": "var(--wp--preset--color--white)",
+      "text": "var(--wp--preset--color--ink)"
+    },
+    "typography": {
+      "fontFamily": "var(--wp--preset--font-family--dm-sans)",
+      "lineHeight": "1.55"
+    },
+    "spacing": {
+      "blockGap": "0"
+    },
+    "elements": {
+      "link": {
+        "color": { "text": "inherit" }
+      },
+      "h1": { "typography": { "letterSpacing": "-0.03em", "lineHeight": "1.12" } },
+      "h2": { "typography": { "letterSpacing": "-0.03em", "lineHeight": "1.12" } },
+      "h3": { "typography": { "letterSpacing": "-0.03em", "lineHeight": "1.12" } }
+    }
+  },
+  "templateParts": [
+    { "name": "header", "title": "Header", "area": "header" },
+    { "name": "footer", "title": "Footer", "area": "footer" }
+  ]
+}

@@ -1,0 +1,115 @@
+/* WordPress block wrappers stay out of the way of the shop layout. */
+.wp-site-blocks {
+  padding: 0;
+}
+.cornwall-theme .wp-block-group {
+  margin-block: 0;
+}
+.cornwall-theme .wp-block-group.has-background {
+  padding: 0;
+}
+.cornwall-theme h1,
+.cornwall-theme h2,
+.cornwall-theme h3,
+.cornwall-theme p {
+  margin-top: 0;
+}
+.cornwall-theme .wp-block-heading {
+  margin-bottom: 0.7rem;
+}
+.cornwall-theme .wp-block-buttons {
+  gap: 0.65rem;
+  margin: 0 0 1rem;
+}
+.cornwall-theme .wp-block-button__link {
+  border-radius: 999px;
+  font-weight: 600;
+  padding: 0.7rem 1.15rem;
+}
+.cornwall-theme .wp-block-image {
+  margin: 0;
+}
+.cornwall-theme .wp-block-image img {
+  width: 100%;
+  height: auto;
+}
+.cornwall-theme .wp-block-quote {
+  margin: 0;
+  border: 0;
+  padding: 0;
+}
+.cornwall-theme .wp-block-embed,
+.cornwall-theme .wp-block-embed__wrapper,
+.cornwall-theme iframe.map {
+  margin: 0;
+}
+.cornwall-theme .wp-block-navigation {
+  gap: 1.1rem;
+}
+.cornwall-theme .wp-block-navigation a {
+  text-decoration: none;
+  font-size: 0.92rem;
+}
+.cornwall-theme .b-top .wp-block-navigation a,
+.cornwall-theme .b-top .wp-block-navigation-item__content {
+  color: #fff;
+}
+.cornwall-theme .b-top .wp-block-navigation__responsive-container-open,
+.cornwall-theme .b-top .wp-block-navigation__responsive-container-close {
+  color: #fff;
+}
+.cornwall-theme .b-top .wp-block-navigation__responsive-container.is-menu-open {
+  background: #003868;
+  color: #fff;
+}
+.cornwall-theme .wp-block-button.is-style-outline .wp-block-button__link {
+  background: transparent;
+  border-color: currentColor;
+}
+.cornwall-theme .b-hero .wp-block-button.btn-white .wp-block-button__link,
+.cornwall-theme .b-top .wp-block-button.btn-white .wp-block-button__link {
+  background: #fff;
+  color: #003868;
+}
+.cornwall-theme .b-hero .wp-block-button.btn-line .wp-block-button__link {
+  background: transparent;
+  color: #fff;
+  border: 1px solid rgba(255,255,255,0.55);
+}
+.cornwall-theme .wp-block-button.btn-navy .wp-block-button__link {
+  background: #003868;
+  color: #fff;
+}
+
+.cornwall-header .wrap,
+.cornwall-footer .wrap,
+.cornwall-main .wrap {
+  width: min(calc(100% - 2rem), 70rem);
+  margin-inline: auto;
+}
+
+.cornwall-theme .service-grid.wp-block-columns,
+.cornwall-theme .review-grid.wp-block-columns,
+.cornwall-theme .step-grid.wp-block-columns,
+.cornwall-theme .visit-grid.wp-block-columns {
+  display: grid;
+  margin-bottom: 0;
+}
+.cornwall-theme .wp-block-columns {
+  margin-bottom: 0;
+}
+.cornwall-theme .story-photo img {
+  border-radius: 1.2rem;
+}
+.cornwall-theme .quote-panel cite,
+.cornwall-theme .card cite {
+  color: inherit;
+  font-size: 0.9rem;
+  font-style: normal;
+}
+
+@media (max-width: 799px) {
+  .cornwall-header .wp-block-navigation {
+    margin-left: auto;
+  }
+}
