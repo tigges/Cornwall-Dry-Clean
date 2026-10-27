@@ -38,13 +38,27 @@
   border: 0;
   padding: 0;
 }
+.cornwall-theme .wp-block-table {
+  margin: 0;
+}
+.cornwall-theme .wp-block-table table {
+  width: 100%;
+  border-collapse: collapse;
+}
 .cornwall-theme .wp-block-embed,
 .cornwall-theme .wp-block-embed__wrapper,
 .cornwall-theme iframe.map {
   margin: 0;
 }
 .cornwall-theme .wp-block-navigation {
+  align-items: center;
   gap: 1.1rem;
+  margin-left: auto;
+}
+@media (min-width: 800px) {
+  .cornwall-theme .wp-block-navigation {
+    display: flex;
+  }
 }
 .cornwall-theme .wp-block-navigation a {
   text-decoration: none;
@@ -88,18 +102,21 @@
   margin-inline: auto;
 }
 
-.cornwall-theme .service-grid.wp-block-columns,
-.cornwall-theme .review-grid.wp-block-columns,
-.cornwall-theme .step-grid.wp-block-columns,
-.cornwall-theme .visit-grid.wp-block-columns {
-  display: grid;
-  margin-bottom: 0;
+.cornwall-theme .b-kicker p {
+  margin: 0;
 }
-.cornwall-theme .wp-block-columns {
-  margin-bottom: 0;
+.cornwall-theme .service-grid,
+.cornwall-theme .review-grid,
+.cornwall-theme .step-grid,
+.cornwall-theme .visit-grid {
+  display: grid;
 }
 .cornwall-theme .story-photo img {
   border-radius: 1.2rem;
+}
+.cornwall-theme .quote-panel .wp-block-quote,
+.cornwall-theme .quote-panel blockquote {
+  color: inherit;
 }
 .cornwall-theme .quote-panel cite,
 .cornwall-theme .card cite {
@@ -111,5 +128,8 @@
 @media (max-width: 799px) {
   .cornwall-header .wp-block-navigation {
     margin-left: auto;
+  }
+  .cornwall-theme .b-kicker p:last-child {
+    display: none;
   }
 }

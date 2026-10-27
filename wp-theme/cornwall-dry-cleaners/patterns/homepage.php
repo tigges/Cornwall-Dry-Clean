@@ -16,9 +16,16 @@ $fascia = esc_url(get_theme_file_uri('assets/fascia.jpg'));
 <section class="wp-block-group b-hero">
   <!-- wp:group {"className":"wrap","layout":{"type":"default"}} -->
   <div class="wp-block-group wrap">
-    <!-- wp:html -->
-    <div class="b-kicker"><span>Haven Lane · Ealing Broadway</span><span>020 8991 9413</span></div>
-    <!-- /wp:html -->
+    <!-- wp:group {"className":"b-kicker","layout":{"type":"flex","flexWrap":"nowrap","justifyContent":"space-between"}} -->
+    <div class="wp-block-group b-kicker">
+      <!-- wp:paragraph -->
+      <p>Haven Lane · Ealing Broadway</p>
+      <!-- /wp:paragraph -->
+      <!-- wp:paragraph -->
+      <p>020 8991 9413</p>
+      <!-- /wp:paragraph -->
+    </div>
+    <!-- /wp:group -->
 
     <!-- wp:heading {"level":1} -->
     <h1 class="wp-block-heading">The dry cleaners neighbours recommend.</h1>
@@ -66,7 +73,7 @@ $fascia = esc_url(get_theme_file_uri('assets/fascia.jpg'));
 </div>
 <!-- /wp:group -->
 
-<!-- wp:group {"tagName":"section","align":"full","className":"section","anchor":"services","layout":{"type":"default"}} -->
+<!-- wp:group {"tagName":"section","className":"section","anchor":"services","layout":{"type":"default"}} -->
 <section class="wp-block-group section" id="services">
   <!-- wp:group {"className":"wrap","layout":{"type":"default"}} -->
   <div class="wp-block-group wrap">
@@ -77,99 +84,75 @@ $fascia = esc_url(get_theme_file_uri('assets/fascia.jpg'));
     <h2 class="wp-block-heading">Everyday clothes and the pieces you care about.</h2>
     <!-- /wp:heading -->
 
-    <!-- wp:columns {"className":"service-grid"} -->
-    <div class="wp-block-columns service-grid">
-      <!-- wp:column -->
-      <div class="wp-block-column">
-        <!-- wp:group {"className":"card service-card","layout":{"type":"default"}} -->
-        <div class="wp-block-group card service-card">
-          <!-- wp:heading {"level":3} -->
-          <h3 class="wp-block-heading" data-num="01">Dry cleaning</h3>
-          <!-- /wp:heading -->
-          <!-- wp:paragraph {"className":"muted"} -->
-          <p class="muted">Suits, coats and office wear, cleaned and pressed.</p>
-          <!-- /wp:paragraph -->
-        </div>
-        <!-- /wp:group -->
+    <!-- wp:group {"className":"service-grid","layout":{"type":"default"}} -->
+    <div class="wp-block-group service-grid">
+      <!-- wp:group {"className":"card service-card","layout":{"type":"default"}} -->
+      <div class="wp-block-group card service-card">
+        <!-- wp:heading {"level":3} -->
+        <h3 class="wp-block-heading" data-num="01">Dry cleaning</h3>
+        <!-- /wp:heading -->
+        <!-- wp:paragraph {"className":"muted"} -->
+        <p class="muted">Suits, coats and office wear, cleaned and pressed.</p>
+        <!-- /wp:paragraph -->
       </div>
-      <!-- /wp:column -->
-      <!-- wp:column -->
-      <div class="wp-block-column">
-        <!-- wp:group {"className":"card service-card","layout":{"type":"default"}} -->
-        <div class="wp-block-group card service-card">
-          <!-- wp:heading {"level":3} -->
-          <h3 class="wp-block-heading" data-num="02">Stain removal</h3>
-          <!-- /wp:heading -->
-          <!-- wp:paragraph {"className":"muted"} -->
-          <p class="muted">We inspect first and say honestly what will come out.</p>
-          <!-- /wp:paragraph -->
-        </div>
-        <!-- /wp:group -->
-      </div>
-      <!-- /wp:column -->
-      <!-- wp:column -->
-      <div class="wp-block-column">
-        <!-- wp:group {"className":"card service-card","layout":{"type":"default"}} -->
-        <div class="wp-block-group card service-card">
-          <!-- wp:heading {"level":3} -->
-          <h3 class="wp-block-heading" data-num="03">Laundry</h3>
-          <!-- /wp:heading -->
-          <!-- wp:paragraph {"className":"muted"} -->
-          <p class="muted">Service washes for homes and Airbnb hosts, on time.</p>
-          <!-- /wp:paragraph -->
-        </div>
-        <!-- /wp:group -->
-      </div>
-      <!-- /wp:column -->
-    </div>
-    <!-- /wp:columns -->
+      <!-- /wp:group -->
 
-    <!-- wp:columns {"className":"service-grid"} -->
-    <div class="wp-block-columns service-grid">
-      <!-- wp:column -->
-      <div class="wp-block-column">
-        <!-- wp:group {"className":"card service-card","layout":{"type":"default"}} -->
-        <div class="wp-block-group card service-card">
-          <!-- wp:heading {"level":3} -->
-          <h3 class="wp-block-heading" data-num="04">Repairs &amp; alterations</h3>
-          <!-- /wp:heading -->
-          <!-- wp:paragraph {"className":"muted"} -->
-          <p class="muted">Hems, zips, stitching and loose buttons.</p>
-          <!-- /wp:paragraph -->
-        </div>
-        <!-- /wp:group -->
+      <!-- wp:group {"className":"card service-card","layout":{"type":"default"}} -->
+      <div class="wp-block-group card service-card">
+        <!-- wp:heading {"level":3} -->
+        <h3 class="wp-block-heading" data-num="02">Stain removal</h3>
+        <!-- /wp:heading -->
+        <!-- wp:paragraph {"className":"muted"} -->
+        <p class="muted">We inspect first and say honestly what will come out.</p>
+        <!-- /wp:paragraph -->
       </div>
-      <!-- /wp:column -->
-      <!-- wp:column -->
-      <div class="wp-block-column">
-        <!-- wp:group {"className":"card service-card","layout":{"type":"default"}} -->
-        <div class="wp-block-group card service-card">
-          <!-- wp:heading {"level":3} -->
-          <h3 class="wp-block-heading" data-num="05">Formal &amp; luxury pieces</h3>
-          <!-- /wp:heading -->
-          <!-- wp:paragraph {"className":"muted"} -->
-          <p class="muted">Wedding and cocktail pieces, wool and restored goods.</p>
-          <!-- /wp:paragraph -->
-        </div>
-        <!-- /wp:group -->
+      <!-- /wp:group -->
+
+      <!-- wp:group {"className":"card service-card","layout":{"type":"default"}} -->
+      <div class="wp-block-group card service-card">
+        <!-- wp:heading {"level":3} -->
+        <h3 class="wp-block-heading" data-num="03">Laundry</h3>
+        <!-- /wp:heading -->
+        <!-- wp:paragraph {"className":"muted"} -->
+        <p class="muted">Service washes for homes and Airbnb hosts, on time.</p>
+        <!-- /wp:paragraph -->
       </div>
-      <!-- /wp:column -->
-      <!-- wp:column -->
-      <div class="wp-block-column">
-        <!-- wp:group {"className":"card service-card","layout":{"type":"default"}} -->
-        <div class="wp-block-group card service-card">
-          <!-- wp:heading {"level":3} -->
-          <h3 class="wp-block-heading" data-num="06">Express service</h3>
-          <!-- /wp:heading -->
-          <!-- wp:paragraph {"className":"muted"} -->
-          <p class="muted">Need it tomorrow? Ask when you drop off.</p>
-          <!-- /wp:paragraph -->
-        </div>
-        <!-- /wp:group -->
+      <!-- /wp:group -->
+
+      <!-- wp:group {"className":"card service-card","layout":{"type":"default"}} -->
+      <div class="wp-block-group card service-card">
+        <!-- wp:heading {"level":3} -->
+        <h3 class="wp-block-heading" data-num="04">Repairs &amp; alterations</h3>
+        <!-- /wp:heading -->
+        <!-- wp:paragraph {"className":"muted"} -->
+        <p class="muted">Hems, zips, stitching and loose buttons.</p>
+        <!-- /wp:paragraph -->
       </div>
-      <!-- /wp:column -->
+      <!-- /wp:group -->
+
+      <!-- wp:group {"className":"card service-card","layout":{"type":"default"}} -->
+      <div class="wp-block-group card service-card">
+        <!-- wp:heading {"level":3} -->
+        <h3 class="wp-block-heading" data-num="05">Formal &amp; luxury pieces</h3>
+        <!-- /wp:heading -->
+        <!-- wp:paragraph {"className":"muted"} -->
+        <p class="muted">Wedding and cocktail pieces, wool and restored goods.</p>
+        <!-- /wp:paragraph -->
+      </div>
+      <!-- /wp:group -->
+
+      <!-- wp:group {"className":"card service-card","layout":{"type":"default"}} -->
+      <div class="wp-block-group card service-card">
+        <!-- wp:heading {"level":3} -->
+        <h3 class="wp-block-heading" data-num="06">Express service</h3>
+        <!-- /wp:heading -->
+        <!-- wp:paragraph {"className":"muted"} -->
+        <p class="muted">Need it tomorrow? Ask when you drop off.</p>
+        <!-- /wp:paragraph -->
+      </div>
+      <!-- /wp:group -->
     </div>
-    <!-- /wp:columns -->
+    <!-- /wp:group -->
   </div>
   <!-- /wp:group -->
 </section>
@@ -186,10 +169,10 @@ $fascia = esc_url(get_theme_file_uri('assets/fascia.jpg'));
     <h2 class="wp-block-heading">Drop in on Haven Lane.</h2>
     <!-- /wp:heading -->
 
-    <!-- wp:columns {"className":"step-grid"} -->
-    <div class="wp-block-columns step-grid">
-      <!-- wp:column -->
-      <div class="wp-block-column">
+    <!-- wp:group {"className":"step-grid","layout":{"type":"default"}} -->
+    <div class="wp-block-group step-grid">
+      <!-- wp:group {"layout":{"type":"default"}} -->
+      <div class="wp-block-group">
         <!-- wp:paragraph -->
         <p><span>01</span></p>
         <!-- /wp:paragraph -->
@@ -200,9 +183,9 @@ $fascia = esc_url(get_theme_file_uri('assets/fascia.jpg'));
         <p>A minute from Haven Green. Tell us when you need it back.</p>
         <!-- /wp:paragraph -->
       </div>
-      <!-- /wp:column -->
-      <!-- wp:column -->
-      <div class="wp-block-column">
+      <!-- /wp:group -->
+      <!-- wp:group {"layout":{"type":"default"}} -->
+      <div class="wp-block-group">
         <!-- wp:paragraph -->
         <p><span>02</span></p>
         <!-- /wp:paragraph -->
@@ -213,9 +196,9 @@ $fascia = esc_url(get_theme_file_uri('assets/fascia.jpg'));
         <p>Stains and repairs are inspected before we start.</p>
         <!-- /wp:paragraph -->
       </div>
-      <!-- /wp:column -->
-      <!-- wp:column -->
-      <div class="wp-block-column">
+      <!-- /wp:group -->
+      <!-- wp:group {"layout":{"type":"default"}} -->
+      <div class="wp-block-group">
         <!-- wp:paragraph -->
         <p><span>03</span></p>
         <!-- /wp:paragraph -->
@@ -226,9 +209,9 @@ $fascia = esc_url(get_theme_file_uri('assets/fascia.jpg'));
         <p>Often next day, clean and pressed.</p>
         <!-- /wp:paragraph -->
       </div>
-      <!-- /wp:column -->
+      <!-- /wp:group -->
     </div>
-    <!-- /wp:columns -->
+    <!-- /wp:group -->
   </div>
   <!-- /wp:group -->
 </section>
@@ -256,12 +239,18 @@ $fascia = esc_url(get_theme_file_uri('assets/fascia.jpg'));
     <figure class="wp-block-image size-full story-photo"><img src="<?php echo $fascia; ?>" alt="Cornwall script lettering and navy awning on the Haven Lane fascia"/></figure>
     <!-- /wp:image -->
 
-    <!-- wp:quote {"className":"card quote-panel"} -->
-    <blockquote class="wp-block-quote card quote-panel">
-      <p>“These guys really care about the quality of the service they provide and clearly check your goods before handing them back.”</p>
-      <cite>Google review · December 2025</cite>
-    </blockquote>
-    <!-- /wp:quote -->
+    <!-- wp:group {"className":"card quote-panel","layout":{"type":"default"}} -->
+    <div class="wp-block-group card quote-panel">
+      <!-- wp:quote -->
+      <blockquote class="wp-block-quote">
+        <p>“These guys really care about the quality of the service they provide and clearly check your goods before handing them back.”</p>
+      </blockquote>
+      <!-- /wp:quote -->
+      <!-- wp:paragraph -->
+      <p>Google review · December 2025</p>
+      <!-- /wp:paragraph -->
+    </div>
+    <!-- /wp:group -->
   </div>
   <!-- /wp:group -->
 </section>
@@ -281,61 +270,78 @@ $fascia = esc_url(get_theme_file_uri('assets/fascia.jpg'));
     <p class="muted">Stain removal, next-day work and repairs.</p>
     <!-- /wp:paragraph -->
 
-    <!-- wp:columns {"className":"review-grid"} -->
-    <div class="wp-block-columns review-grid">
-      <!-- wp:column -->
-      <div class="wp-block-column">
-        <!-- wp:group {"className":"card","layout":{"type":"default"}} -->
-        <div class="wp-block-group card">
+    <!-- wp:group {"className":"review-grid","layout":{"type":"default"}} -->
+    <div class="wp-block-group review-grid">
+      <!-- wp:group {"className":"card","layout":{"type":"default"}} -->
+      <div class="wp-block-group card">
+        <!-- wp:group {"className":"review-meta","layout":{"type":"flex","flexWrap":"nowrap","justifyContent":"space-between"}} -->
+        <div class="wp-block-group review-meta">
           <!-- wp:paragraph {"className":"stars"} -->
-          <p class="stars">★★★★★ <span>Wool coat</span></p>
+          <p class="stars">★★★★★</p>
           <!-- /wp:paragraph -->
-          <!-- wp:quote -->
-          <blockquote class="wp-block-quote">
-            <p>“Tucked away on a residential street. I’m so glad I found it. Cornwall cleaned my wool coat with such care and really good value.”</p>
-            <cite>Google review · December 2025</cite>
-          </blockquote>
-          <!-- /wp:quote -->
+          <!-- wp:paragraph -->
+          <p>Wool coat</p>
+          <!-- /wp:paragraph -->
         </div>
         <!-- /wp:group -->
+        <!-- wp:quote -->
+        <blockquote class="wp-block-quote">
+          <p>“Tucked away on a residential street. I’m so glad I found it. Cornwall cleaned my wool coat with such care and really good value.”</p>
+        </blockquote>
+        <!-- /wp:quote -->
+        <!-- wp:paragraph {"className":"muted"} -->
+        <p class="muted">Google review · December 2025</p>
+        <!-- /wp:paragraph -->
       </div>
-      <!-- /wp:column -->
-      <!-- wp:column -->
-      <div class="wp-block-column">
-        <!-- wp:group {"className":"card","layout":{"type":"default"}} -->
-        <div class="wp-block-group card">
+      <!-- /wp:group -->
+
+      <!-- wp:group {"className":"card","layout":{"type":"default"}} -->
+      <div class="wp-block-group card">
+        <!-- wp:group {"className":"review-meta","layout":{"type":"flex","flexWrap":"nowrap","justifyContent":"space-between"}} -->
+        <div class="wp-block-group review-meta">
           <!-- wp:paragraph {"className":"stars"} -->
-          <p class="stars">★★★★★ <span>Stain removal</span></p>
+          <p class="stars">★★★★★</p>
           <!-- /wp:paragraph -->
-          <!-- wp:quote -->
-          <blockquote class="wp-block-quote">
-            <p>“Gina is the rock star of cleaning. I had a cocktail spilt over my suit trousers… they came back perfectly clean and pressed. Legendary service.”</p>
-            <cite>Google review · December 2025</cite>
-          </blockquote>
-          <!-- /wp:quote -->
+          <!-- wp:paragraph -->
+          <p>Stain removal</p>
+          <!-- /wp:paragraph -->
         </div>
         <!-- /wp:group -->
+        <!-- wp:quote -->
+        <blockquote class="wp-block-quote">
+          <p>“Gina is the rock star of cleaning. I had a cocktail spilt over my suit trousers… they came back perfectly clean and pressed. Legendary service.”</p>
+        </blockquote>
+        <!-- /wp:quote -->
+        <!-- wp:paragraph {"className":"muted"} -->
+        <p class="muted">Google review · December 2025</p>
+        <!-- /wp:paragraph -->
       </div>
-      <!-- /wp:column -->
-      <!-- wp:column -->
-      <div class="wp-block-column">
-        <!-- wp:group {"className":"card","layout":{"type":"default"}} -->
-        <div class="wp-block-group card">
+      <!-- /wp:group -->
+
+      <!-- wp:group {"className":"card","layout":{"type":"default"}} -->
+      <div class="wp-block-group card">
+        <!-- wp:group {"className":"review-meta","layout":{"type":"flex","flexWrap":"nowrap","justifyContent":"space-between"}} -->
+        <div class="wp-block-group review-meta">
           <!-- wp:paragraph {"className":"stars"} -->
-          <p class="stars">★★★★★ <span>Repairs</span></p>
+          <p class="stars">★★★★★</p>
           <!-- /wp:paragraph -->
-          <!-- wp:quote -->
-          <blockquote class="wp-block-quote">
-            <p>“I’ve used both the repairs and dry cleaning services over the years. The staff always try to go the extra mile — fixing a loose button without me pointing it out.”</p>
-            <cite>Google review · December 2025</cite>
-          </blockquote>
-          <!-- /wp:quote -->
+          <!-- wp:paragraph -->
+          <p>Repairs</p>
+          <!-- /wp:paragraph -->
         </div>
         <!-- /wp:group -->
+        <!-- wp:quote -->
+        <blockquote class="wp-block-quote">
+          <p>“I’ve used both the repairs and dry cleaning services over the years. The staff always try to go the extra mile — fixing a loose button without me pointing it out.”</p>
+        </blockquote>
+        <!-- /wp:quote -->
+        <!-- wp:paragraph {"className":"muted"} -->
+        <p class="muted">Google review · December 2025</p>
+        <!-- /wp:paragraph -->
       </div>
-      <!-- /wp:column -->
+      <!-- /wp:group -->
     </div>
-    <!-- /wp:columns -->
+    <!-- /wp:group -->
 
     <!-- wp:buttons {"className":"follow-on"} -->
     <div class="wp-block-buttons follow-on">
@@ -351,10 +357,10 @@ $fascia = esc_url(get_theme_file_uri('assets/fascia.jpg'));
 
 <!-- wp:group {"tagName":"section","className":"section site-pad","anchor":"visit","layout":{"type":"default"}} -->
 <section class="wp-block-group section site-pad" id="visit">
-  <!-- wp:columns {"className":"wrap visit-grid"} -->
-  <div class="wp-block-columns wrap visit-grid">
-    <!-- wp:column -->
-    <div class="wp-block-column">
+  <!-- wp:group {"className":"wrap visit-grid","layout":{"type":"default"}} -->
+  <div class="wp-block-group wrap visit-grid">
+    <!-- wp:group {"layout":{"type":"default"}} -->
+    <div class="wp-block-group">
       <!-- wp:paragraph {"className":"eyebrow"} -->
       <p class="eyebrow">Visit the shop</p>
       <!-- /wp:paragraph -->
@@ -377,34 +383,32 @@ $fascia = esc_url(get_theme_file_uri('assets/fascia.jpg'));
         <!-- /wp:button -->
       </div>
       <!-- /wp:buttons -->
-      <!-- wp:html -->
-      <table class="hours hours-table">
-        <caption>Opening hours</caption>
-        <tbody>
-          <tr data-day="1"><th>Monday</th><td>8:00am – 6:00pm</td></tr>
-          <tr data-day="2"><th>Tuesday</th><td>8:00am – 6:00pm</td></tr>
-          <tr data-day="3"><th>Wednesday</th><td>8:00am – 6:00pm</td></tr>
-          <tr data-day="4"><th>Thursday</th><td>8:00am – 6:00pm</td></tr>
-          <tr data-day="5"><th>Friday</th><td>8:00am – 6:00pm</td></tr>
-          <tr data-day="6"><th>Saturday</th><td>9:00am – 5:00pm</td></tr>
-          <tr data-day="0"><th>Sunday</th><td>Closed</td></tr>
-        </tbody>
-      </table>
-      <!-- /wp:html -->
+      <!-- wp:table {"className":"hours hours-table","hasFixedLayout":false} -->
+      <figure class="wp-block-table hours hours-table">
+        <table>
+          <caption>Opening hours</caption>
+          <tbody>
+            <tr data-day="1"><th>Monday</th><td>8:00am – 6:00pm</td></tr>
+            <tr data-day="2"><th>Tuesday</th><td>8:00am – 6:00pm</td></tr>
+            <tr data-day="3"><th>Wednesday</th><td>8:00am – 6:00pm</td></tr>
+            <tr data-day="4"><th>Thursday</th><td>8:00am – 6:00pm</td></tr>
+            <tr data-day="5"><th>Friday</th><td>8:00am – 6:00pm</td></tr>
+            <tr data-day="6"><th>Saturday</th><td>9:00am – 5:00pm</td></tr>
+            <tr data-day="0"><th>Sunday</th><td>Closed</td></tr>
+          </tbody>
+        </table>
+      </figure>
+      <!-- /wp:table -->
       <!-- wp:paragraph {"className":"muted"} -->
       <p class="muted">Call ahead on bank holidays.</p>
       <!-- /wp:paragraph -->
     </div>
-    <!-- /wp:column -->
-    <!-- wp:column -->
-    <div class="wp-block-column">
-      <!-- wp:html -->
-      <iframe class="map" title="Map showing Cornwall Dry Cleaners on Haven Lane, Ealing" src="https://maps.google.com/maps?q=Cornwall+Dry+Cleaners,+23+Haven+Lane,+Ealing+W5+2HZ&amp;z=16&amp;output=embed" loading="lazy"></iframe>
-      <!-- /wp:html -->
-    </div>
-    <!-- /wp:column -->
+    <!-- /wp:group -->
+    <!-- wp:html -->
+    <iframe class="map" title="Map showing Cornwall Dry Cleaners on Haven Lane, Ealing" src="https://maps.google.com/maps?q=Cornwall+Dry+Cleaners,+23+Haven+Lane,+Ealing+W5+2HZ&amp;z=16&amp;output=embed" loading="lazy"></iframe>
+    <!-- /wp:html -->
   </div>
-  <!-- /wp:columns -->
+  <!-- /wp:group -->
 </section>
 <!-- /wp:group -->
 
