@@ -58,23 +58,6 @@ function updateOpenStatus() {
   });
 }
 
-function setupCopyAddress() {
-  const button = document.querySelector("[data-copy-address]");
-  if (!button) return;
-  const address = "23 Haven Lane, Ealing, London W5 2HZ";
-  button.addEventListener("click", async () => {
-    try {
-      await navigator.clipboard.writeText(address);
-      button.textContent = "Copied";
-      window.setTimeout(() => {
-        button.textContent = "Copy address";
-      }, 2000);
-    } catch {
-      window.prompt("Copy address", address);
-    }
-  });
-}
-
 function highlightToday() {
   const today = String(londonNow().day);
   document.querySelectorAll(".hours [data-day]").forEach((row) => {
@@ -116,4 +99,3 @@ if (year) year.textContent = String(new Date().getFullYear());
 updateOpenStatus();
 highlightToday();
 setupNav();
-setupCopyAddress();

@@ -371,7 +371,6 @@ $fascia = esc_url(get_theme_file_uri('assets/fascia.jpg'));
         <p class="btn-row">
           <a class="btn btn-navy" href="tel:+442089919413">Call</a>
           <a class="btn btn-line" href="https://www.google.com/maps/dir/?api=1&amp;destination=23+Haven+Lane,+Ealing,+London+W5+2HZ" target="_blank" rel="noreferrer">Directions</a>
-          <button class="btn btn-line" type="button" data-copy-address>Copy address</button>
           <a class="btn btn-line" href="https://wa.me/442089919413" target="_blank" rel="noreferrer">WhatsApp</a>
         </p>
       </div>
