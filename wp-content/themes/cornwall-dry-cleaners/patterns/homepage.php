@@ -32,7 +32,7 @@ $fascia = esc_url(get_theme_file_uri('assets/fascia.jpg'));
     <!-- /wp:heading -->
 
     <!-- wp:paragraph {"className":"lead"} -->
-    <p class="lead">Family-run on Haven Lane. Suits, coats, laundry and repairs — often next day if dropped in by 10am.</p>
+    <p class="lead">Proudly independent, right on Haven Lane. Suits, coats, laundry and repairs — often next day if dropped in by 10am.</p>
     <!-- /wp:paragraph -->
 
     <!-- wp:buttons {"className":"btn-row"} -->
@@ -230,7 +230,7 @@ $fascia = esc_url(get_theme_file_uri('assets/fascia.jpg'));
       <h2 class="wp-block-heading">Easy to miss if you only look on the Broadway.</h2>
       <!-- /wp:heading -->
       <!-- wp:paragraph -->
-      <p>Family-run on Haven Lane since 2003. The same people take clothes in, check them before you collect, and remember the regulars.</p>
+      <p>Proudly independent, right on Haven Lane since 2003. The same people take clothes in, check them before you collect, and remember the regulars.</p>
       <!-- /wp:paragraph -->
     </div>
     <!-- /wp:group -->
