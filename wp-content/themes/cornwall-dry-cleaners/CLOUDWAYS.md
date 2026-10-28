@@ -10,4 +10,4 @@ This theme is meant to be pulled into a WordPress `public_html/`.
 
 Fetch, select that branch, Pull, then **purge Breeze**. The live site stays on the previous HTML until cache is cleared.
 
-Theme Version **1.2.9** uses a flatter, translucent open/closed chip beside Hours. Confirm `style.css` shows that version after Pull.
+Theme Version **1.3.0** slims the open/closed chip and keeps the phone pill in the mobile header. Confirm `style.css` shows that version after Pull.
