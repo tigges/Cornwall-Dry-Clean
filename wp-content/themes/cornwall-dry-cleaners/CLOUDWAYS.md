@@ -10,4 +10,4 @@ This theme is meant to be pulled into a WordPress `public_html/`.
 
 Fetch, select that branch, Pull, then **purge Breeze**. The live site stays on the previous HTML until cache is cleared.
 
-Theme Version **1.2.7** removes the WhatsApp button from Visit. Confirm `style.css` shows that version after Pull.
+Theme Version **1.2.8** puts the open/closed status in a chip beside Hours. Confirm `style.css` shows that version after Pull.

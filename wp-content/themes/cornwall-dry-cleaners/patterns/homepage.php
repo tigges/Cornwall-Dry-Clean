@@ -35,20 +35,13 @@ $fascia = esc_url(get_theme_file_uri('assets/fascia.jpg'));
     <p class="lead">Proudly independent, right on Haven Lane. Suits, coats, laundry and repairs — often next day if dropped in by 10am.</p>
     <!-- /wp:paragraph -->
 
-    <!-- wp:buttons {"className":"btn-row"} -->
-    <div class="wp-block-buttons btn-row">
-      <!-- wp:button {"backgroundColor":"white","textColor":"navy","className":"btn-white"} -->
-      <div class="wp-block-button btn-white"><a class="wp-block-button__link has-navy-color has-white-background-color has-text-color has-background wp-element-button" href="tel:+442089919413">Call 020 8991 9413</a></div>
-      <!-- /wp:button -->
-      <!-- wp:button {"className":"btn-line"} -->
-      <div class="wp-block-button btn-line"><a class="wp-block-button__link wp-element-button" href="#visit">Hours</a></div>
-      <!-- /wp:button -->
-    </div>
-    <!-- /wp:buttons -->
-
-    <!-- wp:paragraph -->
-    <p data-open-status>Checking today’s hours…</p>
-    <!-- /wp:paragraph -->
+    <!-- wp:html -->
+    <p class="btn-row hero-actions">
+      <a class="btn btn-white" href="tel:+442089919413">Call 020 8991 9413</a>
+      <a class="btn btn-line" href="#visit">Hours</a>
+      <a class="hours-chip" href="#visit" data-open-status>Checking today’s hours…</a>
+    </p>
+    <!-- /wp:html -->
   </div>
   <!-- /wp:group -->
 </section>

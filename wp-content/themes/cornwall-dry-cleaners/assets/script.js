@@ -55,6 +55,7 @@ function updateOpenStatus() {
 
   document.querySelectorAll("[data-open-status]").forEach((node) => {
     node.textContent = text;
+    node.dataset.state = text.startsWith("Open") ? "open" : "closed";
   });
 }
 

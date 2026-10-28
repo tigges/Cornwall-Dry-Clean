@@ -20,6 +20,46 @@ html {
   gap: 0.85rem;
 }
 
+.b-hero .hero-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.65rem;
+  margin: 0 0 0.2rem;
+}
+
+.b-hero .hours-chip,
+.b-hero a.hours-chip[data-open-status] {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  min-height: 2.9rem;
+  margin: 0;
+  padding: 0 1.05rem;
+  border-radius: 999px;
+  background: #fff;
+  color: #003868;
+  font-weight: 700;
+  font-size: 0.95rem;
+  letter-spacing: 0.01em;
+  text-decoration: none;
+  line-height: 1;
+}
+
+.b-hero .hours-chip::before {
+  content: "";
+  width: 0.58rem;
+  height: 0.58rem;
+  border-radius: 50%;
+  background: #c45c26;
+  box-shadow: 0 0 0 3px rgba(196, 92, 38, 0.25);
+}
+
+.b-hero .hours-chip[data-state="open"]::before {
+  background: #1f8a4c;
+  box-shadow: 0 0 0 3px rgba(31, 138, 76, 0.25);
+}
+
 .cornwall-header .nav-toggle {
   cursor: pointer;
   flex-shrink: 0;
