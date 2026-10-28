@@ -1,6 +1,7 @@
 /* WordPress block wrappers stay out of the way of the shop layout. */
 .wp-site-blocks {
   padding: 0;
+  overflow: visible;
 }
 .cornwall-theme .wp-block-group {
   margin-block: 0;
@@ -17,15 +18,100 @@
 .cornwall-theme .wp-block-heading {
   margin-bottom: 0.7rem;
 }
+.cornwall-theme .b-hero .wp-block-heading {
+  margin-bottom: 0.85rem;
+}
+
+/* Header stays on screen while scrolling, like the HTML site. */
+.cornwall-theme .cornwall-header.top,
+.cornwall-theme .b-top.cornwall-header {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  padding-top: 0.95rem;
+  padding-bottom: 0.45rem;
+}
+.admin-bar .cornwall-theme .cornwall-header.top,
+.admin-bar.cornwall-theme .cornwall-header.top {
+  top: 32px;
+}
+@media screen and (max-width: 782px) {
+  .admin-bar .cornwall-theme .cornwall-header.top,
+  .admin-bar.cornwall-theme .cornwall-header.top {
+    top: 46px;
+  }
+}
+.cornwall-theme .cornwall-header .top-inner {
+  min-height: 4.4rem;
+  align-items: center;
+}
+
+/* One pill only: HTML .btn lives on an <a>. WP puts .btn on the wrapper. */
+.cornwall-theme .wp-block-button.btn,
+.cornwall-theme .wp-block-button {
+  display: inline-flex;
+  min-height: 0;
+  padding: 0;
+  margin: 0;
+  border: 0;
+  background: none;
+  border-radius: 0;
+  font-size: inherit;
+  font-weight: inherit;
+}
 .cornwall-theme .wp-block-buttons {
+  display: flex;
+  flex-wrap: wrap;
   gap: 0.65rem;
   margin: 0 0 1rem;
 }
-.cornwall-theme .wp-block-button__link {
-  border-radius: 999px;
-  font-weight: 600;
-  padding: 0.7rem 1.15rem;
+.cornwall-theme .wp-block-buttons.follow-on {
+  margin-top: 1.5rem;
 }
+.cornwall-theme .wp-block-button__link,
+.cornwall-theme .wp-element-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+  min-height: 2.9rem;
+  padding: 0.7rem 1.15rem;
+  border-radius: 999px;
+  border: 0;
+  font-weight: 600;
+  font-size: 0.95rem;
+  line-height: 1;
+  text-decoration: none;
+  box-shadow: none;
+}
+.cornwall-theme .wp-block-button.is-style-outline .wp-block-button__link,
+.cornwall-theme .wp-block-button.btn-line .wp-block-button__link {
+  background: transparent;
+  border: 1px solid currentColor;
+  box-shadow: none;
+}
+.cornwall-theme .b-hero .wp-block-button.btn-white .wp-block-button__link,
+.cornwall-theme .b-top .wp-block-button.btn-white .wp-block-button__link {
+  background: #fff;
+  color: #003868;
+  border: 0;
+}
+.cornwall-theme .b-hero .wp-block-button.btn-line .wp-block-button__link {
+  background: transparent;
+  color: #fff;
+  border: 1px solid rgba(255, 255, 255, 0.55);
+}
+.cornwall-theme .wp-block-button.btn-navy .wp-block-button__link {
+  background: #003868;
+  color: #fff;
+  border: 0;
+}
+.cornwall-theme .visit-grid .wp-block-button.btn-line .wp-block-button__link {
+  background: transparent;
+  color: #122033;
+  border: 1px solid currentColor;
+}
+
 .cornwall-theme .wp-block-image {
   margin: 0;
 }
@@ -38,13 +124,32 @@
   border: 0;
   padding: 0;
 }
+
+/* Hours table: no WP grid, no HTML row rules. */
+.cornwall-theme .wp-block-table,
+.cornwall-theme .wp-block-table table,
+.cornwall-theme .wp-block-table th,
+.cornwall-theme .wp-block-table td,
+.cornwall-theme .hours-table,
+.cornwall-theme .hours-table th,
+.cornwall-theme .hours-table td {
+  border: 0;
+}
 .cornwall-theme .wp-block-table {
   margin: 0;
 }
-.cornwall-theme .wp-block-table table {
+.cornwall-theme .wp-block-table table,
+.cornwall-theme .hours-table table {
   width: 100%;
   border-collapse: collapse;
 }
+.cornwall-theme .hours-table th,
+.cornwall-theme .hours-table td {
+  padding: 0.55rem 0;
+  font-weight: 500;
+  text-align: left;
+}
+
 .cornwall-theme .wp-block-embed,
 .cornwall-theme .wp-block-embed__wrapper,
 .cornwall-theme iframe.map {
@@ -76,24 +181,6 @@
   background: #003868;
   color: #fff;
 }
-.cornwall-theme .wp-block-button.is-style-outline .wp-block-button__link {
-  background: transparent;
-  border-color: currentColor;
-}
-.cornwall-theme .b-hero .wp-block-button.btn-white .wp-block-button__link,
-.cornwall-theme .b-top .wp-block-button.btn-white .wp-block-button__link {
-  background: #fff;
-  color: #003868;
-}
-.cornwall-theme .b-hero .wp-block-button.btn-line .wp-block-button__link {
-  background: transparent;
-  color: #fff;
-  border: 1px solid rgba(255,255,255,0.55);
-}
-.cornwall-theme .wp-block-button.btn-navy .wp-block-button__link {
-  background: #003868;
-  color: #fff;
-}
 
 .cornwall-header .wrap,
 .cornwall-footer .wrap,
@@ -102,27 +189,103 @@
   margin-inline: auto;
 }
 
+/* Hero photo overlaps the navy title block, same as HTML. */
+.cornwall-theme .b-hero {
+  padding: 2.5rem 0 4.1rem;
+}
+.cornwall-theme .b-photo {
+  margin-top: -3.25rem;
+}
+.cornwall-theme .wp-block-group.wrap:has(.b-photo) {
+  overflow: visible;
+}
+
 .cornwall-theme .b-kicker p {
   margin: 0;
 }
+
+/* WP layout classes otherwise turn these into stacked flow, not the shop grids. */
 .cornwall-theme .service-grid,
 .cornwall-theme .review-grid,
 .cornwall-theme .step-grid,
-.cornwall-theme .visit-grid {
-  display: grid;
+.cornwall-theme .visit-grid,
+.cornwall-theme .story-grid {
+  display: grid !important;
+}
+.cornwall-theme .service-grid > *,
+.cornwall-theme .review-grid > *,
+.cornwall-theme .step-grid > *,
+.cornwall-theme .visit-grid > *,
+.cornwall-theme .story-grid > * {
+  margin-block: 0;
+}
+
+.cornwall-theme .wp-block-image.story-photo {
+  margin: 0;
+  border-radius: 1.2rem;
+  overflow: hidden;
+  border: 1px solid rgba(18, 32, 51, 0.1);
+  background: #e8eef4;
 }
 .cornwall-theme .story-photo img {
   border-radius: 1.2rem;
 }
+
 .cornwall-theme .quote-panel .wp-block-quote,
 .cornwall-theme .quote-panel blockquote {
   color: inherit;
+  margin: 0 0 0.8rem;
+  border: 0;
+  padding: 0;
+  font-size: 1.45rem;
+  line-height: 1.35;
+  font-style: italic;
+}
+.cornwall-theme .quote-panel .wp-block-quote p {
+  margin: 0;
+  font-size: inherit;
+  font-style: inherit;
 }
 .cornwall-theme .quote-panel cite,
 .cornwall-theme .card cite {
   color: inherit;
   font-size: 0.9rem;
   font-style: normal;
+}
+.cornwall-theme .card .wp-block-quote {
+  margin: 0 0 0.9rem;
+  padding: 0;
+}
+.cornwall-theme .card .wp-block-quote p {
+  margin: 0;
+  font-size: inherit;
+}
+.cornwall-theme .card p:last-child {
+  margin-bottom: 0;
+}
+
+.cornwall-theme .hours-table table {
+  width: auto;
+  min-width: 16rem;
+  table-layout: auto;
+}
+.cornwall-theme .hours-table th {
+  padding-right: 2rem;
+  white-space: nowrap;
+}
+
+.cornwall-theme .cornwall-footer.foot p,
+.cornwall-theme .foot p {
+  margin: 0.3rem 0 0;
+}
+.cornwall-theme .foot .logo {
+  margin-bottom: 0.7rem;
+}
+
+.cornwall-theme .steps h2,
+.cornwall-theme .steps h3,
+.cornwall-theme .steps .wp-block-heading {
+  color: #fff;
 }
 
 @media (max-width: 799px) {
@@ -131,5 +294,11 @@
   }
   .cornwall-theme .b-kicker p:last-child {
     display: none;
+  }
+  .cornwall-theme .b-hero {
+    padding: 1.5rem 0 3.4rem;
+  }
+  .cornwall-theme .b-photo {
+    margin-top: -2.35rem;
   }
 }

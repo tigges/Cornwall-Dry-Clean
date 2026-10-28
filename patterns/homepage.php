@@ -37,11 +37,11 @@ $fascia = esc_url(get_theme_file_uri('assets/fascia.jpg'));
 
     <!-- wp:buttons {"className":"btn-row"} -->
     <div class="wp-block-buttons btn-row">
-      <!-- wp:button {"backgroundColor":"white","textColor":"navy","className":"btn btn-white"} -->
-      <div class="wp-block-button btn btn-white"><a class="wp-block-button__link has-navy-color has-white-background-color has-text-color has-background wp-element-button" href="tel:+442089919413">Call 020 8991 9413</a></div>
+      <!-- wp:button {"backgroundColor":"white","textColor":"navy","className":"btn-white"} -->
+      <div class="wp-block-button btn-white"><a class="wp-block-button__link has-navy-color has-white-background-color has-text-color has-background wp-element-button" href="tel:+442089919413">Call 020 8991 9413</a></div>
       <!-- /wp:button -->
-      <!-- wp:button {"className":"btn btn-line is-style-outline"} -->
-      <div class="wp-block-button btn btn-line is-style-outline"><a class="wp-block-button__link wp-element-button" href="#visit">Hours</a></div>
+      <!-- wp:button {"className":"btn-line"} -->
+      <div class="wp-block-button btn-line"><a class="wp-block-button__link wp-element-button" href="#visit">Hours</a></div>
       <!-- /wp:button -->
     </div>
     <!-- /wp:buttons -->
@@ -345,8 +345,8 @@ $fascia = esc_url(get_theme_file_uri('assets/fascia.jpg'));
 
     <!-- wp:buttons {"className":"follow-on"} -->
     <div class="wp-block-buttons follow-on">
-      <!-- wp:button {"backgroundColor":"navy","textColor":"white","className":"btn btn-navy"} -->
-      <div class="wp-block-button btn btn-navy"><a class="wp-block-button__link has-white-color has-navy-background-color has-text-color has-background wp-element-button" href="https://maps.app.goo.gl/cw7sznF2TJq2SkL69" target="_blank" rel="noreferrer">All reviews</a></div>
+      <!-- wp:button {"backgroundColor":"navy","textColor":"white","className":"btn-navy"} -->
+      <div class="wp-block-button btn-navy"><a class="wp-block-button__link has-white-color has-navy-background-color has-text-color has-background wp-element-button" href="https://maps.app.goo.gl/cw7sznF2TJq2SkL69" target="_blank" rel="noreferrer">All reviews</a></div>
       <!-- /wp:button -->
     </div>
     <!-- /wp:buttons -->
@@ -375,11 +375,11 @@ $fascia = esc_url(get_theme_file_uri('assets/fascia.jpg'));
       <!-- /wp:paragraph -->
       <!-- wp:buttons {"className":"btn-row"} -->
       <div class="wp-block-buttons btn-row">
-        <!-- wp:button {"backgroundColor":"navy","textColor":"white","className":"btn btn-navy"} -->
-        <div class="wp-block-button btn btn-navy"><a class="wp-block-button__link has-white-color has-navy-background-color has-text-color has-background wp-element-button" href="tel:+442089919413">Call</a></div>
+        <!-- wp:button {"backgroundColor":"navy","textColor":"white","className":"btn-navy"} -->
+        <div class="wp-block-button btn-navy"><a class="wp-block-button__link has-white-color has-navy-background-color has-text-color has-background wp-element-button" href="tel:+442089919413">Call</a></div>
         <!-- /wp:button -->
-        <!-- wp:button {"className":"btn btn-line is-style-outline"} -->
-        <div class="wp-block-button btn btn-line is-style-outline"><a class="wp-block-button__link wp-element-button" href="https://www.google.com/maps/dir/?api=1&amp;destination=23+Haven+Lane,+Ealing,+London+W5+2HZ" target="_blank" rel="noreferrer">Directions</a></div>
+        <!-- wp:button {"className":"btn-line"} -->
+        <div class="wp-block-button btn-line"><a class="wp-block-button__link wp-element-button" href="https://www.google.com/maps/dir/?api=1&amp;destination=23+Haven+Lane,+Ealing,+London+W5+2HZ" target="_blank" rel="noreferrer">Directions</a></div>
         <!-- /wp:button -->
       </div>
       <!-- /wp:buttons -->
