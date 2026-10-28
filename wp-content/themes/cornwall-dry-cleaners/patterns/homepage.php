@@ -158,28 +158,6 @@ $fascia = esc_url(get_theme_file_uri('assets/fascia.jpg'));
 </section>
 <!-- /wp:group -->
 
-<!-- wp:group {"tagName":"section","className":"section","anchor":"prices","layout":{"type":"default"}} -->
-<section class="wp-block-group section" id="prices" style="background:var(--paper)">
-  <!-- wp:html -->
-  <div class="wrap price-wrap">
-    <p class="eyebrow">Typical prices</p>
-    <h2>From the counter — example figures.</h2>
-    <p class="muted price-note">Layout only. Swap these for your real “from” prices in the editor.</p>
-    <table class="price-table">
-      <caption>Guide prices</caption>
-      <tbody>
-        <tr><th>Suit, 2 piece</th><td>from £18</td></tr>
-        <tr><th>Coat</th><td>from £22</td></tr>
-        <tr><th>Shirt, laundry</th><td>from £3.50</td></tr>
-        <tr><th>Trouser hem</th><td>from £12</td></tr>
-        <tr><th>Wedding dress</th><td>ask</td></tr>
-      </tbody>
-    </table>
-  </div>
-  <!-- /wp:html -->
-</section>
-<!-- /wp:group -->
-
 <!-- wp:group {"tagName":"section","className":"steps","layout":{"type":"default"}} -->
 <section class="wp-block-group steps">
   <!-- wp:group {"className":"wrap","layout":{"type":"default"}} -->
@@ -390,11 +368,6 @@ $fascia = esc_url(get_theme_file_uri('assets/fascia.jpg'));
         <h2>23 Haven Lane, Ealing, W5 2HZ</h2>
         <p class="muted">1 minute from Haven Green / Ealing Broadway station. White fascia, blue awning — not on the Broadway itself.</p>
         <p class="phone-xl"><a href="tel:+442089919413">020 8991 9413</a></p>
-        <div class="visit-facts">
-          <p>Drop-in only. No collection or delivery.</p>
-          <p>Cards and cash at the counter.</p>
-          <p>Often next day if dropped in by 10am.</p>
-        </div>
         <p class="btn-row">
           <a class="btn btn-navy" href="tel:+442089919413">Call</a>
           <a class="btn btn-line" href="https://www.google.com/maps/dir/?api=1&amp;destination=23+Haven+Lane,+Ealing,+London+W5+2HZ" target="_blank" rel="noreferrer">Directions</a>
@@ -402,7 +375,9 @@ $fascia = esc_url(get_theme_file_uri('assets/fascia.jpg'));
           <a class="btn btn-line" href="https://wa.me/442089919413" target="_blank" rel="noreferrer">WhatsApp</a>
         </p>
       </div>
-      <iframe class="map map-compact" title="Map showing Cornwall Dry Cleaners on Haven Lane, Ealing" src="https://maps.google.com/maps?q=Cornwall+Dry+Cleaners,+23+Haven+Lane,+Ealing+W5+2HZ&amp;z=16&amp;output=embed" loading="lazy"></iframe>
+      <div class="map-frame">
+        <iframe class="map" title="Map showing Cornwall Dry Cleaners on Haven Lane, Ealing" src="https://maps.google.com/maps?q=Cornwall+Dry+Cleaners,+23+Haven+Lane,+Ealing+W5+2HZ&amp;z=16&amp;output=embed" loading="lazy"></iframe>
+      </div>
     </div>
     <div class="visit-plan">
       <div>

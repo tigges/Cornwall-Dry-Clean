@@ -10,4 +10,4 @@ This theme is meant to be pulled into a WordPress `public_html/`.
 
 Fetch, select that branch, Pull, then **purge Breeze**. The live site stays on the previous HTML until cache is cleared.
 
-Theme Version **1.2.0** is the UX update (Prices, FAQ beside hours, open chip). Confirm `wp-content/themes/cornwall-dry-cleaners/style.css` shows that version after Pull.
+Theme Version **1.2.1** drops Typical prices and the visit chips, and stretches the map beside the address. Confirm `style.css` shows that version after Pull.
