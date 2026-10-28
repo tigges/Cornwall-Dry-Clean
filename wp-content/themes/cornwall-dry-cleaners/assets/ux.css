@@ -1,4 +1,4 @@
-/* Live UX additions: header chip, visit layout, FAQ. */
+/* Live UX additions: sticky header, mobile nav, visit layout, FAQ. */
 
 html {
   scroll-behavior: smooth;
@@ -20,30 +20,39 @@ html {
   gap: 0.85rem;
 }
 
-.brand-lockup {
-  display: flex;
-  align-items: center;
-  gap: 0.85rem;
-  flex-wrap: wrap;
-  min-width: 0;
+.cornwall-header .nav-toggle {
+  cursor: pointer;
+  flex-shrink: 0;
+}
+
+.cornwall-header .mobile-nav {
+  width: 100%;
+  background: #003868;
+  padding: 0.45rem 0 1.2rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.16);
+}
+
+.cornwall-header .mobile-nav .wrap {
+  display: grid;
+  gap: 0.95rem;
+  justify-items: start;
+}
+
+.cornwall-header .mobile-nav a {
+  color: #fff;
+  text-decoration: none;
+  font-size: 1.05rem;
+  font-weight: 500;
+}
+
+.cornwall-header .mobile-nav .btn-white {
+  color: #003868;
 }
 
 button.btn {
   font: inherit;
   cursor: pointer;
   color: inherit;
-}
-
-.open-chip {
-  margin: 0;
-  padding: 0.28rem 0.7rem;
-  border-radius: 999px;
-  background: rgba(255, 255, 255, 0.14);
-  color: #fff;
-  font-size: 0.78rem;
-  font-weight: 600;
-  letter-spacing: 0.01em;
-  white-space: nowrap;
 }
 
 .consent-bar {
@@ -153,19 +162,11 @@ button.btn {
 
 @media (max-width: 799px) {
   html { scroll-padding-top: 6.4rem; }
-  .brand-lockup {
-    width: 100%;
-  }
-  .open-chip {
-    width: 100%;
-    text-align: center;
-  }
-  .b-top .top-inner { flex-wrap: wrap; }
+  .b-top .top-inner { flex-wrap: nowrap; }
   .consent-bar .wrap { padding: 0.75rem 0 0.85rem; }
 }
 
 @media (min-width: 800px) {
-  .open-chip { margin-right: auto; }
   .visit-locate,
   .visit-plan {
     grid-template-columns: 1fr 1fr;

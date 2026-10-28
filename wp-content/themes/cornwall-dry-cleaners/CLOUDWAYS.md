@@ -10,4 +10,4 @@ This theme is meant to be pulled into a WordPress `public_html/`.
 
 Fetch, select that branch, Pull, then **purge Breeze**. The live site stays on the previous HTML until cache is cleared.
 
-Theme Version **1.2.4** removes Copy address and opens a little more space before Opening hours. Confirm `style.css` shows that version after Pull.
+Theme Version **1.2.5** keeps the header sticky, drops the open-now chip from the bar, and uses a navy mobile menu instead of the WordPress overlay. Confirm `style.css` shows that version after Pull.

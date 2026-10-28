@@ -1,5 +1,12 @@
 /* WordPress block wrappers stay out of the way of the shop layout. */
-.wp-site-blocks {
+html {
+  overflow-x: clip;
+  scroll-padding-top: 5.8rem;
+}
+.wp-site-blocks,
+body.cornwall-theme,
+header.wp-block-template-part,
+.wp-block-template-part {
   padding: 0;
   overflow: visible;
 }
@@ -22,32 +29,40 @@
   margin-bottom: 0.85rem;
 }
 
-/* Header stays on screen while scrolling, like the HTML site. */
+/* Header stays on screen while scrolling. Sticky the template-part
+   wrapper too — overflow on ancestors is what dropped it before. */
+header.wp-block-template-part,
+.cornwall-theme header.wp-block-template-part,
 .cornwall-theme .cornwall-header.top,
-.cornwall-theme .b-top.cornwall-header {
-  position: sticky;
-  top: 0;
-  z-index: 100;
+.cornwall-theme .b-top.cornwall-header,
+.cornwall-header.top {
+  position: sticky !important;
+  top: 0 !important;
+  z-index: 200;
+}
+.cornwall-theme .cornwall-header.top,
+.cornwall-theme .b-top.cornwall-header,
+.cornwall-header.top {
   padding-top: 0.95rem;
   padding-bottom: 0.45rem;
 }
+.admin-bar header.wp-block-template-part,
 .admin-bar .cornwall-theme .cornwall-header.top,
 .admin-bar.cornwall-theme .cornwall-header.top {
-  top: 32px;
+  top: 32px !important;
 }
 @media screen and (max-width: 782px) {
+  .admin-bar header.wp-block-template-part,
   .admin-bar .cornwall-theme .cornwall-header.top,
   .admin-bar.cornwall-theme .cornwall-header.top {
-    top: 46px;
+    top: 46px !important;
   }
 }
-.cornwall-theme .cornwall-header .top-inner {
+.cornwall-theme .cornwall-header .top-inner,
+.cornwall-header .top-inner {
   min-height: 4.4rem;
   align-items: center;
-  flex-wrap: wrap;
-}
-html {
-  scroll-padding-top: 5.8rem;
+  flex-wrap: nowrap;
 }
 
 /* One pill only: HTML .btn lives on an <a>. WP puts .btn on the wrapper. */
