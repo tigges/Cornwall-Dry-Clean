@@ -113,32 +113,36 @@ html {
   border-radius: 1rem;
 }
 
+.visit-faq .faq-caption {
+  margin: 0 0 0.4rem;
+  font-weight: 600;
+}
 .visit-faq .faq-list { display: grid; gap: 0; }
 .visit-faq details {
   border-bottom: 1px solid var(--line);
 }
-.visit-faq details:first-child {
-  border-top: 1px solid var(--line);
-}
 .visit-faq summary {
   cursor: pointer;
   list-style: none;
-  padding: 0.7rem 0;
-  font-weight: 600;
-  font-size: 0.95rem;
+  padding: 0.55rem 1.4rem 0.55rem 0;
+  font-weight: 500;
+  font-size: 1rem;
 }
 .visit-faq summary::-webkit-details-marker { display: none; }
 .visit-faq summary::after {
   content: "+";
-  float: right;
+  position: absolute;
+  right: 0;
   color: var(--blue);
   font-weight: 500;
 }
+.visit-faq details { position: relative; }
 .visit-faq details[open] summary::after { content: "–"; }
 .visit-faq details p {
-  margin: 0 0 0.85rem;
+  margin: 0 0 0.65rem;
   color: var(--stone);
-  font-size: 0.92rem;
+  font-size: 0.9rem;
+  line-height: 1.4;
 }
 
 .copied {
