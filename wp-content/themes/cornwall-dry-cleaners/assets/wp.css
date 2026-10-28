@@ -1,6 +1,7 @@
 /* WordPress block wrappers stay out of the way of the shop layout. */
 .wp-site-blocks {
   padding: 0;
+  overflow: visible;
 }
 .cornwall-theme .wp-block-group {
   margin-block: 0;
@@ -21,13 +22,27 @@
   margin-bottom: 0.85rem;
 }
 
-/* Header: more air under the top edge, same bar height as HTML. */
+/* Header stays on screen while scrolling, like the HTML site. */
 .cornwall-theme .cornwall-header.top,
 .cornwall-theme .b-top.cornwall-header {
-  padding-top: 0.45rem;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  padding-top: 0.95rem;
+  padding-bottom: 0.45rem;
+}
+.admin-bar .cornwall-theme .cornwall-header.top,
+.admin-bar.cornwall-theme .cornwall-header.top {
+  top: 32px;
+}
+@media screen and (max-width: 782px) {
+  .admin-bar .cornwall-theme .cornwall-header.top,
+  .admin-bar.cornwall-theme .cornwall-header.top {
+    top: 46px;
+  }
 }
 .cornwall-theme .cornwall-header .top-inner {
-  min-height: 4.2rem;
+  min-height: 4.4rem;
   align-items: center;
 }
 
