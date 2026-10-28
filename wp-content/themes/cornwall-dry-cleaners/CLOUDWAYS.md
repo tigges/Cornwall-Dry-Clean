@@ -10,4 +10,4 @@ This theme is meant to be pulled into a WordPress `public_html/`.
 
 Fetch, select that branch, Pull, then **purge Breeze**. The live site stays on the previous HTML until cache is cleared.
 
-Theme Version **1.2.6** uses “Proudly independent, right on Haven Lane” in the hero and shop story. Confirm `style.css` shows that version after Pull.
+Theme Version **1.2.7** removes the WhatsApp button from Visit. Confirm `style.css` shows that version after Pull.
