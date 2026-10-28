@@ -203,24 +203,89 @@
 .cornwall-theme .b-kicker p {
   margin: 0;
 }
+
+/* WP layout classes otherwise turn these into stacked flow, not the shop grids. */
 .cornwall-theme .service-grid,
 .cornwall-theme .review-grid,
 .cornwall-theme .step-grid,
-.cornwall-theme .visit-grid {
-  display: grid;
+.cornwall-theme .visit-grid,
+.cornwall-theme .story-grid {
+  display: grid !important;
+}
+.cornwall-theme .service-grid > *,
+.cornwall-theme .review-grid > *,
+.cornwall-theme .step-grid > *,
+.cornwall-theme .visit-grid > *,
+.cornwall-theme .story-grid > * {
+  margin-block: 0;
+}
+
+.cornwall-theme .wp-block-image.story-photo {
+  margin: 0;
+  border-radius: 1.2rem;
+  overflow: hidden;
+  border: 1px solid rgba(18, 32, 51, 0.1);
+  background: #e8eef4;
 }
 .cornwall-theme .story-photo img {
   border-radius: 1.2rem;
 }
+
 .cornwall-theme .quote-panel .wp-block-quote,
 .cornwall-theme .quote-panel blockquote {
   color: inherit;
+  margin: 0 0 0.8rem;
+  border: 0;
+  padding: 0;
+  font-size: 1.45rem;
+  line-height: 1.35;
+  font-style: italic;
+}
+.cornwall-theme .quote-panel .wp-block-quote p {
+  margin: 0;
+  font-size: inherit;
+  font-style: inherit;
 }
 .cornwall-theme .quote-panel cite,
 .cornwall-theme .card cite {
   color: inherit;
   font-size: 0.9rem;
   font-style: normal;
+}
+.cornwall-theme .card .wp-block-quote {
+  margin: 0 0 0.9rem;
+  padding: 0;
+}
+.cornwall-theme .card .wp-block-quote p {
+  margin: 0;
+  font-size: inherit;
+}
+.cornwall-theme .card p:last-child {
+  margin-bottom: 0;
+}
+
+.cornwall-theme .hours-table table {
+  width: auto;
+  min-width: 16rem;
+  table-layout: auto;
+}
+.cornwall-theme .hours-table th {
+  padding-right: 2rem;
+  white-space: nowrap;
+}
+
+.cornwall-theme .cornwall-footer.foot p,
+.cornwall-theme .foot p {
+  margin: 0.3rem 0 0;
+}
+.cornwall-theme .foot .logo {
+  margin-bottom: 0.7rem;
+}
+
+.cornwall-theme .steps h2,
+.cornwall-theme .steps h3,
+.cornwall-theme .steps .wp-block-heading {
+  color: #fff;
 }
 
 @media (max-width: 799px) {
