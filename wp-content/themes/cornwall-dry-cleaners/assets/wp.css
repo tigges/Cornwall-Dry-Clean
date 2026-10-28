@@ -17,15 +17,86 @@
 .cornwall-theme .wp-block-heading {
   margin-bottom: 0.7rem;
 }
+.cornwall-theme .b-hero .wp-block-heading {
+  margin-bottom: 0.85rem;
+}
+
+/* Header: more air under the top edge, same bar height as HTML. */
+.cornwall-theme .cornwall-header.top,
+.cornwall-theme .b-top.cornwall-header {
+  padding-top: 0.45rem;
+}
+.cornwall-theme .cornwall-header .top-inner {
+  min-height: 4.2rem;
+  align-items: center;
+}
+
+/* One pill only: HTML .btn lives on an <a>. WP puts .btn on the wrapper. */
+.cornwall-theme .wp-block-button.btn,
+.cornwall-theme .wp-block-button {
+  display: inline-flex;
+  min-height: 0;
+  padding: 0;
+  margin: 0;
+  border: 0;
+  background: none;
+  border-radius: 0;
+  font-size: inherit;
+  font-weight: inherit;
+}
 .cornwall-theme .wp-block-buttons {
+  display: flex;
+  flex-wrap: wrap;
   gap: 0.65rem;
   margin: 0 0 1rem;
 }
-.cornwall-theme .wp-block-button__link {
-  border-radius: 999px;
-  font-weight: 600;
-  padding: 0.7rem 1.15rem;
+.cornwall-theme .wp-block-buttons.follow-on {
+  margin-top: 1.5rem;
 }
+.cornwall-theme .wp-block-button__link,
+.cornwall-theme .wp-element-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+  min-height: 2.9rem;
+  padding: 0.7rem 1.15rem;
+  border-radius: 999px;
+  border: 0;
+  font-weight: 600;
+  font-size: 0.95rem;
+  line-height: 1;
+  text-decoration: none;
+  box-shadow: none;
+}
+.cornwall-theme .wp-block-button.is-style-outline .wp-block-button__link,
+.cornwall-theme .wp-block-button.btn-line .wp-block-button__link {
+  background: transparent;
+  border: 1px solid currentColor;
+  box-shadow: none;
+}
+.cornwall-theme .b-hero .wp-block-button.btn-white .wp-block-button__link,
+.cornwall-theme .b-top .wp-block-button.btn-white .wp-block-button__link {
+  background: #fff;
+  color: #003868;
+  border: 0;
+}
+.cornwall-theme .b-hero .wp-block-button.btn-line .wp-block-button__link {
+  background: transparent;
+  color: #fff;
+  border: 1px solid rgba(255, 255, 255, 0.55);
+}
+.cornwall-theme .wp-block-button.btn-navy .wp-block-button__link {
+  background: #003868;
+  color: #fff;
+  border: 0;
+}
+.cornwall-theme .visit-grid .wp-block-button.btn-line .wp-block-button__link {
+  background: transparent;
+  color: #122033;
+  border: 1px solid currentColor;
+}
+
 .cornwall-theme .wp-block-image {
   margin: 0;
 }
@@ -38,13 +109,32 @@
   border: 0;
   padding: 0;
 }
+
+/* Hours table: no WP grid, no HTML row rules. */
+.cornwall-theme .wp-block-table,
+.cornwall-theme .wp-block-table table,
+.cornwall-theme .wp-block-table th,
+.cornwall-theme .wp-block-table td,
+.cornwall-theme .hours-table,
+.cornwall-theme .hours-table th,
+.cornwall-theme .hours-table td {
+  border: 0;
+}
 .cornwall-theme .wp-block-table {
   margin: 0;
 }
-.cornwall-theme .wp-block-table table {
+.cornwall-theme .wp-block-table table,
+.cornwall-theme .hours-table table {
   width: 100%;
   border-collapse: collapse;
 }
+.cornwall-theme .hours-table th,
+.cornwall-theme .hours-table td {
+  padding: 0.55rem 0;
+  font-weight: 500;
+  text-align: left;
+}
+
 .cornwall-theme .wp-block-embed,
 .cornwall-theme .wp-block-embed__wrapper,
 .cornwall-theme iframe.map {
@@ -76,30 +166,23 @@
   background: #003868;
   color: #fff;
 }
-.cornwall-theme .wp-block-button.is-style-outline .wp-block-button__link {
-  background: transparent;
-  border-color: currentColor;
-}
-.cornwall-theme .b-hero .wp-block-button.btn-white .wp-block-button__link,
-.cornwall-theme .b-top .wp-block-button.btn-white .wp-block-button__link {
-  background: #fff;
-  color: #003868;
-}
-.cornwall-theme .b-hero .wp-block-button.btn-line .wp-block-button__link {
-  background: transparent;
-  color: #fff;
-  border: 1px solid rgba(255,255,255,0.55);
-}
-.cornwall-theme .wp-block-button.btn-navy .wp-block-button__link {
-  background: #003868;
-  color: #fff;
-}
 
 .cornwall-header .wrap,
 .cornwall-footer .wrap,
 .cornwall-main .wrap {
   width: min(calc(100% - 2rem), 70rem);
   margin-inline: auto;
+}
+
+/* Hero photo overlaps the navy title block, same as HTML. */
+.cornwall-theme .b-hero {
+  padding: 2.5rem 0 4.1rem;
+}
+.cornwall-theme .b-photo {
+  margin-top: -3.25rem;
+}
+.cornwall-theme .wp-block-group.wrap:has(.b-photo) {
+  overflow: visible;
 }
 
 .cornwall-theme .b-kicker p {
@@ -131,5 +214,11 @@
   }
   .cornwall-theme .b-kicker p:last-child {
     display: none;
+  }
+  .cornwall-theme .b-hero {
+    padding: 1.5rem 0 3.4rem;
+  }
+  .cornwall-theme .b-photo {
+    margin-top: -2.35rem;
   }
 }
