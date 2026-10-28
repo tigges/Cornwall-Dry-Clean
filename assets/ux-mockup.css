@@ -87,60 +87,57 @@ html {
   font-size: 0.95rem;
 }
 
+.visit-locate,
+.visit-plan {
+  display: grid;
+  gap: 1.6rem;
+}
+.visit-plan { margin-top: 2.2rem; }
+
 .map-slot {
-  min-height: 22rem;
+  min-height: 14.5rem;
   border-radius: 1rem;
   background: var(--mist);
   display: grid;
   place-items: center;
-  padding: 1.5rem;
+  padding: 1.2rem;
   text-align: center;
 }
 .map-slot p { color: var(--stone); max-width: 22rem; }
-.map-slot iframe {
-  min-height: 22rem;
+.map-slot iframe,
+.map-slot-compact iframe,
+.visit-locate iframe.map {
+  min-height: 14.5rem;
   width: 100%;
   border: 0;
   border-radius: 1rem;
 }
 
-.foot-grid {
-  display: grid;
-  gap: 1.8rem;
+.visit-faq .faq-list { display: grid; gap: 0; }
+.visit-faq details {
+  border-bottom: 1px solid var(--line);
 }
-.foot .eyebrow {
-  color: rgba(255, 255, 255, 0.55);
-  margin-bottom: 0.35rem;
+.visit-faq details:first-child {
+  border-top: 1px solid var(--line);
 }
-.foot-faq .faq-list {
-  display: grid;
-  gap: 0;
-}
-.foot-faq details {
-  border-bottom: 1px solid rgba(255, 255, 255, 0.14);
-}
-.foot-faq details:first-child {
-  border-top: 1px solid rgba(255, 255, 255, 0.14);
-}
-.foot-faq summary {
+.visit-faq summary {
   cursor: pointer;
   list-style: none;
   padding: 0.7rem 0;
   font-weight: 600;
   font-size: 0.95rem;
-  color: #fff;
 }
-.foot-faq summary::-webkit-details-marker { display: none; }
-.foot-faq summary::after {
+.visit-faq summary::-webkit-details-marker { display: none; }
+.visit-faq summary::after {
   content: "+";
   float: right;
-  color: rgba(255, 255, 255, 0.55);
+  color: var(--blue);
   font-weight: 500;
 }
-.foot-faq details[open] summary::after { content: "–"; }
-.foot-faq details p {
+.visit-faq details[open] summary::after { content: "–"; }
+.visit-faq details p {
   margin: 0 0 0.85rem;
-  color: rgba(255, 255, 255, 0.72);
+  color: var(--stone);
   font-size: 0.92rem;
 }
 
@@ -162,9 +159,10 @@ html {
 @media (min-width: 800px) {
   .open-chip { margin-right: auto; }
   .price-wrap { max-width: 36rem; }
-  .foot-grid {
-    grid-template-columns: 1fr 1.15fr;
+  .visit-locate,
+  .visit-plan {
+    grid-template-columns: 1fr 1fr;
     align-items: start;
-    gap: 3rem;
+    gap: 2.4rem;
   }
 }

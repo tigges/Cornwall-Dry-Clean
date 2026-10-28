@@ -47,7 +47,7 @@ function setupConsent() {
 
   const showMap = () => {
     slot.innerHTML =
-      '<iframe class="map" title="Map showing Cornwall Dry Cleaners on Haven Lane, Ealing" src="' +
+      '<iframe class="map map-compact" title="Map showing Cornwall Dry Cleaners on Haven Lane, Ealing" src="' +
       src +
       '" loading="lazy"></iframe>';
     bar.hidden = true;
