@@ -361,7 +361,7 @@ $fascia = esc_url(get_theme_file_uri('assets/fascia.jpg'));
 <!-- wp:group {"tagName":"section","className":"section site-pad","anchor":"visit","layout":{"type":"default"}} -->
 <section class="wp-block-group section site-pad" id="visit">
   <!-- wp:html -->
-  <div class="wrap">
+  <div class="wrap visit-stack">
     <div class="visit-locate">
       <div>
         <p class="eyebrow">Visit the shop</p>
