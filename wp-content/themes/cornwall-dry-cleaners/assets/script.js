@@ -43,23 +43,36 @@ function nextOpen(fromDay) {
 }
 
 function updateOpenStatus() {
-  const status = document.querySelector("[data-open-status]");
-  if (!status) return;
-
   const now = londonNow();
   const today = hours[now.day];
+  let text = `Closed · opens ${nextOpen(now.day)}`;
 
   if (today && now.hour >= today.open && now.hour < today.close) {
-    status.textContent = `Open now · closes ${formatHour(today.close)}`;
-    return;
+    text = `Open now · closes ${formatHour(today.close)}`;
+  } else if (today && now.hour < today.open) {
+    text = `Closed · opens today at ${formatHour(today.open)}`;
   }
 
-  if (today && now.hour < today.open) {
-    status.textContent = `Closed · opens today at ${formatHour(today.open)}`;
-    return;
-  }
+  document.querySelectorAll("[data-open-status]").forEach((node) => {
+    node.textContent = text;
+  });
+}
 
-  status.textContent = `Closed · opens ${nextOpen(now.day)}`;
+function setupCopyAddress() {
+  const button = document.querySelector("[data-copy-address]");
+  if (!button) return;
+  const address = "23 Haven Lane, Ealing, London W5 2HZ";
+  button.addEventListener("click", async () => {
+    try {
+      await navigator.clipboard.writeText(address);
+      button.textContent = "Copied";
+      window.setTimeout(() => {
+        button.textContent = "Copy address";
+      }, 2000);
+    } catch {
+      window.prompt("Copy address", address);
+    }
+  });
 }
 
 function highlightToday() {
@@ -98,7 +111,9 @@ function setupNav() {
   menu.querySelectorAll("a").forEach((link) => link.addEventListener("click", close));
 }
 
-document.querySelector("[data-year]").textContent = String(new Date().getFullYear());
+const year = document.querySelector("[data-year]");
+if (year) year.textContent = String(new Date().getFullYear());
 updateOpenStatus();
 highlightToday();
 setupNav();
+setupCopyAddress();

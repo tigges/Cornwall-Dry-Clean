@@ -8,4 +8,6 @@ This theme is meant to be pulled into a WordPress `public_html/`.
 | Branch | `cursor/cloudways-public-html-fed1` |
 | Deployment Path | `public_html/` |
 
-Fetch, select that branch, leave the path as `public_html/`, Pull, then activate **Cornwall Dry Cleaners**.
+Fetch, select that branch, Pull, then **purge Breeze**. The live site stays on the previous HTML until cache is cleared.
+
+Theme Version **1.2.0** is the UX update (Prices, FAQ beside hours, open chip). Confirm `wp-content/themes/cornwall-dry-cleaners/style.css` shows that version after Pull.

@@ -32,7 +32,7 @@ $fascia = esc_url(get_theme_file_uri('assets/fascia.jpg'));
     <!-- /wp:heading -->
 
     <!-- wp:paragraph {"className":"lead"} -->
-    <p class="lead">Family-run on Haven Lane. Suits, coats, laundry and repairs — often ready next day.</p>
+    <p class="lead">Family-run on Haven Lane. Suits, coats, laundry and repairs — often next day if dropped in by 10am.</p>
     <!-- /wp:paragraph -->
 
     <!-- wp:buttons {"className":"btn-row"} -->
@@ -147,7 +147,7 @@ $fascia = esc_url(get_theme_file_uri('assets/fascia.jpg'));
         <h3 class="wp-block-heading" data-num="06">Express service</h3>
         <!-- /wp:heading -->
         <!-- wp:paragraph {"className":"muted"} -->
-        <p class="muted">Need it tomorrow? Ask when you drop off.</p>
+        <p class="muted">Often next day if dropped in by 10am. Ask at the counter.</p>
         <!-- /wp:paragraph -->
       </div>
       <!-- /wp:group -->
@@ -155,6 +155,28 @@ $fascia = esc_url(get_theme_file_uri('assets/fascia.jpg'));
     <!-- /wp:group -->
   </div>
   <!-- /wp:group -->
+</section>
+<!-- /wp:group -->
+
+<!-- wp:group {"tagName":"section","className":"section","anchor":"prices","layout":{"type":"default"}} -->
+<section class="wp-block-group section" id="prices" style="background:var(--paper)">
+  <!-- wp:html -->
+  <div class="wrap price-wrap">
+    <p class="eyebrow">Typical prices</p>
+    <h2>From the counter — example figures.</h2>
+    <p class="muted price-note">Layout only. Swap these for your real “from” prices in the editor.</p>
+    <table class="price-table">
+      <caption>Guide prices</caption>
+      <tbody>
+        <tr><th>Suit, 2 piece</th><td>from £18</td></tr>
+        <tr><th>Coat</th><td>from £22</td></tr>
+        <tr><th>Shirt, laundry</th><td>from £3.50</td></tr>
+        <tr><th>Trouser hem</th><td>from £12</td></tr>
+        <tr><th>Wedding dress</th><td>ask</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <!-- /wp:html -->
 </section>
 <!-- /wp:group -->
 
@@ -206,7 +228,7 @@ $fascia = esc_url(get_theme_file_uri('assets/fascia.jpg'));
         <h3 class="wp-block-heading">Collect</h3>
         <!-- /wp:heading -->
         <!-- wp:paragraph -->
-        <p>Often next day, clean and pressed.</p>
+        <p>Often next day if in by 10am, clean and pressed.</p>
         <!-- /wp:paragraph -->
       </div>
       <!-- /wp:group -->
@@ -343,10 +365,13 @@ $fascia = esc_url(get_theme_file_uri('assets/fascia.jpg'));
     </div>
     <!-- /wp:group -->
 
-    <!-- wp:buttons {"className":"follow-on"} -->
-    <div class="wp-block-buttons follow-on">
+    <!-- wp:buttons {"className":"follow-on btn-row"} -->
+    <div class="wp-block-buttons follow-on btn-row">
       <!-- wp:button {"backgroundColor":"navy","textColor":"white","className":"btn-navy"} -->
       <div class="wp-block-button btn-navy"><a class="wp-block-button__link has-white-color has-navy-background-color has-text-color has-background wp-element-button" href="https://maps.app.goo.gl/cw7sznF2TJq2SkL69" target="_blank" rel="noreferrer">All reviews</a></div>
+      <!-- /wp:button -->
+      <!-- wp:button {"className":"btn-line"} -->
+      <div class="wp-block-button btn-line"><a class="wp-block-button__link wp-element-button" href="https://maps.app.goo.gl/cw7sznF2TJq2SkL69" target="_blank" rel="noreferrer">Write a review</a></div>
       <!-- /wp:button -->
     </div>
     <!-- /wp:buttons -->
@@ -357,35 +382,31 @@ $fascia = esc_url(get_theme_file_uri('assets/fascia.jpg'));
 
 <!-- wp:group {"tagName":"section","className":"section site-pad","anchor":"visit","layout":{"type":"default"}} -->
 <section class="wp-block-group section site-pad" id="visit">
-  <!-- wp:group {"className":"wrap visit-grid","layout":{"type":"default"}} -->
-  <div class="wp-block-group wrap visit-grid">
-    <!-- wp:group {"layout":{"type":"default"}} -->
-    <div class="wp-block-group">
-      <!-- wp:paragraph {"className":"eyebrow"} -->
-      <p class="eyebrow">Visit the shop</p>
-      <!-- /wp:paragraph -->
-      <!-- wp:heading -->
-      <h2 class="wp-block-heading">23 Haven Lane, Ealing, W5 2HZ</h2>
-      <!-- /wp:heading -->
-      <!-- wp:paragraph {"className":"muted"} -->
-      <p class="muted">Near Ealing Broadway and Haven Green. White fascia, blue awning.</p>
-      <!-- /wp:paragraph -->
-      <!-- wp:paragraph {"className":"phone-xl"} -->
-      <p class="phone-xl"><a href="tel:+442089919413">020 8991 9413</a></p>
-      <!-- /wp:paragraph -->
-      <!-- wp:buttons {"className":"btn-row"} -->
-      <div class="wp-block-buttons btn-row">
-        <!-- wp:button {"backgroundColor":"navy","textColor":"white","className":"btn-navy"} -->
-        <div class="wp-block-button btn-navy"><a class="wp-block-button__link has-white-color has-navy-background-color has-text-color has-background wp-element-button" href="tel:+442089919413">Call</a></div>
-        <!-- /wp:button -->
-        <!-- wp:button {"className":"btn-line"} -->
-        <div class="wp-block-button btn-line"><a class="wp-block-button__link wp-element-button" href="https://www.google.com/maps/dir/?api=1&amp;destination=23+Haven+Lane,+Ealing,+London+W5+2HZ" target="_blank" rel="noreferrer">Directions</a></div>
-        <!-- /wp:button -->
+  <!-- wp:html -->
+  <div class="wrap">
+    <div class="visit-locate">
+      <div>
+        <p class="eyebrow">Visit the shop</p>
+        <h2>23 Haven Lane, Ealing, W5 2HZ</h2>
+        <p class="muted">1 minute from Haven Green / Ealing Broadway station. White fascia, blue awning — not on the Broadway itself.</p>
+        <p class="phone-xl"><a href="tel:+442089919413">020 8991 9413</a></p>
+        <div class="visit-facts">
+          <p>Drop-in only. No collection or delivery.</p>
+          <p>Cards and cash at the counter.</p>
+          <p>Often next day if dropped in by 10am.</p>
+        </div>
+        <p class="btn-row">
+          <a class="btn btn-navy" href="tel:+442089919413">Call</a>
+          <a class="btn btn-line" href="https://www.google.com/maps/dir/?api=1&amp;destination=23+Haven+Lane,+Ealing,+London+W5+2HZ" target="_blank" rel="noreferrer">Directions</a>
+          <button class="btn btn-line" type="button" data-copy-address>Copy address</button>
+          <a class="btn btn-line" href="https://wa.me/442089919413" target="_blank" rel="noreferrer">WhatsApp</a>
+        </p>
       </div>
-      <!-- /wp:buttons -->
-      <!-- wp:table {"className":"hours hours-table","hasFixedLayout":false} -->
-      <figure class="wp-block-table hours hours-table">
-        <table>
+      <iframe class="map map-compact" title="Map showing Cornwall Dry Cleaners on Haven Lane, Ealing" src="https://maps.google.com/maps?q=Cornwall+Dry+Cleaners,+23+Haven+Lane,+Ealing+W5+2HZ&amp;z=16&amp;output=embed" loading="lazy"></iframe>
+    </div>
+    <div class="visit-plan">
+      <div>
+        <table class="hours hours-table">
           <caption>Opening hours</caption>
           <tbody>
             <tr data-day="1"><th>Monday</th><td>8:00am – 6:00pm</td></tr>
@@ -397,18 +418,36 @@ $fascia = esc_url(get_theme_file_uri('assets/fascia.jpg'));
             <tr data-day="0"><th>Sunday</th><td>Closed</td></tr>
           </tbody>
         </table>
-      </figure>
-      <!-- /wp:table -->
-      <!-- wp:paragraph {"className":"muted"} -->
-      <p class="muted">Call ahead on bank holidays.</p>
-      <!-- /wp:paragraph -->
+        <p class="muted">Closed on bank holidays — call the day before if you are unsure.</p>
+      </div>
+      <nav class="visit-faq" id="faq" aria-label="Frequently asked questions">
+        <p class="faq-caption">Questions</p>
+        <div class="faq-list">
+          <details>
+            <summary>How long does it take?</summary>
+            <p>Often next day if dropped in by 10am. Repairs and wedding pieces can take longer — we will say when you drop off.</p>
+          </details>
+          <details>
+            <summary>Collect or deliver?</summary>
+            <p>No. Drop in on Haven Lane.</p>
+          </details>
+          <details>
+            <summary>Cards or cash?</summary>
+            <p>Both. Contactless at the counter.</p>
+          </details>
+          <details>
+            <summary>Bank holidays?</summary>
+            <p>Usually closed. Call the day before if you need to be sure.</p>
+          </details>
+          <details>
+            <summary>Not sure we can take it?</summary>
+            <p>Bring it in. We inspect first and say honestly what will come out.</p>
+          </details>
+        </div>
+      </nav>
     </div>
-    <!-- /wp:group -->
-    <!-- wp:html -->
-    <iframe class="map" title="Map showing Cornwall Dry Cleaners on Haven Lane, Ealing" src="https://maps.google.com/maps?q=Cornwall+Dry+Cleaners,+23+Haven+Lane,+Ealing+W5+2HZ&amp;z=16&amp;output=embed" loading="lazy"></iframe>
-    <!-- /wp:html -->
   </div>
-  <!-- /wp:group -->
+  <!-- /wp:html -->
 </section>
 <!-- /wp:group -->
 

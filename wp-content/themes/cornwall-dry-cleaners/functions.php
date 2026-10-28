@@ -11,6 +11,7 @@ function cornwall_theme_setup()
 {
     add_editor_style('assets/mockups.css');
     add_editor_style('assets/wp.css');
+    add_editor_style('assets/ux.css');
     add_theme_support('editor-styles');
     add_theme_support('wp-block-styles');
     add_theme_support('title-tag');
@@ -24,10 +25,7 @@ add_action('after_setup_theme', 'cornwall_theme_setup');
 function cornwall_replace_homepage()
 {
     update_option('blogname', 'Cornwall Dry Cleaners');
-    update_option(
-        'blogdescription',
-        'Family-run dry cleaners on Haven Lane, Ealing. 4.9 on Google.'
-    );
+    update_option('blogdescription', 'Ealing');
     update_option('timezone_string', 'Europe/London');
     update_option('date_format', 'j F Y');
     update_option('time_format', 'g:ia');
@@ -56,9 +54,56 @@ function cornwall_replace_homepage()
         update_option('page_on_front', $home_id);
     }
 
+    cornwall_reset_customized_templates();
     flush_rewrite_rules();
+    cornwall_purge_page_cache();
 }
 add_action('after_switch_theme', 'cornwall_replace_homepage');
+
+/**
+ * A Cloudways git pull does not switch the theme, so Site Editor copies and
+ * Breeze HTML would otherwise keep the old homepage. Refresh when Version
+ * in style.css changes.
+ */
+function cornwall_maybe_refresh_homepage()
+{
+    $version = wp_get_theme()->get('Version');
+    if (get_option('cornwall_homepage_ver') === $version) {
+        return;
+    }
+    cornwall_replace_homepage();
+    update_option('cornwall_homepage_ver', $version);
+}
+add_action('init', 'cornwall_maybe_refresh_homepage', 20);
+
+function cornwall_reset_customized_templates()
+{
+    $query = new WP_Query(array(
+        'post_type'      => array('wp_template', 'wp_template_part'),
+        'post_status'    => 'any',
+        'posts_per_page' => -1,
+        'no_found_rows'  => true,
+        'tax_query'      => array(
+            array(
+                'taxonomy' => 'wp_theme',
+                'field'    => 'name',
+                'terms'    => get_stylesheet(),
+            ),
+        ),
+    ));
+
+    foreach ($query->posts as $post) {
+        wp_delete_post((int) $post->ID, true);
+    }
+}
+
+function cornwall_purge_page_cache()
+{
+    if (function_exists('wp_cache_flush')) {
+        wp_cache_flush();
+    }
+    do_action('breeze_clear_all_cache');
+}
 
 function cornwall_enqueue_assets()
 {
@@ -78,6 +123,12 @@ function cornwall_enqueue_assets()
         'cornwall-wp',
         get_theme_file_uri('assets/wp.css'),
         array('cornwall-mockups'),
+        wp_get_theme()->get('Version')
+    );
+    wp_enqueue_style(
+        'cornwall-ux',
+        get_theme_file_uri('assets/ux.css'),
+        array('cornwall-wp'),
         wp_get_theme()->get('Version')
     );
     wp_enqueue_script(
@@ -170,3 +221,14 @@ function cornwall_body_class($classes)
     return $classes;
 }
 add_filter('body_class', 'cornwall_body_class');
+
+function cornwall_document_title($parts)
+{
+    if (is_front_page()) {
+        $parts['title'] = 'Cornwall Dry Cleaners';
+        $parts['tagline'] = 'Ealing';
+        unset($parts['site']);
+    }
+    return $parts;
+}
+add_filter('document_title_parts', 'cornwall_document_title');

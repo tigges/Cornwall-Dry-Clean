@@ -44,6 +44,10 @@
 .cornwall-theme .cornwall-header .top-inner {
   min-height: 4.4rem;
   align-items: center;
+  flex-wrap: wrap;
+}
+html {
+  scroll-padding-top: 5.8rem;
 }
 
 /* One pill only: HTML .btn lives on an <a>. WP puts .btn on the wrapper. */

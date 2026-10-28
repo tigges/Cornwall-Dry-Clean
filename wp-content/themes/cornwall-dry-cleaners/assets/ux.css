@@ -1,0 +1,190 @@
+/* Live UX additions: header chip, prices, visit layout, FAQ. */
+
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 5.8rem;
+}
+
+.ux-flag {
+  margin: 0;
+  padding: 0.55rem 0;
+  background: var(--mist);
+  border-bottom: 1px solid var(--line);
+  font-size: 0.88rem;
+  color: var(--stone);
+}
+.ux-flag a { color: var(--navy); font-weight: 600; }
+
+.b-top .top-inner {
+  min-height: 4.6rem;
+  gap: 0.85rem;
+}
+
+.brand-lockup {
+  display: flex;
+  align-items: center;
+  gap: 0.85rem;
+  flex-wrap: wrap;
+  min-width: 0;
+}
+
+button.btn {
+  font: inherit;
+  cursor: pointer;
+  color: inherit;
+}
+
+.open-chip {
+  margin: 0;
+  padding: 0.28rem 0.7rem;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.14);
+  color: #fff;
+  font-size: 0.78rem;
+  font-weight: 600;
+  letter-spacing: 0.01em;
+  white-space: nowrap;
+}
+
+.consent-bar {
+  background: var(--paper);
+  border-bottom: 1px solid var(--line);
+}
+.consent-bar .wrap {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.7rem;
+  padding: 0.7rem 0;
+}
+.consent-bar p { margin: 0; font-size: 0.9rem; color: var(--stone); }
+.consent-bar[hidden] { display: none; }
+
+.price-note {
+  max-width: 40rem;
+  margin-bottom: 1.2rem;
+}
+
+.price-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+.price-table caption {
+  text-align: left;
+  font-weight: 600;
+  margin-bottom: 0.55rem;
+}
+.price-table th,
+.price-table td {
+  padding: 0.7rem 0;
+  border-bottom: 1px solid var(--line);
+  text-align: left;
+  font-weight: 500;
+}
+.price-table td:last-child {
+  text-align: right;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.visit-facts {
+  display: grid;
+  gap: 0.65rem;
+  margin: 0 0 1.15rem;
+}
+.visit-facts p {
+  margin: 0;
+  padding: 0.7rem 0.85rem;
+  background: var(--paper);
+  border-radius: 0.75rem;
+  font-size: 0.95rem;
+}
+
+.cornwall-theme .visit-locate,
+.cornwall-theme .visit-plan,
+.visit-locate,
+.visit-plan {
+  display: grid !important;
+  gap: 1.6rem;
+}
+.visit-plan { margin-top: 2.2rem; }
+
+.map-slot {
+  min-height: 14.5rem;
+  border-radius: 1rem;
+  background: var(--mist);
+  display: grid;
+  place-items: center;
+  padding: 1.2rem;
+  text-align: center;
+}
+.map-slot p { color: var(--stone); max-width: 22rem; }
+.map-slot iframe,
+.map-slot-compact iframe,
+.visit-locate iframe.map {
+  min-height: 14.5rem;
+  width: 100%;
+  border: 0;
+  border-radius: 1rem;
+}
+
+.visit-faq .faq-caption {
+  margin: 0 0 0.4rem;
+  font-weight: 600;
+}
+.visit-faq .faq-list { display: grid; gap: 0; }
+.visit-faq details {
+  border-bottom: 1px solid var(--line);
+}
+.visit-faq summary {
+  cursor: pointer;
+  list-style: none;
+  padding: 0.55rem 1.4rem 0.55rem 0;
+  font-weight: 500;
+  font-size: 1rem;
+}
+.visit-faq summary::-webkit-details-marker { display: none; }
+.visit-faq summary::after {
+  content: "+";
+  position: absolute;
+  right: 0;
+  color: var(--blue);
+  font-weight: 500;
+}
+.visit-faq details { position: relative; }
+.visit-faq details[open] summary::after { content: "–"; }
+.visit-faq details p {
+  margin: 0 0 0.65rem;
+  color: var(--stone);
+  font-size: 0.9rem;
+  line-height: 1.4;
+}
+
+.copied {
+  min-width: 7.5rem;
+}
+
+@media (max-width: 799px) {
+  html { scroll-padding-top: 6.4rem; }
+  .brand-lockup {
+    width: 100%;
+  }
+  .open-chip {
+    width: 100%;
+    text-align: center;
+  }
+  .b-top .top-inner { flex-wrap: wrap; }
+  .consent-bar .wrap { padding: 0.75rem 0 0.85rem; }
+}
+
+@media (min-width: 800px) {
+  .open-chip { margin-right: auto; }
+  .price-wrap { max-width: 36rem; }
+  .visit-locate,
+  .visit-plan {
+    grid-template-columns: 1fr 1fr;
+    align-items: start;
+    gap: 2.4rem;
+  }
+}
