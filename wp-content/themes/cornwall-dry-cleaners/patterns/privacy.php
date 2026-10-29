@@ -23,11 +23,7 @@
 <!-- /wp:paragraph -->
 
 <!-- wp:paragraph -->
-<p>The site may record ordinary technical data (browser, pages viewed) through hosting and the cookie banner. Cookie consent is handled by CookieYes. You can change that choice on the banner.</p>
-<!-- /wp:paragraph -->
-
-<!-- wp:paragraph -->
-<p>The map on the homepage is provided by Google. Google may collect data under its own policy when you use it.</p>
+<p>The site may record ordinary technical data (browser and pages viewed) through hosting. Google Fonts and the homepage map are provided by Google, which may collect data under its own policy. We do not use a cookie banner or analytics.</p>
 <!-- /wp:paragraph -->
 
 <!-- wp:paragraph -->
@@ -39,7 +35,7 @@
 <!-- /wp:heading -->
 
 <!-- wp:paragraph -->
-<p>To take in and return your clothes, answer the phone or email, keep the website working, and remember your cookie choice. We do not sell your information.</p>
+<p>To take in and return your clothes, answer the phone or email, and keep the website working. We do not sell your information.</p>
 <!-- /wp:paragraph -->
 
 <!-- wp:heading {"level":2} -->
