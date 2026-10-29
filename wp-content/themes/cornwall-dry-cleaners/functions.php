@@ -27,8 +27,9 @@ function cornwall_replace_homepage()
     update_option('blogname', 'Cornwall Dry Cleaners');
     update_option('blogdescription', 'Ealing');
     update_option('timezone_string', 'Europe/London');
-    update_option('date_format', 'j F Y');
-    update_option('time_format', 'g:ia');
+    update_option('date_format', 'd/m/Y');
+    update_option('time_format', 'g:i a');
+    update_option('start_of_week', '1');
 
     $home = get_page_by_path('home');
     if ($home instanceof WP_Post) {
