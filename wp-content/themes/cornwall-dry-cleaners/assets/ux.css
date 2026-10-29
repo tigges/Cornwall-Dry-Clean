@@ -113,8 +113,10 @@ html {
   flex-shrink: 0;
 }
 
-.cornwall-header .phone-link {
-  display: inline-flex;
+@media (min-width: 800px) {
+  .cornwall-header .phone-link {
+    display: inline-flex;
+  }
 }
 
 .cornwall-header .mobile-nav {
@@ -139,6 +141,7 @@ html {
 
 .cornwall-header .mobile-nav .btn-white {
   color: #003868;
+  margin-top: 0.25rem;
 }
 
 button.btn {
@@ -273,16 +276,8 @@ button.btn {
   html { scroll-padding-top: 6.4rem; }
   .b-top .top-inner { flex-wrap: nowrap; gap: 0.55rem; }
   .cornwall-header .logo { flex: 0 1 auto; min-width: 0; }
-  .cornwall-header .phone-link {
-    display: inline-flex;
-    margin-left: auto;
-    flex-shrink: 0;
-    min-height: 2.2rem;
-    padding: 0 0.7rem;
-    font-size: 0.78rem;
-    white-space: nowrap;
-  }
-  .cornwall-header .nav-toggle { margin-left: 0; }
+  .cornwall-header .phone-link { display: none; }
+  .cornwall-header .nav-toggle { margin-left: auto; }
   .consent-bar .wrap { padding: 0.75rem 0 0.85rem; }
 }
 
