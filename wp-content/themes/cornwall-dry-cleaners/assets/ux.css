@@ -10,6 +10,48 @@ html {
   display: contents;
 }
 
+.foot-legal {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem 0.9rem;
+  margin: 0.7rem 0 0;
+  font-size: 0.8rem;
+}
+.foot-legal a {
+  color: rgba(255, 255, 255, 0.7);
+  text-decoration: none;
+}
+.foot-legal a:hover,
+.foot-legal a:focus-visible {
+  color: #fff;
+}
+
+.legal-page main.section {
+  padding-top: 1.6rem;
+  padding-bottom: 3rem;
+}
+.legal-page main .wrap {
+  max-width: 40rem !important;
+}
+.legal-page h1,
+.legal-page .wp-block-post-title {
+  font-size: clamp(1.85rem, 3.2vw, 2.45rem);
+  margin: 0 0 0.35rem;
+}
+.legal-page .legal-date {
+  margin: 0 0 1.1rem;
+  color: var(--stone, #5c6570);
+  font-size: 0.9rem;
+}
+.legal-page h2,
+.legal-page h2.wp-block-heading {
+  font-size: 1.12rem;
+  margin: 1.55rem 0 0.45rem;
+}
+.legal-page main p {
+  max-width: 62ch;
+}
+
 .ux-flag {
   margin: 0;
   padding: 0.55rem 0;

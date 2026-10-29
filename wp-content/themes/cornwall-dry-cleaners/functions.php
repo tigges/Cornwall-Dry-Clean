@@ -55,6 +55,7 @@ function cornwall_replace_homepage()
         update_option('page_on_front', $home_id);
     }
 
+    cornwall_ensure_legal_pages();
     cornwall_cleanup_default_content();
     cornwall_write_root_files();
     cornwall_reset_customized_templates();
@@ -203,6 +204,10 @@ function cornwall_head_meta()
         echo '<meta name="twitter:title" content="' . esc_attr($title) . '" />' . "\n";
         echo '<meta name="twitter:description" content="' . esc_attr($desc) . '" />' . "\n";
         echo '<meta name="twitter:image" content="' . $share . '" />' . "\n";
+    } elseif (is_page('privacy')) {
+        echo '<meta name="description" content="' . esc_attr('How Cornwall Dry Cleaners on Haven Lane, Ealing uses the information you give us in the shop, by phone or on this website.') . '" />' . "\n";
+    } elseif (is_page('terms')) {
+        echo '<meta name="description" content="' . esc_attr('Simple terms for using the Cornwall Dry Cleaners website and dropping garments in at 23 Haven Lane, Ealing.') . '" />' . "\n";
     }
 }
 add_action('wp_head', 'cornwall_head_meta', 1);
@@ -310,6 +315,9 @@ add_action('wp_head', 'cornwall_json_ld', 20);
 function cornwall_body_class($classes)
 {
     $classes[] = 'cornwall-theme';
+    if (is_page(array('privacy', 'terms'))) {
+        $classes[] = 'legal-page';
+    }
     return $classes;
 }
 add_filter('body_class', 'cornwall_body_class');
@@ -320,6 +328,8 @@ function cornwall_document_title($parts)
         $parts['title'] = 'Cornwall Dry Cleaners';
         $parts['tagline'] = 'Ealing';
         unset($parts['site']);
+    } elseif (is_page('privacy') || is_page('terms')) {
+        unset($parts['tagline']);
     }
     return $parts;
 }
@@ -382,6 +392,35 @@ function cornwall_sitemap_post_types($post_types)
     return $post_types;
 }
 add_filter('wp_sitemaps_post_types', 'cornwall_sitemap_post_types');
+
+function cornwall_ensure_legal_pages()
+{
+    $pages = array(
+        'privacy' => array('Privacy', 'cornwall/privacy'),
+        'terms'   => array('Terms', 'cornwall/terms'),
+    );
+    foreach ($pages as $slug => $info) {
+        $content = '<!-- wp:pattern {"slug":"' . $info[1] . '"} /-->';
+        $page = get_page_by_path($slug);
+        if ($page instanceof WP_Post) {
+            wp_update_post(array(
+                'ID'           => (int) $page->ID,
+                'post_status'  => 'publish',
+                'post_title'   => $info[0],
+                'post_name'    => $slug,
+                'post_content' => $content,
+            ));
+            continue;
+        }
+        wp_insert_post(array(
+            'post_title'   => $info[0],
+            'post_name'    => $slug,
+            'post_status'  => 'publish',
+            'post_type'    => 'page',
+            'post_content' => $content,
+        ));
+    }
+}
 
 function cornwall_cleanup_default_content()
 {
