@@ -6,8 +6,10 @@
  * Block Types: core/post-content
  * Description: Blue Awning homepage — hero, services, visit steps, shop story, reviews and hours.
  */
-$shop   = esc_url(get_theme_file_uri('assets/shop-front.jpg'));
-$fascia = esc_url(get_theme_file_uri('assets/fascia.jpg'));
+$shop        = esc_url(get_theme_file_uri('assets/shop-front.jpg'));
+$shop_webp   = esc_url(get_theme_file_uri('assets/shop-front.webp'));
+$fascia      = esc_url(get_theme_file_uri('assets/fascia.jpg'));
+$fascia_webp = esc_url(get_theme_file_uri('assets/fascia.webp'));
 ?>
 <!-- wp:group {"tagName":"main","className":"cornwall-main"} -->
 <main class="wp-block-group cornwall-main">
@@ -52,7 +54,10 @@ $fascia = esc_url(get_theme_file_uri('assets/fascia.jpg'));
   <!-- wp:html -->
   <figure class="b-photo">
     <div class="b-photo-frame">
-      <img src="<?php echo $shop; ?>" alt="White fascia and navy awning at Cornwall Dry Cleaners" />
+      <picture>
+        <source srcset="<?php echo $shop_webp; ?>" type="image/webp" />
+        <img src="<?php echo $shop; ?>" width="1600" height="1066" alt="White fascia and navy awning at Cornwall Dry Cleaners" fetchpriority="high" decoding="async" />
+      </picture>
       <aside class="b-rating" aria-label="Google rating">
         <p class="b-rating-kicker">Google reviews</p>
         <p class="b-rating-score">4.9</p>
@@ -228,9 +233,14 @@ $fascia = esc_url(get_theme_file_uri('assets/fascia.jpg'));
     </div>
     <!-- /wp:group -->
 
-    <!-- wp:image {"sizeSlug":"full","className":"story-photo"} -->
-    <figure class="wp-block-image size-full story-photo"><img src="<?php echo $fascia; ?>" alt="Cornwall script lettering and navy awning on the Haven Lane fascia"/></figure>
-    <!-- /wp:image -->
+    <!-- wp:html -->
+    <figure class="wp-block-image size-full story-photo">
+      <picture>
+        <source srcset="<?php echo $fascia_webp; ?>" type="image/webp" />
+        <img src="<?php echo $fascia; ?>" width="1600" height="930" alt="Cornwall script lettering and navy awning on the Haven Lane fascia" decoding="async" />
+      </picture>
+    </figure>
+    <!-- /wp:html -->
 
     <!-- wp:group {"className":"card quote-panel","layout":{"type":"default"}} -->
     <div class="wp-block-group card quote-panel">

@@ -5,6 +5,11 @@ html {
   scroll-padding-top: 5.8rem;
 }
 
+.b-photo-frame picture,
+.story-photo picture {
+  display: contents;
+}
+
 .ux-flag {
   margin: 0;
   padding: 0.55rem 0;

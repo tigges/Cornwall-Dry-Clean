@@ -5,9 +5,9 @@ This theme is meant to be pulled into a WordPress `public_html/`.
 | Field | Value |
 | --- | --- |
 | Git Remote Address | `git@github.com:tigges/Cornwall-Dry-Clean.git` |
-| Branch | `cursor/cloudways-public-html-fed1` |
+| Branch | `cursor/seo-optimisation-fed1` |
 | Deployment Path | `public_html/` |
 
 Fetch, select that branch, Pull, then **purge Breeze**. The live site stays on the previous HTML until cache is cleared.
 
-Theme Version **1.3.0** slims the open/closed chip and keeps the phone pill in the mobile header. Confirm `style.css` shows that version after Pull.
+Theme Version **1.4.0** adds the homepage meta description, Open Graph image, WebP hero, leftover-URL cleanup, and shop `sameAs`. Confirm `style.css` shows that version after Pull.
