@@ -10,12 +10,40 @@ html {
   display: contents;
 }
 
+.foot {
+  padding: 0.55rem 0;
+}
+.foot-bar {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) minmax(0, 1fr) auto;
+  align-items: center;
+  column-gap: 1.15rem;
+}
+.cornwall-theme .foot .logo,
+.foot .logo {
+  margin: 0;
+  flex: none;
+}
+.foot .logo-script {
+  font-size: 1.7rem;
+}
+.cornwall-theme .cornwall-footer.foot p,
+.cornwall-theme .foot p,
+.foot p {
+  margin: 0;
+  font-size: 0.8rem;
+  line-height: 1.35;
+}
+.foot-meta,
+.foot-copy {
+  min-width: 0;
+}
 .foot-legal {
   display: flex;
-  flex-wrap: wrap;
-  gap: 0.35rem 0.9rem;
-  margin: 0.7rem 0 0;
-  font-size: 0.8rem;
+  flex-wrap: nowrap;
+  gap: 0.35rem 0.85rem;
+  margin: 0;
+  font-size: 0.78rem;
 }
 .foot-legal a {
   color: rgba(255, 255, 255, 0.7);
@@ -272,6 +300,25 @@ button.btn {
   min-width: 7.5rem;
 }
 
+@media (min-width: 1100px) {
+  .foot-meta,
+  .foot-copy {
+    white-space: nowrap;
+  }
+}
+
+@media (max-width: 1099px) and (min-width: 800px) {
+  .foot-bar {
+    grid-template-columns: minmax(0, 1fr) auto;
+    row-gap: 0.3rem;
+    column-gap: 1.25rem;
+  }
+  .foot-bar .logo { grid-column: 1; grid-row: 1; }
+  .foot-legal { grid-column: 2; grid-row: 1; justify-self: end; align-self: center; }
+  .foot-meta { grid-column: 1; grid-row: 2; }
+  .foot-copy { grid-column: 2; grid-row: 2; justify-self: end; text-align: right; }
+}
+
 @media (max-width: 799px) {
   html { scroll-padding-top: 6.4rem; }
   .b-top .top-inner { flex-wrap: nowrap; gap: 0.55rem; }
@@ -279,6 +326,18 @@ button.btn {
   .cornwall-header .phone-link { display: none; }
   .cornwall-header .nav-toggle { margin-left: auto; }
   .consent-bar .wrap { padding: 0.75rem 0 0.85rem; }
+  .foot {
+    padding: 0.75rem 0 5.4rem;
+  }
+  .foot-bar {
+    grid-template-columns: 1fr auto;
+    row-gap: 0.3rem;
+    column-gap: 1rem;
+  }
+  .foot-bar .logo { grid-column: 1; grid-row: 1; }
+  .foot-legal { grid-column: 2; grid-row: 1; justify-self: end; align-self: center; }
+  .foot-meta { grid-column: 1 / -1; grid-row: 2; }
+  .foot-copy { grid-column: 1 / -1; grid-row: 3; }
 }
 
 @media (min-width: 800px) {
