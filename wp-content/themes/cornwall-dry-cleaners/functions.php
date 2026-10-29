@@ -491,3 +491,207 @@ function cornwall_llms_txt()
         '',
     ));
 }
+
+/**
+ * Short review links for the QR code and NFC card at the till point and the
+ * receipt: /review, /review/qr, /review/nfc and /review/receipt all send
+ * people to the Google review form. A 302 (never cached, never indexed) so the
+ * destination can be changed later from Settings → General without reprinting.
+ * Each source keeps a daily count. No cookies, IPs or other personal data.
+ */
+if (! defined('CORNWALL_REVIEW_URL')) {
+    define('CORNWALL_REVIEW_URL', 'https://search.google.com/local/writereview?placeid=ChIJ81BJSewTdkgR1Ru6ekdBmKw');
+}
+
+function cornwall_review_sources()
+{
+    return array(
+        'qr'      => 'QR code at the till',
+        'nfc'     => 'NFC card at the till',
+        'receipt' => 'QR code on receipt',
+        'typed'   => 'Typed in (receipt text, word of mouth)',
+    );
+}
+
+function cornwall_review_url()
+{
+    $url = (string) get_option('cornwall_review_url', '');
+    return $url !== '' ? $url : CORNWALL_REVIEW_URL;
+}
+
+function cornwall_review_source_for_path($path)
+{
+    $path = strtolower(trim((string) $path, '/'));
+    if ($path === 'review') {
+        return 'typed';
+    }
+    if (strpos($path, 'review/') !== 0) {
+        return null;
+    }
+    $tag = substr($path, strlen('review/'));
+    $sources = cornwall_review_sources();
+    return isset($sources[$tag]) ? $tag : 'typed';
+}
+
+function cornwall_review_should_count()
+{
+    $method = isset($_SERVER['REQUEST_METHOD']) ? strtoupper((string) $_SERVER['REQUEST_METHOD']) : 'GET';
+    if ($method !== 'GET' || is_user_logged_in()) {
+        return false;
+    }
+    $purpose = strtolower((string) ($_SERVER['HTTP_SEC_PURPOSE'] ?? $_SERVER['HTTP_PURPOSE'] ?? ''));
+    if (strpos($purpose, 'prefetch') !== false) {
+        return false;
+    }
+    $agent = isset($_SERVER['HTTP_USER_AGENT']) ? strtolower((string) wp_unslash($_SERVER['HTTP_USER_AGENT'])) : '';
+    if ($agent === '') {
+        return false;
+    }
+    $not_people = array('bot', 'crawl', 'spider', 'slurp', 'preview', 'facebookexternalhit', 'whatsapp', 'curl', 'wget', 'python', 'headless', 'lighthouse');
+    foreach ($not_people as $needle) {
+        if (strpos($agent, $needle) !== false) {
+            return false;
+        }
+    }
+    return true;
+}
+
+function cornwall_review_count($source)
+{
+    $hits = get_option('cornwall_review_hits');
+    if (! is_array($hits) || ! isset($hits['days']) || ! is_array($hits['days'])) {
+        $hits = array('since' => wp_date('Y-m-d'), 'days' => array());
+    }
+    $day = wp_date('Y-m-d');
+    if (! isset($hits['days'][$day][$source])) {
+        $hits['days'][$day][$source] = 0;
+    }
+    $hits['days'][$day][$source]++;
+    $hits['last'] = array('time' => time(), 'source' => $source);
+    update_option('cornwall_review_hits', $hits, false);
+}
+
+function cornwall_review_redirect()
+{
+    $uri = isset($_SERVER['REQUEST_URI']) ? (string) wp_unslash($_SERVER['REQUEST_URI']) : '';
+    $source = cornwall_review_source_for_path((string) strtok($uri, '?'));
+    if ($source === null) {
+        return;
+    }
+
+    if (cornwall_review_should_count()) {
+        cornwall_review_count($source);
+    }
+
+    nocache_headers();
+    header('Cache-Control: no-store, no-cache, must-revalidate, max-age=0, private');
+    header('X-Robots-Tag: noindex, nofollow');
+    wp_redirect(cornwall_review_url(), 302, 'Cornwall review link');
+    exit;
+}
+add_action('template_redirect', 'cornwall_review_redirect', 0);
+
+function cornwall_review_settings()
+{
+    register_setting('general', 'cornwall_review_url', array(
+        'type'              => 'string',
+        'sanitize_callback' => 'cornwall_review_sanitize_url',
+        'default'           => '',
+    ));
+    add_settings_field('cornwall_review_url', 'Review link', 'cornwall_review_url_field', 'general', 'default', array('label_for' => 'cornwall_review_url'));
+    add_settings_field('cornwall_review_hits', 'Review scans', 'cornwall_review_hits_field', 'general');
+}
+add_action('admin_init', 'cornwall_review_settings');
+
+function cornwall_review_sanitize_url($value)
+{
+    $value = trim((string) $value);
+    if ($value === '') {
+        return '';
+    }
+    $clean = esc_url_raw($value, array('https'));
+    if ($clean === '') {
+        add_settings_error('cornwall_review_url', 'cornwall_review_url', 'The review link must start with https://. The previous link was kept.');
+        return (string) get_option('cornwall_review_url', '');
+    }
+    return $clean;
+}
+
+function cornwall_review_url_field()
+{
+    printf(
+        '<input name="cornwall_review_url" id="cornwall_review_url" type="url" class="large-text code" value="%s" placeholder="%s" />',
+        esc_attr((string) get_option('cornwall_review_url', '')),
+        esc_attr(CORNWALL_REVIEW_URL)
+    );
+    echo '<p class="description">Where <code>' . esc_html(wp_parse_url(home_url('/review'), PHP_URL_HOST) . '/review') . '</code> sends people (302, not indexed). Leave blank to use the built-in Google review form. Must start with https://</p>';
+}
+
+function cornwall_review_hits_field()
+{
+    $hits = get_option('cornwall_review_hits');
+    $days = (is_array($hits) && isset($hits['days']) && is_array($hits['days'])) ? $hits['days'] : array();
+    $today = new DateTimeImmutable('now', wp_timezone());
+    $windows = array(
+        'today' => $today->format('Y-m-d'),
+        'week'  => $today->modify('-6 days')->format('Y-m-d'),
+        'month' => $today->modify('-29 days')->format('Y-m-d'),
+    );
+    $sources = cornwall_review_sources();
+    $rows = array();
+    $total = array('today' => 0, 'week' => 0, 'month' => 0, 'all' => 0);
+    foreach ($sources as $key => $label) {
+        $rows[$key] = array('today' => 0, 'week' => 0, 'month' => 0, 'all' => 0);
+    }
+    foreach ($days as $day => $counts) {
+        foreach ((array) $counts as $key => $n) {
+            if (! isset($rows[$key])) {
+                continue;
+            }
+            $n = (int) $n;
+            $rows[$key]['all'] += $n;
+            $total['all'] += $n;
+            foreach ($windows as $window => $from) {
+                if (strcmp((string) $day, $from) >= 0) {
+                    $rows[$key][$window] += $n;
+                    $total[$window] += $n;
+                }
+            }
+        }
+    }
+
+    echo '<table class="widefat striped" style="max-width:760px"><thead><tr><th>Where they came from</th><th>Link</th><th>Today</th><th>Last 7 days</th><th>Last 30 days</th><th>All time</th></tr></thead><tbody>';
+    foreach ($sources as $key => $label) {
+        $path = $key === 'typed' ? '/review' : '/review/' . $key;
+        printf(
+            '<tr><td>%s</td><td><code>%s</code></td><td>%d</td><td>%d</td><td>%d</td><td>%d</td></tr>',
+            esc_html($label),
+            esc_html($path),
+            $rows[$key]['today'],
+            $rows[$key]['week'],
+            $rows[$key]['month'],
+            $rows[$key]['all']
+        );
+    }
+    printf(
+        '</tbody><tfoot><tr><th>Total</th><th></th><th>%d</th><th>%d</th><th>%d</th><th>%d</th></tr></tfoot></table>',
+        $total['today'],
+        $total['week'],
+        $total['month'],
+        $total['all']
+    );
+
+    $notes = array();
+    if (is_array($hits) && isset($hits['last']['time'])) {
+        $last_source = isset($sources[$hits['last']['source']]) ? $sources[$hits['last']['source']] : '';
+        $notes[] = 'Last scan ' . wp_date(get_option('date_format') . ' ' . get_option('time_format'), (int) $hits['last']['time']) . ($last_source !== '' ? ' (' . $last_source . ')' : '');
+    }
+    if (is_array($hits) && isset($hits['since'])) {
+        $since = DateTimeImmutable::createFromFormat('Y-m-d', (string) $hits['since'], wp_timezone());
+        if ($since) {
+            $notes[] = 'Counting since ' . wp_date(get_option('date_format'), $since->getTimestamp());
+        }
+    }
+    $notes[] = 'Link previews, bots and visits while logged in to WordPress are not counted.';
+    echo '<p class="description">' . esc_html(implode(' · ', $notes)) . '<br>Counts only. No IP addresses, cookies or other personal data are stored.</p>';
+}

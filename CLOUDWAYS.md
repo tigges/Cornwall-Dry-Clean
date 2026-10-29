@@ -10,7 +10,9 @@ Matches a Deployment Path of `public_html/`.
 
 **Do not merge this branch into `main`.**
 
-Theme **1.5.4** is the current Cloudways pull: flattened horizontal footer, Privacy/Terms, two-line Visit address, SEO pack, and the mobile header phone in the hamburger.
+Theme **1.5.5** is the current Cloudways pull: flattened horizontal footer, Privacy/Terms, two-line Visit address, SEO pack, the mobile header phone in the hamburger, and the `/review` short links.
+
+**Review links (1.5.5):** `/review`, `/review/qr`, `/review/nfc` and `/review/receipt` 302 to the Google review form (any case, with or without a trailing slash). Change the destination and see scan counts per source under **Settings → General → Review link / Review scans**. In Cloudways, add `/review` to the Varnish exclusions and to Breeze → *Never cache these URLs*, and purge Varnish once after this pull so an old cached 404 for `/review` is dropped.
 
 To go live, switch Git to **cursor/legal-pages-fed1** (this branch already contains the SEO commits).
 
@@ -19,9 +21,9 @@ To go live, switch Git to **cursor/legal-pages-fed1** (this branch already conta
 3. Leave Deployment Path as `public_html/`.
 4. Click **Pull**.
 5. Purge cache: WordPress → **Breeze → Purge All Cache**.
-6. Hard-refresh `https://cornwalldrycleaners.com/`. Confirm `style.css` says `Version: 1.5.4`.
+6. Hard-refresh `https://cornwalldrycleaners.com/`. Confirm `style.css` says `Version: 1.5.5`.
 7. Open the footer links: `/privacy/` and `/terms/`. Those pages are created on the version refresh.
 
-A git pull does not run “switch theme”. Version `1.5.4` rewrites Home, writes the legal pages, resets stored header/footer copies, and asks Breeze to clear — but Breeze HTML cache still needs a **purge after Pull**.
+A git pull does not run “switch theme”. Version `1.5.5` rewrites Home, writes the legal pages, resets stored header/footer copies, and asks Breeze to clear — but Breeze HTML cache still needs a **purge after Pull**.
 
 This branch only contains `wp-content/themes/cornwall-dry-cleaners`.
