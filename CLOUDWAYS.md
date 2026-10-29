@@ -10,7 +10,7 @@ Matches a Deployment Path of `public_html/`.
 
 **Do not merge this branch into `main`.**
 
-Theme **1.5.0** adds short Privacy and Terms pages and a tiny footer menu (Privacy · Terms). It also includes the 1.4.x SEO pack.
+Theme **1.5.1** adds short Privacy and Terms pages, a tiny footer menu, and a two-line Visit address (`23 Haven Lane` / `Ealing, W5 2HZ`). It also includes the 1.4.x SEO pack.
 
 To go live, switch Git to **cursor/legal-pages-fed1** (this branch already contains the SEO commits).
 
@@ -19,9 +19,9 @@ To go live, switch Git to **cursor/legal-pages-fed1** (this branch already conta
 3. Leave Deployment Path as `public_html/`.
 4. Click **Pull**.
 5. Purge cache: WordPress → **Breeze → Purge All Cache**.
-6. Hard-refresh `https://cornwalldrycleaners.com/`. Confirm `style.css` says `Version: 1.5.0`.
+6. Hard-refresh `https://cornwalldrycleaners.com/`. Confirm `style.css` says `Version: 1.5.1`.
 7. Open the footer links: `/privacy/` and `/terms/`. Those pages are created on the version refresh.
 
-A git pull does not run “switch theme”. Version `1.5.0` rewrites Home, writes the legal pages, resets stored header/footer copies, and asks Breeze to clear — but Breeze HTML cache still needs a **purge after Pull**.
+A git pull does not run “switch theme”. Version `1.5.1` rewrites Home, writes the legal pages, resets stored header/footer copies, and asks Breeze to clear — but Breeze HTML cache still needs a **purge after Pull**.
 
 This branch only contains `wp-content/themes/cornwall-dry-cleaners`.

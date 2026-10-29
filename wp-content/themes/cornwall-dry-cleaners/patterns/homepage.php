@@ -368,7 +368,10 @@ $fascia_webp = esc_url(get_theme_file_uri('assets/fascia.webp'));
     <div class="visit-locate">
       <div>
         <p class="eyebrow">Visit the shop</p>
-        <h2>23 Haven Lane, Ealing, W5 2HZ</h2>
+        <h2 class="visit-address">
+          <span class="visit-street">23 Haven Lane</span>
+          <span class="visit-locality">Ealing, W5 2HZ</span>
+        </h2>
         <p class="muted">1 minute from Haven Green / Ealing Broadway station. White fascia, blue awning — not on the Broadway itself.</p>
         <p class="phone-xl"><a href="tel:+442089919413">020 8991 9413</a></p>
         <p class="btn-row">

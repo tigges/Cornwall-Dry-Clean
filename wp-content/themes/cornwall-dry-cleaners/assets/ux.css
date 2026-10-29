@@ -181,6 +181,23 @@ button.btn {
 }
 .visit-plan { margin-top: 0; }
 
+.visit-locate .visit-address {
+  display: grid;
+  gap: 0.12rem;
+  max-width: none;
+  margin-bottom: 0.7rem;
+}
+.visit-locate .visit-street,
+.visit-locate .visit-locality {
+  display: block;
+}
+.visit-locate .visit-locality {
+  font-size: 0.72em;
+  letter-spacing: -0.02em;
+  font-weight: 600;
+  color: var(--ink, #122033);
+}
+
 .visit-locate .btn-row {
   margin-bottom: 0;
 }
