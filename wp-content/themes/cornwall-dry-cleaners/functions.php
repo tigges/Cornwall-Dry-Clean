@@ -660,7 +660,9 @@ function cornwall_review_hits_field()
         }
     }
 
-    echo '<table class="widefat striped" style="max-width:760px"><thead><tr><th>Where they came from</th><th>Link</th><th>Today</th><th>Last 7 days</th><th>Last 30 days</th><th>All time</th></tr></thead><tbody>';
+    // WordPress stacks every .form-table cell on small screens, including nested tables.
+    echo '<style>.cornwall-review-scans{overflow-x:auto;max-width:760px}.cornwall-review-scans table{min-width:520px}.form-table .cornwall-review-scans th,.form-table .cornwall-review-scans td{display:table-cell;padding:8px 10px;width:auto}.cornwall-review-scans td:nth-child(n+3),.cornwall-review-scans th:nth-child(n+3){text-align:right}</style>';
+    echo '<div class="cornwall-review-scans"><table class="widefat striped"><thead><tr><th>Where they came from</th><th>Link</th><th>Today</th><th>Last 7 days</th><th>Last 30 days</th><th>All time</th></tr></thead><tbody>';
     foreach ($sources as $key => $label) {
         $path = $key === 'typed' ? '/review' : '/review/' . $key;
         printf(
@@ -674,7 +676,7 @@ function cornwall_review_hits_field()
         );
     }
     printf(
-        '</tbody><tfoot><tr><th>Total</th><th></th><th>%d</th><th>%d</th><th>%d</th><th>%d</th></tr></tfoot></table>',
+        '</tbody><tfoot><tr><th>Total</th><th></th><th>%d</th><th>%d</th><th>%d</th><th>%d</th></tr></tfoot></table></div>',
         $total['today'],
         $total['week'],
         $total['month'],
