@@ -443,6 +443,7 @@ function cornwall_write_root_files()
     file_put_contents(ABSPATH . 'llms.txt', cornwall_llms_txt());
     file_put_contents(ABSPATH . 'indexnow.txt', cornwall_indexnow_key());
     file_put_contents(ABSPATH . cornwall_indexnow_key() . '.txt', cornwall_indexnow_key());
+    cornwall_write_review_fallbacks();
 }
 
 function cornwall_redirect_leftover_urls()
@@ -494,10 +495,19 @@ function cornwall_llms_txt()
 
 /**
  * Short review links for the QR code and NFC card at the till point and the
- * receipt: /review, /review/qr, /review/nfc and /review/receipt all send
- * people to the Google review form. A 302 (never cached, never indexed) so the
- * destination can be changed later from Settings → General without reprinting.
- * Each source keeps a daily count. No cookies, IPs or other personal data.
+ * receipt: /review, /review/qr, /review/nfc, /review/receipt (plus /qr and
+ * /nfc shorthand) all send people to the Google review form. A 302 (never
+ * cached, never indexed) so the destination can be changed later from
+ * Settings → General without reprinting. Each source keeps a daily count.
+ * No cookies, IPs or other personal data.
+ *
+ * Three-layer safety net (cornwall_write_review_fallbacks):
+ * 1. Theme template_redirect at priority 0 (normal path + counter).
+ * 2. wp-content/mu-plugins/cornwall-review-fallback.php (survives theme
+ *    rollbacks and plugin/theme fatal errors via wp_php_error_message,
+ *    wp_die_handler, template_redirect 999 and register_shutdown_function).
+ * 3. wp-content/db-error.php + .htaccess ErrorDocument (survives DB outages
+ *    and server 500/502/503/404 responses on /review*, /qr and /nfc).
  */
 if (! defined('CORNWALL_REVIEW_URL')) {
     define('CORNWALL_REVIEW_URL', 'https://search.google.com/local/writereview?placeid=ChIJ81BJSewTdkgR1Ru6ekdBmKw');
@@ -524,6 +534,12 @@ function cornwall_review_source_for_path($path)
     $path = strtolower(trim((string) $path, '/'));
     if ($path === 'review') {
         return 'typed';
+    }
+    if ($path === 'qr') {
+        return 'qr';
+    }
+    if ($path === 'nfc') {
+        return 'nfc';
     }
     if (strpos($path, 'review/') !== 0) {
         return null;
@@ -579,17 +595,223 @@ function cornwall_review_redirect()
         return;
     }
 
-    if (cornwall_review_should_count()) {
-        cornwall_review_count($source);
+    try {
+        if (cornwall_review_should_count()) {
+            cornwall_review_count($source);
+        }
+    } catch (\Throwable $e) {
+        // Never block the redirect if the database counter fails.
     }
 
+    $target = cornwall_review_url();
+    $GLOBALS['cornwall_review_redirected'] = true;
+    while (ob_get_level() > 0) {
+        @ob_end_clean();
+    }
     nocache_headers();
     header('Cache-Control: no-store, no-cache, must-revalidate, max-age=0, private');
     header('X-Robots-Tag: noindex, nofollow');
-    wp_redirect(cornwall_review_url(), 302, 'Cornwall review link');
+    if (! wp_redirect($target, 302, 'Cornwall review link')) {
+        header('X-Redirect-By: Cornwall review link');
+        header('Location: ' . $target, true, 302);
+    }
     exit;
 }
 add_action('template_redirect', 'cornwall_review_redirect', 0);
+
+function cornwall_write_review_fallbacks($override_url = null)
+{
+    $url = is_string($override_url) && $override_url !== '' ? $override_url : cornwall_review_url();
+    $exported_url = var_export($url, true);
+
+    if (defined('WP_CONTENT_DIR') && is_dir(WP_CONTENT_DIR) && is_writable(WP_CONTENT_DIR)) {
+        $mu_dir = WP_CONTENT_DIR . '/mu-plugins';
+        if (! is_dir($mu_dir)) {
+            @wp_mkdir_p($mu_dir);
+        }
+        if (is_dir($mu_dir) && is_writable($mu_dir)) {
+            $mu_code = <<<PHP
+<?php
+/**
+ * Plugin Name: Cornwall Review Link Fallback
+ * Description: Keeps /review, /review/qr, /review/nfc, /review/receipt, /qr and /nfc redirecting to the Google review form even if the theme is rolled back or a plugin triggers a fatal error.
+ * Version: 1.5.6
+ */
+
+if (! defined('ABSPATH')) {
+    exit;
+}
+
+if (! defined('CORNWALL_REVIEW_FALLBACK_URL')) {
+    define('CORNWALL_REVIEW_FALLBACK_URL', {$exported_url});
+}
+
+function cornwall_review_fallback_source()
+{
+    if (function_exists('is_admin') && is_admin()) {
+        return null;
+    }
+    \$uri = isset(\$_SERVER['REQUEST_URI']) ? (string) \$_SERVER['REQUEST_URI'] : '';
+    \$path = strtolower(trim((string) strtok(\$uri, '?'), '/'));
+    if (\$path === 'review') {
+        return 'typed';
+    }
+    if (\$path === 'qr' || \$path === 'review/qr') {
+        return 'qr';
+    }
+    if (\$path === 'nfc' || \$path === 'review/nfc') {
+        return 'nfc';
+    }
+    if (\$path === 'review/receipt') {
+        return 'receipt';
+    }
+    if (strpos(\$path, 'review/') === 0) {
+        return 'typed';
+    }
+    return null;
+}
+
+function cornwall_review_fallback_target()
+{
+    if (function_exists('get_option')) {
+        try {
+            \$opt = (string) get_option('cornwall_review_url', '');
+            if (\$opt !== '' && strpos(\$opt, 'https://') === 0) {
+                return \$opt;
+            }
+        } catch (\\Throwable \$e) {
+        }
+    }
+    return CORNWALL_REVIEW_FALLBACK_URL;
+}
+
+function cornwall_review_fallback_send(\$reason = 'Cornwall review fallback')
+{
+    if (! empty(\$GLOBALS['cornwall_review_redirected'])) {
+        return;
+    }
+    \$GLOBALS['cornwall_review_redirected'] = true;
+    \$target = cornwall_review_fallback_target();
+    while (ob_get_level() > 0) {
+        @ob_end_clean();
+    }
+    if (! headers_sent()) {
+        header('Expires: Wed, 11 Jan 1984 05:00:00 GMT');
+        header('Cache-Control: no-store, no-cache, must-revalidate, max-age=0, private');
+        header('X-Robots-Tag: noindex, nofollow');
+        header('X-Redirect-By: ' . \$reason);
+        header('Location: ' . \$target, true, 302);
+    } else {
+        \$esc = htmlspecialchars(\$target, ENT_QUOTES, 'UTF-8');
+        echo '<!doctype html><meta http-equiv="refresh" content="0;url=' . \$esc . '"><script>location.replace(' . json_encode(\$target) . ');</script>';
+    }
+    exit;
+}
+
+if (cornwall_review_fallback_source() !== null) {
+    @ob_start();
+
+    add_filter('wp_php_error_message', function (\$message) {
+        cornwall_review_fallback_send('Cornwall review fallback (php-error)');
+        return \$message;
+    }, 1);
+
+    add_filter('wp_die_handler', function () {
+        return function () {
+            cornwall_review_fallback_send('Cornwall review fallback (wp-die)');
+        };
+    }, 1);
+
+    add_action('template_redirect', function () {
+        if (! empty(\$GLOBALS['cornwall_review_redirected'])) {
+            return;
+        }
+        \$src = cornwall_review_fallback_source();
+        if (\$src !== null && function_exists('cornwall_review_should_count') && function_exists('cornwall_review_count')) {
+            try {
+                if (cornwall_review_should_count()) {
+                    cornwall_review_count(\$src);
+                }
+            } catch (\\Throwable \$e) {
+            }
+        }
+        cornwall_review_fallback_send('Cornwall review fallback (template)');
+    }, 999);
+
+    register_shutdown_function(function () {
+        if (empty(\$GLOBALS['cornwall_review_redirected'])) {
+            cornwall_review_fallback_send('Cornwall review fallback (shutdown)');
+        }
+    });
+}
+PHP;
+            @file_put_contents($mu_dir . '/cornwall-review-fallback.php', $mu_code . "\n");
+        }
+
+        $db_err_file = WP_CONTENT_DIR . '/db-error.php';
+        $can_write_db = ! file_exists($db_err_file)
+            || strpos((string) @file_get_contents($db_err_file), 'Cornwall review fallback') !== false;
+        if ($can_write_db) {
+            $db_code = <<<PHP
+<?php
+/**
+ * Cornwall review fallback for database errors.
+ * Redirects /review*, /qr and /nfc to the Google review form if the DB is unavailable.
+ */
+\$uri = isset(\$_SERVER['REQUEST_URI']) ? (string) \$_SERVER['REQUEST_URI'] : '';
+\$path = strtolower(trim((string) strtok(\$uri, '?'), '/'));
+if (\$path === 'review' || \$path === 'qr' || \$path === 'nfc' || strpos(\$path, 'review/') === 0) {
+    \$GLOBALS['cornwall_review_redirected'] = true;
+    while (ob_get_level() > 0) {
+        @ob_end_clean();
+    }
+    if (! headers_sent()) {
+        header('Cache-Control: no-store, no-cache, must-revalidate, max-age=0, private');
+        header('X-Robots-Tag: noindex, nofollow');
+        header('X-Redirect-By: Cornwall review fallback (db-error)');
+        header('Location: ' . {$exported_url}, true, 302);
+    }
+    exit;
+}
+if (! headers_sent()) {
+    header('HTTP/1.1 500 Internal Server Error');
+    header('Expires: Wed, 11 Jan 1984 05:00:00 GMT');
+    header('Cache-Control: no-cache, must-revalidate, max-age=0');
+    header('Content-Type: text/html; charset=utf-8');
+}
+echo '<!DOCTYPE html><html lang="en-GB"><head><meta charset="utf-8"><title>Database Error</title></head><body><h1>Error establishing a database connection</h1></body></html>';
+die();
+PHP;
+            @file_put_contents($db_err_file, $db_code . "\n");
+        }
+    }
+
+    if (defined('ABSPATH')) {
+        $htaccess = ABSPATH . '.htaccess';
+        if ((file_exists($htaccess) && is_writable($htaccess)) || (! file_exists($htaccess) && is_writable(ABSPATH))) {
+            if (! function_exists('insert_with_markers')) {
+                require_once ABSPATH . 'wp-admin/includes/misc.php';
+            }
+            if (function_exists('insert_with_markers')) {
+                $rules = array(
+                    '<If "%{REQUEST_URI} =~ m#^/(review(/.*)?|qr|nfc)/?$#i">',
+                    '    ErrorDocument 404 ' . $url,
+                    '    ErrorDocument 500 ' . $url,
+                    '    ErrorDocument 502 ' . $url,
+                    '    ErrorDocument 503 ' . $url,
+                    '</If>',
+                );
+                @insert_with_markers($htaccess, 'CornwallReviewFallback', $rules);
+            }
+        }
+    }
+}
+add_action('update_option_cornwall_review_url', function ($old_value, $value) {
+    cornwall_write_review_fallbacks(is_string($value) && $value !== '' ? $value : CORNWALL_REVIEW_URL);
+}, 10, 2);
+add_action('add_option_cornwall_review_url', function ($option, $value) {
+    cornwall_write_review_fallbacks(is_string($value) && $value !== '' ? $value : CORNWALL_REVIEW_URL);
+}, 10, 2);
 
 function cornwall_review_settings()
 {
@@ -664,11 +886,17 @@ function cornwall_review_hits_field()
     echo '<style>.cornwall-review-scans{overflow-x:auto;max-width:760px}.cornwall-review-scans table{min-width:520px}.form-table .cornwall-review-scans th,.form-table .cornwall-review-scans td{display:table-cell;padding:8px 10px;width:auto}.cornwall-review-scans td:nth-child(n+3),.cornwall-review-scans th:nth-child(n+3){text-align:right}</style>';
     echo '<div class="cornwall-review-scans"><table class="widefat striped"><thead><tr><th>Where they came from</th><th>Link</th><th>Today</th><th>Last 7 days</th><th>Last 30 days</th><th>All time</th></tr></thead><tbody>';
     foreach ($sources as $key => $label) {
-        $path = $key === 'typed' ? '/review' : '/review/' . $key;
+        if ($key === 'typed') {
+            $path = '<code>/review</code>';
+        } elseif ($key === 'qr' || $key === 'nfc') {
+            $path = '<code>/review/' . esc_html($key) . '</code>, <code>/' . esc_html($key) . '</code>';
+        } else {
+            $path = '<code>/review/' . esc_html($key) . '</code>';
+        }
         printf(
-            '<tr><td>%s</td><td><code>%s</code></td><td>%d</td><td>%d</td><td>%d</td><td>%d</td></tr>',
+            '<tr><td>%s</td><td>%s</td><td>%d</td><td>%d</td><td>%d</td><td>%d</td></tr>',
             esc_html($label),
-            esc_html($path),
+            $path,
             $rows[$key]['today'],
             $rows[$key]['week'],
             $rows[$key]['month'],
