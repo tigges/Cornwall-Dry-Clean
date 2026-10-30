@@ -120,7 +120,7 @@ function cornwall_enqueue_assets()
     wp_enqueue_style(
         'cornwall-mockups',
         get_theme_file_uri('assets/mockups.css'),
-        array('cornwall-fonts'),
+        array(),
         wp_get_theme()->get('Version')
     );
     wp_enqueue_style(
@@ -145,6 +145,17 @@ function cornwall_enqueue_assets()
 }
 add_action('wp_enqueue_scripts', 'cornwall_enqueue_assets');
 
+function cornwall_async_font_stylesheet($html, $handle, $href)
+{
+    if ($handle !== 'cornwall-fonts' || is_admin()) {
+        return $html;
+    }
+    $esc = esc_url($href);
+    return '<link rel="preload" as="style" href="' . $esc . '" onload="this.onload=null;this.rel=\'stylesheet\'" />' . "\n"
+        . '<noscript><link rel="stylesheet" href="' . $esc . '" /></noscript>' . "\n";
+}
+add_filter('style_loader_tag', 'cornwall_async_font_stylesheet', 10, 3);
+
 function cornwall_editor_assets()
 {
     wp_enqueue_style(
@@ -166,6 +177,11 @@ function cornwall_indexnow_key()
     return 'ffd0a129ae9340fcb4c5fc8e11373b45';
 }
 
+function cornwall_soe_indexnow_key()
+{
+    return '8d0cd194ad314bd3b47ea6d695dd0dd4';
+}
+
 function cornwall_maps_url()
 {
     return 'https://maps.app.goo.gl/cw7sznF2TJq2SkL69';
@@ -173,22 +189,24 @@ function cornwall_maps_url()
 
 function cornwall_head_meta()
 {
-    $icon   = esc_url(get_theme_file_uri('assets/favicon.svg'));
-    $png    = esc_url(get_theme_file_uri('assets/favicon.png'));
-    $touch  = esc_url(get_theme_file_uri('assets/apple-touch-icon.png'));
-    $hero   = esc_url(get_theme_file_uri('assets/shop-front.webp'));
-    $share  = esc_url(get_theme_file_uri('assets/og-share.jpg'));
-    $url    = esc_url(home_url('/'));
-    $title  = 'Cornwall Dry Cleaners – Ealing';
-    $desc   = cornwall_site_description();
+    $icon     = esc_url(get_theme_file_uri('assets/favicon.svg'));
+    $png      = esc_url(get_theme_file_uri('assets/favicon.png'));
+    $touch    = esc_url(get_theme_file_uri('assets/apple-touch-icon.png'));
+    $hero     = esc_url(get_theme_file_uri('assets/shop-front.webp'));
+    $hero_640 = esc_url(get_theme_file_uri('assets/shop-front-640.webp'));
+    $hero_960 = esc_url(get_theme_file_uri('assets/shop-front-960.webp'));
+    $share    = esc_url(get_theme_file_uri('assets/og-share.jpg'));
+    $url      = esc_url(home_url('/'));
+    $title    = 'Cornwall Dry Cleaners – Ealing';
+    $desc     = cornwall_site_description();
 
     echo '<link rel="icon" href="' . $icon . '" type="image/svg+xml" />' . "\n";
     echo '<link rel="icon" href="' . $png . '" sizes="32x32" type="image/png" />' . "\n";
     echo '<link rel="apple-touch-icon" href="' . $touch . '" />' . "\n";
     echo '<meta name="theme-color" content="#003868" />' . "\n";
-    echo '<link rel="preload" as="image" href="' . $hero . '" type="image/webp" fetchpriority="high" />' . "\n";
 
     if (is_front_page()) {
+        echo '<link rel="preload" as="image" href="' . $hero . '" imagesrcset="' . $hero_640 . ' 640w, ' . $hero_960 . ' 960w, ' . $hero . ' 1600w" imagesizes="(max-width: 720px) calc(100vw - 32px), (max-width: 1180px) calc(100vw - 48px), 1120px" type="image/webp" fetchpriority="high" />' . "\n";
         echo '<meta name="description" content="' . esc_attr($desc) . '" />' . "\n";
         echo '<meta property="og:type" content="website" />' . "\n";
         echo '<meta property="og:locale" content="en_GB" />' . "\n";
@@ -205,9 +223,31 @@ function cornwall_head_meta()
         echo '<meta name="twitter:description" content="' . esc_attr($desc) . '" />' . "\n";
         echo '<meta name="twitter:image" content="' . $share . '" />' . "\n";
     } elseif (is_page('privacy')) {
-        echo '<meta name="description" content="' . esc_attr('How Cornwall Dry Cleaners on Haven Lane, Ealing uses the information you give us in the shop, by phone or on this website.') . '" />' . "\n";
+        $p_desc = 'How Cornwall Dry Cleaners on Haven Lane, Ealing uses the information you give us in the shop, by phone or on this website.';
+        echo '<meta name="description" content="' . esc_attr($p_desc) . '" />' . "\n";
+        echo '<meta property="og:type" content="website" />' . "\n";
+        echo '<meta property="og:locale" content="en_GB" />' . "\n";
+        echo '<meta property="og:site_name" content="Cornwall Dry Cleaners" />' . "\n";
+        echo '<meta property="og:title" content="Privacy – Cornwall Dry Cleaners" />' . "\n";
+        echo '<meta property="og:description" content="' . esc_attr($p_desc) . '" />' . "\n";
+        echo '<meta property="og:url" content="' . esc_url(home_url('/privacy/')) . '" />' . "\n";
+        echo '<meta property="og:image" content="' . $share . '" />' . "\n";
+        echo '<meta property="og:image:width" content="1200" />' . "\n";
+        echo '<meta property="og:image:height" content="630" />' . "\n";
+        echo '<meta property="og:image:alt" content="Cornwall Dry Cleaners on Haven Lane, Ealing" />' . "\n";
     } elseif (is_page('terms')) {
-        echo '<meta name="description" content="' . esc_attr('Simple terms for using the Cornwall Dry Cleaners website and dropping garments in at 23 Haven Lane, Ealing.') . '" />' . "\n";
+        $t_desc = 'Simple terms for using the Cornwall Dry Cleaners website and dropping garments in at 23 Haven Lane, Ealing.';
+        echo '<meta name="description" content="' . esc_attr($t_desc) . '" />' . "\n";
+        echo '<meta property="og:type" content="website" />' . "\n";
+        echo '<meta property="og:locale" content="en_GB" />' . "\n";
+        echo '<meta property="og:site_name" content="Cornwall Dry Cleaners" />' . "\n";
+        echo '<meta property="og:title" content="Terms – Cornwall Dry Cleaners" />' . "\n";
+        echo '<meta property="og:description" content="' . esc_attr($t_desc) . '" />' . "\n";
+        echo '<meta property="og:url" content="' . esc_url(home_url('/terms/')) . '" />' . "\n";
+        echo '<meta property="og:image" content="' . $share . '" />' . "\n";
+        echo '<meta property="og:image:width" content="1200" />' . "\n";
+        echo '<meta property="og:image:height" content="630" />' . "\n";
+        echo '<meta property="og:image:alt" content="Cornwall Dry Cleaners on Haven Lane, Ealing" />' . "\n";
     }
 }
 add_action('wp_head', 'cornwall_head_meta', 1);
@@ -443,6 +483,7 @@ function cornwall_write_root_files()
     file_put_contents(ABSPATH . 'llms.txt', cornwall_llms_txt());
     file_put_contents(ABSPATH . 'indexnow.txt', cornwall_indexnow_key());
     file_put_contents(ABSPATH . cornwall_indexnow_key() . '.txt', cornwall_indexnow_key());
+    file_put_contents(ABSPATH . cornwall_soe_indexnow_key() . '.txt', cornwall_soe_indexnow_key());
     cornwall_write_review_fallbacks();
 }
 
@@ -466,6 +507,13 @@ function cornwall_redirect_leftover_urls()
         header('Content-Type: text/plain; charset=utf-8');
         header('Cache-Control: public, max-age=86400');
         echo cornwall_indexnow_key();
+        exit;
+    }
+
+    if ($path === '/' . cornwall_soe_indexnow_key() . '.txt') {
+        header('Content-Type: text/plain; charset=utf-8');
+        header('Cache-Control: public, max-age=86400');
+        echo cornwall_soe_indexnow_key();
         exit;
     }
 

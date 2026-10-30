@@ -6,10 +6,14 @@
  * Block Types: core/post-content
  * Description: Blue Awning homepage — hero, services, visit steps, shop story, reviews and hours.
  */
-$shop        = esc_url(get_theme_file_uri('assets/shop-front.jpg'));
-$shop_webp   = esc_url(get_theme_file_uri('assets/shop-front.webp'));
-$fascia      = esc_url(get_theme_file_uri('assets/fascia.jpg'));
-$fascia_webp = esc_url(get_theme_file_uri('assets/fascia.webp'));
+$shop            = esc_url(get_theme_file_uri('assets/shop-front.jpg'));
+$shop_webp       = esc_url(get_theme_file_uri('assets/shop-front.webp'));
+$shop_webp_640   = esc_url(get_theme_file_uri('assets/shop-front-640.webp'));
+$shop_webp_960   = esc_url(get_theme_file_uri('assets/shop-front-960.webp'));
+$fascia          = esc_url(get_theme_file_uri('assets/fascia.jpg'));
+$fascia_webp     = esc_url(get_theme_file_uri('assets/fascia.webp'));
+$fascia_webp_640 = esc_url(get_theme_file_uri('assets/fascia-640.webp'));
+$fascia_webp_960 = esc_url(get_theme_file_uri('assets/fascia-960.webp'));
 ?>
 <!-- wp:group {"tagName":"main","className":"cornwall-main"} -->
 <main class="wp-block-group cornwall-main">
@@ -55,7 +59,7 @@ $fascia_webp = esc_url(get_theme_file_uri('assets/fascia.webp'));
   <figure class="b-photo">
     <div class="b-photo-frame">
       <picture>
-        <source srcset="<?php echo $shop_webp; ?>" type="image/webp" />
+        <source srcset="<?php echo $shop_webp_640; ?> 640w, <?php echo $shop_webp_960; ?> 960w, <?php echo $shop_webp; ?> 1600w" sizes="(max-width: 720px) calc(100vw - 32px), (max-width: 1180px) calc(100vw - 48px), 1120px" type="image/webp" />
         <img src="<?php echo $shop; ?>" width="1600" height="1066" alt="White fascia and navy awning at Cornwall Dry Cleaners" fetchpriority="high" decoding="async" />
       </picture>
       <aside class="b-rating" aria-label="Google rating">
@@ -236,8 +240,8 @@ $fascia_webp = esc_url(get_theme_file_uri('assets/fascia.webp'));
     <!-- wp:html -->
     <figure class="wp-block-image size-full story-photo">
       <picture>
-        <source srcset="<?php echo $fascia_webp; ?>" type="image/webp" />
-        <img src="<?php echo $fascia; ?>" width="1600" height="930" alt="Cornwall script lettering and navy awning on the Haven Lane fascia" decoding="async" />
+        <source srcset="<?php echo $fascia_webp_640; ?> 640w, <?php echo $fascia_webp_960; ?> 960w, <?php echo $fascia_webp; ?> 1600w" sizes="(max-width: 900px) calc(100vw - 32px), 560px" type="image/webp" />
+        <img src="<?php echo $fascia; ?>" width="1600" height="930" alt="Cornwall script lettering and navy awning on the Haven Lane fascia" loading="lazy" decoding="async" />
       </picture>
     </figure>
     <!-- /wp:html -->
