@@ -370,3 +370,15 @@ button.btn {
     height: 100%;
   }
 }
+
+.holiday-notice {
+  margin: 0.75rem 0 0.35rem;
+  padding: 0.5rem 0.75rem;
+  border-radius: 0.45rem;
+  background: var(--mist, #e8eef4);
+  border-left: 3px solid var(--navy, #003868);
+  color: var(--ink, #122033);
+  font-size: 0.88rem;
+  font-weight: 500;
+}
+

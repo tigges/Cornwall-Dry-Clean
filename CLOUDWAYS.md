@@ -10,9 +10,9 @@ Matches a Deployment Path of `public_html/`.
 
 **Do not merge this branch into `main`.**
 
-Theme **1.5.7** is the current Cloudways pull: flattened horizontal footer, Privacy/Terms, two-line Visit address, SEO + mobile LCP pack (`srcset` WebP + async Google Fonts), the mobile header phone in the hamburger, and the `/review` short links with a 3-layer fallback safety net.
+Theme **1.5.8** is the current Cloudways pull: flattened horizontal footer, Privacy/Terms, two-line Visit address, SEO + mobile LCP pack (`srcset` WebP + self-hosted `.woff2` fonts), the mobile header phone in the hamburger, `/review` short links (`/review`, `/review/qr`, `/review/nfc`, `/review/receipt`, `/review/web`, `/qr`, `/nfc`) with a 3-layer fallback safety net, bank-holiday-aware live hours, and Settings → General controls for Google rating/count and holiday hours.
 
-**Review links (1.5.7):** `/review`, `/review/qr`, `/review/nfc`, `/review/receipt` (plus `/qr` and `/nfc` shorthand) 302 to the Google review form (any case, with or without a trailing slash). Change the destination and see scan counts per source under **Settings → General → Review link / Review scans**. On version refresh, the theme also writes `wp-content/mu-plugins/cornwall-review-fallback.php`, `wp-content/db-error.php` and an `.htaccess` `ErrorDocument` block so `/review*`, `/qr` and `/nfc` still redirect to the Google review form even if a plugin or theme crashes or the database is unavailable. In Cloudways, add `https://cornwalldrycleaners.com/review` and `https://cornwalldrycleaners.com/review/(.*)` to Breeze → *Never Cache URL(s)*, and purge Varnish once after pulling.
+**Review links & shop settings (1.5.8):** `/review`, `/review/qr`, `/review/nfc`, `/review/receipt`, `/review/web` (plus `/qr` and `/nfc` shorthand) 302 to the Google review form (any case, with or without a trailing slash). Change the destination, see scan counts per source, update the Google rating/review count, or post a holiday hours notice under **Settings → General**. On version refresh, the theme also writes `wp-content/mu-plugins/cornwall-review-fallback.php`, `wp-content/db-error.php` and an `.htaccess` `ErrorDocument` block so `/review*`, `/qr` and `/nfc` still redirect to the Google review form even if a plugin or theme crashes or the database is unavailable. In Cloudways, add `https://cornwalldrycleaners.com/review` and `https://cornwalldrycleaners.com/review/(.*)` to Breeze → *Never Cache URL(s)*, and purge Varnish once after pulling.
 
 To go live, switch Git to **cursor/legal-pages-fed1** (this branch already contains the SEO commits).
 
@@ -21,9 +21,9 @@ To go live, switch Git to **cursor/legal-pages-fed1** (this branch already conta
 3. Leave Deployment Path as `public_html/`.
 4. Click **Pull**.
 5. Purge cache: WordPress → **Breeze → Purge All Cache**.
-6. Hard-refresh `https://cornwalldrycleaners.com/`. Confirm `style.css` says `Version: 1.5.7`.
+6. Hard-refresh `https://cornwalldrycleaners.com/`. Confirm `style.css` says `Version: 1.5.8`.
 7. Open the footer links: `/privacy/` and `/terms/`. Those pages are created on the version refresh.
 
-A git pull does not run “switch theme”. Version `1.5.7` rewrites Home, writes the legal pages, resets stored header/footer copies, and asks Breeze to clear — but Breeze HTML cache still needs a **purge after Pull**.
+A git pull does not run “switch theme”. Version `1.5.8` rewrites Home, writes the legal pages, resets stored header/footer copies, and asks Breeze to clear — but Breeze HTML cache still needs a **purge after Pull**.
 
 This branch only contains `wp-content/themes/cornwall-dry-cleaners`.

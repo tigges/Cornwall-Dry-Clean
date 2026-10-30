@@ -14,6 +14,11 @@ $fascia          = esc_url(get_theme_file_uri('assets/fascia.jpg'));
 $fascia_webp     = esc_url(get_theme_file_uri('assets/fascia.webp'));
 $fascia_webp_640 = esc_url(get_theme_file_uri('assets/fascia-640.webp'));
 $fascia_webp_960 = esc_url(get_theme_file_uri('assets/fascia-960.webp'));
+$rating_value    = function_exists('cornwall_rating_value') ? esc_html(cornwall_rating_value()) : '4.9';
+$review_count    = function_exists('cornwall_review_count_total') ? esc_html(cornwall_review_count_total()) : '45';
+$review_url      = function_exists('cornwall_review_url') ? esc_url(cornwall_review_url()) : 'https://search.google.com/local/writereview?placeid=ChIJ81BJSewTdkgR1Ru6ekdBmKw';
+$holiday_notice  = function_exists('cornwall_holiday_notice') ? cornwall_holiday_notice() : '';
+$holiday_closed  = function_exists('cornwall_holiday_closed_today') && cornwall_holiday_closed_today() ? '1' : '';
 ?>
 <!-- wp:group {"tagName":"main","className":"cornwall-main"} -->
 <main class="wp-block-group cornwall-main">
@@ -45,7 +50,7 @@ $fascia_webp_960 = esc_url(get_theme_file_uri('assets/fascia-960.webp'));
     <p class="btn-row hero-actions">
       <a class="btn btn-white" href="tel:+442089919413">Call 020 8991 9413</a>
       <a class="btn btn-line" href="#visit">Hours</a>
-      <a class="hours-chip" href="#visit" data-open-status>Checking today’s hours…</a>
+      <a class="hours-chip" href="#visit" data-open-status<?php echo $holiday_notice !== '' ? ' data-holiday-notice="' . esc_attr($holiday_notice) . '"' : ''; ?><?php echo $holiday_closed !== '' ? ' data-holiday-closed="1"' : ''; ?>>Checking today’s hours…</a>
     </p>
     <!-- /wp:html -->
   </div>
@@ -64,9 +69,9 @@ $fascia_webp_960 = esc_url(get_theme_file_uri('assets/fascia-960.webp'));
       </picture>
       <aside class="b-rating" aria-label="Google rating">
         <p class="b-rating-kicker">Google reviews</p>
-        <p class="b-rating-score">4.9</p>
-        <p class="stars" aria-label="4.9 out of 5 stars">★★★★★</p>
-        <p>45 Google reviews</p>
+        <p class="b-rating-score"><?php echo $rating_value; ?></p>
+        <p class="stars" aria-label="<?php echo $rating_value; ?> out of 5 stars">★★★★★</p>
+        <p><?php echo $review_count; ?> Google reviews</p>
         <a href="https://maps.app.goo.gl/cw7sznF2TJq2SkL69" target="_blank" rel="noreferrer">Google reviews</a>
       </aside>
     </div>
@@ -271,7 +276,7 @@ $fascia_webp_960 = esc_url(get_theme_file_uri('assets/fascia-960.webp'));
     <p class="eyebrow">From the Google listing</p>
     <!-- /wp:paragraph -->
     <!-- wp:heading -->
-    <h2 class="wp-block-heading">4.9 from people who use the shop.</h2>
+    <h2 class="wp-block-heading"><?php echo $rating_value; ?> from people who use the shop.</h2>
     <!-- /wp:heading -->
     <!-- wp:paragraph {"className":"muted"} -->
     <p class="muted">Stain removal, next-day work and repairs.</p>
@@ -356,7 +361,7 @@ $fascia_webp_960 = esc_url(get_theme_file_uri('assets/fascia-960.webp'));
       <div class="wp-block-button btn-navy"><a class="wp-block-button__link has-white-color has-navy-background-color has-text-color has-background wp-element-button" href="https://maps.app.goo.gl/cw7sznF2TJq2SkL69" target="_blank" rel="noreferrer">All reviews</a></div>
       <!-- /wp:button -->
       <!-- wp:button {"className":"btn-line"} -->
-      <div class="wp-block-button btn-line"><a class="wp-block-button__link wp-element-button" href="https://maps.app.goo.gl/cw7sznF2TJq2SkL69" target="_blank" rel="noreferrer">Write a review</a></div>
+      <div class="wp-block-button btn-line"><a class="wp-block-button__link wp-element-button" href="<?php echo $review_url; ?>" data-review-link="/review/web" target="_blank" rel="noreferrer">Write a review</a></div>
       <!-- /wp:button -->
     </div>
     <!-- /wp:buttons -->
@@ -401,6 +406,9 @@ $fascia_webp_960 = esc_url(get_theme_file_uri('assets/fascia-960.webp'));
             <tr data-day="0"><th>Sunday</th><td>Closed</td></tr>
           </tbody>
         </table>
+        <?php if ($holiday_notice !== '') : ?>
+        <p class="holiday-notice" data-holiday-banner><?php echo esc_html($holiday_notice); ?></p>
+        <?php endif; ?>
         <p class="muted">Closed on bank holidays — call the day before if you are unsure.</p>
       </div>
       <nav class="visit-faq" id="faq" aria-label="Frequently asked questions">

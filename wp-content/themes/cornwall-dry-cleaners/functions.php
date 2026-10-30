@@ -9,6 +9,7 @@ if (! defined('ABSPATH')) {
 
 function cornwall_theme_setup()
 {
+    add_editor_style('assets/fonts.css');
     add_editor_style('assets/mockups.css');
     add_editor_style('assets/wp.css');
     add_editor_style('assets/ux.css');
@@ -113,9 +114,9 @@ function cornwall_enqueue_assets()
 {
     wp_enqueue_style(
         'cornwall-fonts',
-        'https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Great+Vibes&display=swap',
+        get_theme_file_uri('assets/fonts.css'),
         array(),
-        null
+        wp_get_theme()->get('Version')
     );
     wp_enqueue_style(
         'cornwall-mockups',
@@ -156,20 +157,31 @@ function cornwall_async_font_stylesheet($html, $handle, $href)
 }
 add_filter('style_loader_tag', 'cornwall_async_font_stylesheet', 10, 3);
 
-function cornwall_editor_assets()
-{
-    wp_enqueue_style(
-        'cornwall-fonts',
-        'https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Great+Vibes&display=swap',
-        array(),
-        null
-    );
-}
-add_action('enqueue_block_editor_assets', 'cornwall_editor_assets');
-
 function cornwall_site_description()
 {
     return 'Independent dry cleaners on Haven Lane, Ealing. Suits, coats, laundry and repairs — often next day if dropped in by 10am. Call 020 8991 9413.';
+}
+
+function cornwall_rating_value()
+{
+    $val = trim((string) get_option('cornwall_rating_value', '4.9'));
+    return preg_match('/^[1-5](\.[0-9])?$/', $val) ? $val : '4.9';
+}
+
+function cornwall_review_count_total()
+{
+    $val = (int) get_option('cornwall_review_count_total', 45);
+    return $val > 0 ? (string) $val : '45';
+}
+
+function cornwall_holiday_notice()
+{
+    return trim((string) get_option('cornwall_holiday_notice', ''));
+}
+
+function cornwall_holiday_closed_today()
+{
+    return (bool) get_option('cornwall_holiday_closed_today', false);
 }
 
 function cornwall_indexnow_key()
@@ -303,8 +315,8 @@ function cornwall_json_ld()
         ),
         'aggregateRating' => array(
             '@type'       => 'AggregateRating',
-            'ratingValue' => '4.9',
-            'reviewCount' => '45',
+            'ratingValue' => cornwall_rating_value(),
+            'reviewCount' => cornwall_review_count_total(),
             'bestRating'  => '5',
         ),
     );
@@ -384,18 +396,8 @@ function cornwall_language_attributes($output)
 }
 add_filter('language_attributes', 'cornwall_language_attributes');
 
-function cornwall_font_resource_hints($urls, $relation_type)
-{
-    if ($relation_type === 'preconnect') {
-        $urls[] = 'https://fonts.googleapis.com';
-        $urls[] = array(
-            'href'        => 'https://fonts.gstatic.com',
-            'crossorigin' => 'anonymous',
-        );
-    }
-    return $urls;
-}
-add_filter('wp_resource_hints', 'cornwall_font_resource_hints', 10, 2);
+add_filter('wp_sitemaps_stylesheet_url', '__return_false');
+add_filter('wp_sitemaps_stylesheet_index_url', '__return_false');
 
 function cornwall_robots($robots)
 {
@@ -526,19 +528,24 @@ add_action('template_redirect', 'cornwall_redirect_leftover_urls', 1);
 
 function cornwall_llms_txt()
 {
-    return implode("\n", array(
+    $lines = array(
         '# Cornwall Dry Cleaners',
         '',
         '> Independent dry cleaners at 23 Haven Lane, Ealing, London W5 2HZ.',
         '',
         'Phone: +44 20 8991 9413',
         'Hours: Monday–Friday 8am–6pm, Saturday 9am–5pm, Sunday closed. Closed on bank holidays.',
-        'Services: dry cleaning, stain removal, laundry, repairs and alterations, formal and luxury pieces. Often next day if dropped in by 10am.',
-        'Reviews: 4.9 out of 5 from 45 Google reviews.',
-        'Website: https://cornwalldrycleaners.com/',
-        'Maps: https://maps.app.goo.gl/cw7sznF2TJq2SkL69',
-        '',
-    ));
+    );
+    $holiday = cornwall_holiday_notice();
+    if ($holiday !== '') {
+        $lines[] = 'Special hours notice: ' . $holiday;
+    }
+    $lines[] = 'Services: dry cleaning, stain removal, laundry, repairs and alterations, formal and luxury pieces. Often next day if dropped in by 10am.';
+    $lines[] = 'Reviews: ' . cornwall_rating_value() . ' out of 5 from ' . cornwall_review_count_total() . ' Google reviews.';
+    $lines[] = 'Website: https://cornwalldrycleaners.com/';
+    $lines[] = 'Maps: https://maps.app.goo.gl/cw7sznF2TJq2SkL69';
+    $lines[] = '';
+    return implode("\n", $lines);
 }
 
 /**
@@ -567,6 +574,7 @@ function cornwall_review_sources()
         'qr'      => 'QR code at the till',
         'nfc'     => 'NFC card at the till',
         'receipt' => 'QR code on receipt',
+        'web'     => 'Website “Write a review” button',
         'typed'   => 'Typed in (receipt text, word of mouth)',
     );
 }
@@ -683,7 +691,7 @@ function cornwall_write_review_fallbacks($override_url = null)
 /**
  * Plugin Name: Cornwall Review Link Fallback
  * Description: Keeps /review, /review/qr, /review/nfc, /review/receipt, /qr and /nfc redirecting to the Google review form even if the theme is rolled back or a plugin triggers a fatal error.
- * Version: 1.5.6
+ * Version: 1.5.8
  */
 
 if (! defined('ABSPATH')) {
@@ -712,6 +720,9 @@ function cornwall_review_fallback_source()
     }
     if (\$path === 'review/receipt') {
         return 'receipt';
+    }
+    if (\$path === 'review/web') {
+        return 'web';
     }
     if (strpos(\$path, 'review/') === 0) {
         return 'typed';
@@ -868,10 +879,84 @@ function cornwall_review_settings()
         'sanitize_callback' => 'cornwall_review_sanitize_url',
         'default'           => '',
     ));
+    register_setting('general', 'cornwall_rating_value', array(
+        'type'              => 'string',
+        'sanitize_callback' => 'cornwall_sanitize_rating_value',
+        'default'           => '4.9',
+    ));
+    register_setting('general', 'cornwall_review_count_total', array(
+        'type'              => 'integer',
+        'sanitize_callback' => 'cornwall_sanitize_review_count_total',
+        'default'           => 45,
+    ));
+    register_setting('general', 'cornwall_holiday_notice', array(
+        'type'              => 'string',
+        'sanitize_callback' => 'sanitize_text_field',
+        'default'           => '',
+    ));
+    register_setting('general', 'cornwall_holiday_closed_today', array(
+        'type'              => 'boolean',
+        'sanitize_callback' => 'rest_sanitize_boolean',
+        'default'           => false,
+    ));
     add_settings_field('cornwall_review_url', 'Review link', 'cornwall_review_url_field', 'general', 'default', array('label_for' => 'cornwall_review_url'));
     add_settings_field('cornwall_review_hits', 'Review scans', 'cornwall_review_hits_field', 'general');
+    add_settings_field('cornwall_rating_summary', 'Google rating & count', 'cornwall_rating_summary_field', 'general');
+    add_settings_field('cornwall_holiday_notice', 'Holiday / special hours', 'cornwall_holiday_notice_field', 'general', 'default', array('label_for' => 'cornwall_holiday_notice'));
 }
 add_action('admin_init', 'cornwall_review_settings');
+
+function cornwall_sanitize_rating_value($value)
+{
+    $value = trim((string) $value);
+    if ($value === '') {
+        return '4.9';
+    }
+    if (! preg_match('/^[1-5](\.[0-9])?$/', $value)) {
+        add_settings_error('cornwall_rating_value', 'cornwall_rating_value', 'Google rating must be a number between 1.0 and 5.0 (for example 4.9).');
+        return cornwall_rating_value();
+    }
+    return $value;
+}
+
+function cornwall_sanitize_review_count_total($value)
+{
+    $n = (int) $value;
+    return $n > 0 ? $n : 45;
+}
+
+function cornwall_rating_summary_field()
+{
+    printf(
+        '<label for="cornwall_rating_value">Rating </label><input name="cornwall_rating_value" id="cornwall_rating_value" type="text" class="small-text" value="%s" /> &nbsp; <label for="cornwall_review_count_total">Reviews </label><input name="cornwall_review_count_total" id="cornwall_review_count_total" type="number" min="1" step="1" class="small-text" value="%s" />',
+        esc_attr(cornwall_rating_value()),
+        esc_attr(cornwall_review_count_total())
+    );
+    echo '<p class="description">Shown on the homepage hero card, the Reviews heading, Google structured data, and <code>/llms.txt</code>.</p>';
+}
+
+function cornwall_holiday_notice_field()
+{
+    printf(
+        '<input name="cornwall_holiday_notice" id="cornwall_holiday_notice" type="text" class="regular-text" value="%s" placeholder="e.g. Closed 25–28 Dec for Christmas — back Tuesday 29 Dec at 8am" />',
+        esc_attr(cornwall_holiday_notice())
+    );
+    printf(
+        '<p><label><input name="cornwall_holiday_closed_today" type="checkbox" value="1" %s /> Mark shop as closed today in the top status pill</label></p>',
+        checked(cornwall_holiday_closed_today(), true, false)
+    );
+    echo '<p class="description">Leave blank during normal weeks. Bank holidays in England and Wales are already handled automatically.</p>';
+}
+
+function cornwall_refresh_after_shop_setting_change()
+{
+    cornwall_write_root_files();
+    cornwall_purge_page_cache();
+}
+foreach (array('cornwall_rating_value', 'cornwall_review_count_total', 'cornwall_holiday_notice', 'cornwall_holiday_closed_today') as $cornwall_opt) {
+    add_action('update_option_' . $cornwall_opt, 'cornwall_refresh_after_shop_setting_change');
+    add_action('add_option_' . $cornwall_opt, 'cornwall_refresh_after_shop_setting_change');
+}
 
 function cornwall_review_sanitize_url($value)
 {
