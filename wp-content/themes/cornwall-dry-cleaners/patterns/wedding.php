@@ -115,7 +115,7 @@ $tbc = function ($note) {
       <span class="visit-street"><?php echo esc_html(cornwall_biz('street')); ?></span>
       <span class="visit-locality"><?php echo esc_html(cornwall_biz('locality') . ', ' . cornwall_biz('postcode')); ?></span>
     </h2>
-    <p class="muted"><?php echo esc_html(cornwall_hours_summary(true)); ?>. Closed Sundays and bank holidays.</p>
+    <p class="muted"><?php echo esc_html(cornwall_hours_summary(true)); ?>. <?php echo esc_html(cornwall_closed_days_sentence()); ?></p>
     <p class="btn-row">
       <a class="btn btn-navy" href="<?php echo $tel; ?>">Call</a>
       <a class="btn btn-line" href="<?php echo $directions; ?>" target="_blank" rel="noreferrer">Directions</a>

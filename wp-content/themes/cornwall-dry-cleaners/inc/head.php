@@ -262,14 +262,18 @@ function cornwall_opening_hours_spec()
     return $spec;
 }
 
-/** Bank holidays in the next year plus any closure dates, as closed days. */
+/**
+ * Bank holidays in the next year as closed days, plus each special day from
+ * Shop details (closed, or its own hours). A special day replaces a bank holiday.
+ */
 function cornwall_special_hours_spec()
 {
-    $today = wp_date('Y-m-d');
-    $until = wp_date('Y-m-d', strtotime('+1 year'));
-    $spec = array();
+    $today   = wp_date('Y-m-d');
+    $until   = wp_date('Y-m-d', strtotime('+1 year'));
+    $special = cornwall_special_dates();
+    $spec    = array();
     foreach (cornwall_bank_holidays() as $date) {
-        if (strcmp($date, $today) >= 0 && strcmp($date, $until) <= 0) {
+        if (strcmp($date, $today) >= 0 && strcmp($date, $until) <= 0 && ! isset($special[$date])) {
             $spec[] = array(
                 '@type'        => 'OpeningHoursSpecification',
                 'opens'        => '00:00',
@@ -279,16 +283,21 @@ function cornwall_special_hours_spec()
             );
         }
     }
-    $range = cornwall_closed_range();
-    if ($range !== null && strcmp($range['to'], $today) >= 0) {
+    foreach (cornwall_special_days() as $row) {
+        if (strcmp($row['from'], $until) > 0) {
+            continue;
+        }
         $spec[] = array(
             '@type'        => 'OpeningHoursSpecification',
-            'opens'        => '00:00',
-            'closes'       => '00:00',
-            'validFrom'    => $range['from'],
-            'validThrough' => $range['to'],
+            'opens'        => $row['closed'] ? '00:00' : $row['opens'],
+            'closes'       => $row['closed'] ? '00:00' : $row['closes'],
+            'validFrom'    => strcmp($row['from'], $today) < 0 ? $today : $row['from'],
+            'validThrough' => $row['to'],
         );
     }
+    usort($spec, function ($a, $b) {
+        return strcmp($a['validFrom'], $b['validFrom']);
+    });
     return $spec;
 }
 

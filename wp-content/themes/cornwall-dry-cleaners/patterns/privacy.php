@@ -8,7 +8,7 @@
 $email = esc_html(cornwall_biz('email'));
 ?>
 <!-- wp:paragraph {"className":"legal-date"} -->
-<p class="legal-date">Effective 31 October 2026</p>
+<p class="legal-date">Effective 1 November 2026</p>
 <!-- /wp:paragraph -->
 
 <!-- wp:paragraph -->
@@ -24,7 +24,11 @@ $email = esc_html(cornwall_biz('email'));
 <!-- /wp:paragraph -->
 
 <!-- wp:paragraph -->
-<p>The site may record ordinary technical data (browser and pages viewed) through hosting. Fonts and the map image are served from this website. The Directions, map and review links open Google, which has its own policy. We do not use tracking cookies, a cookie banner or analytics.</p>
+<p>The site may record ordinary technical data (browser and pages viewed) through hosting. Fonts and the map image are served from this website. The Directions, map and review links open Google, which has its own policy.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p><strong>Visitor statistics.</strong> We use <a href="https://plausible.io/data-policy" target="_blank" rel="noreferrer">Plausible Analytics</a> to see how the website is used: how many visits, which pages, where visitors came from (for example a Google search), the type of device and browser, the country, and taps on Call, Directions, the map and “Write a review”. Plausible does not use cookies, does not store IP addresses and does not build a profile of you. The figures are only kept as totals and are hosted in the EU. Because no cookies are used, there is no cookie banner. We do not use tracking cookies or advertising trackers.</p>
 <!-- /wp:paragraph -->
 
 <!-- wp:paragraph -->
