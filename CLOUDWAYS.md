@@ -10,7 +10,30 @@ Matches a Deployment Path of `public_html/`.
 
 **`main` is the live branch.** Cloudways pulls `main` into `public_html/`. Make changes on a short-lived branch, open a pull request into `main`, and merge only when it is ready to go live. Bump `Version` in `wp-content/themes/cornwall-dry-cleaners/style.css` on every theme change, or the homepage/settings refresh will not run on the next pull.
 
-Theme **1.5.10** is live (31 October 2026). It keeps everything signed off in 1.5.8 (flattened horizontal footer, Privacy/Terms, two-line Visit address, mobile header phone in the hamburger, `/review` short links with the 3-layer fallback, live hours, Settings → General controls) and adds:
+## Staging first
+
+Staging is a Cloudways clone of the live app at `https://wordpress-1344959-6761381.cloudwaysapps.com/` (password-protected and `noindex`). Both apps use Deployment via Git with the same remote and `public_html/`; only the branch differs.
+
+| App | Branch it pulls |
+| --- | --- |
+| Live (`cornwalldrycleaners.com`) | `main` — always |
+| Staging | the pull request's branch, while it is being checked |
+
+One-off setup on the staging app: Application → **Deployment via Git** → copy its SSH key → GitHub repo → Settings → **Deploy keys** → Add (read-only) → back in Cloudways, enter the remote, Authenticate, Deployment Path `public_html/`.
+
+For each change:
+
+1. The change is pushed to a branch (e.g. `cursor/…`) with a pull request into `main` and a bumped theme `Version`.
+2. **Staging:** Deployment via Git → **Fetch** → select that branch → **Pull** → purge Breeze/Varnish on staging. Check desktop and mobile.
+3. Happy: **merge the pull request** on GitHub.
+4. **Live:** Deployment via Git → **Fetch** → `main` → **Pull** → purge Breeze and Varnish.
+5. Optionally switch staging back to `main` and Pull, so it matches live.
+
+Do **not** use Cloudways "Push to Live" (staging → live). Code goes live through Git; pushing the staging database would overwrite live settings, review-scan counts and anything edited since the clone. To refresh staging with live content, use "Pull from Live" / re-clone instead.
+
+Staging-safe behaviour: the theme only sends the weekly scan email and the HSTS header when the site address is `cornwalldrycleaners.com`, so a staging or local copy never emails Gina duplicate numbers ("Send a test now" still works, to check SMTP). `/review` links on staging count into staging's own table, not live's.
+
+Theme **1.5.11** adds the staging guard. **1.5.10** went live on 31 October 2026. It keeps everything signed off in 1.5.8 (flattened horizontal footer, Privacy/Terms, two-line Visit address, mobile header phone in the hamburger, `/review` short links with the 3-layer fallback, live hours, Settings → General controls) and adds:
 
 - **Site title "Cornwall Dry Cleaners", tagline "Ealing".** The version refresh sets both, plus the London timezone and UK date format. Homepage title: `Cornwall Dry Cleaners – Ealing`; inner pages drop the tagline.
 - **Static map.** The Visit map is a self-hosted OpenStreetMap image (no Google iframe, no third-party requests) that opens Google Maps when tapped, with an `© OpenStreetMap contributors` credit. The pin sits on the Google Business Profile coordinates and is labelled with the Google name, "Cornwall Dry Cleaners".
