@@ -33,7 +33,7 @@ Do **not** use Cloudways "Push to Live" (staging → live). Code goes live throu
 
 Staging-safe behaviour: the theme only sends the weekly scan email and the HSTS header when the site address is `cornwalldrycleaners.com`, so a staging or local copy never emails Gina duplicate numbers ("Send a test now" still works, to check SMTP). `/review` links on staging count into staging's own table, not live's.
 
-Theme **1.5.11** adds the staging guard. **1.5.10** went live on 31 October 2026. It keeps everything signed off in 1.5.8 (flattened horizontal footer, Privacy/Terms, two-line Visit address, mobile header phone in the hamburger, `/review` short links with the 3-layer fallback, live hours, Settings → General controls) and adds:
+Theme **1.5.12** adds the staging guard and clears the 31 October 2026 review-scan counts (launch-day link tests) once on pull. **1.5.10** went live on 31 October 2026. It keeps everything signed off in 1.5.8 (flattened horizontal footer, Privacy/Terms, two-line Visit address, mobile header phone in the hamburger, `/review` short links with the 3-layer fallback, live hours, Settings → General controls) and adds:
 
 - **Site title "Cornwall Dry Cleaners", tagline "Ealing".** The version refresh sets both, plus the London timezone and UK date format. Homepage title: `Cornwall Dry Cleaners – Ealing`; inner pages drop the tagline.
 - **Static map.** The Visit map is a self-hosted OpenStreetMap image (no Google iframe, no third-party requests) that opens Google Maps when tapped, with an `© OpenStreetMap contributors` credit. The pin sits on the Google Business Profile coordinates and is labelled with the Google name, "Cornwall Dry Cleaners".

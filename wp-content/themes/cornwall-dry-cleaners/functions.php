@@ -98,6 +98,16 @@ function cornwall_migrate_options()
         }
         delete_option('cornwall_holiday_closed_today');
     }
+
+    // 31 Oct 2026 review scans were almost all launch-day link tests, not customers.
+    $hits = get_option('cornwall_review_hits');
+    if (is_array($hits) && isset($hits['days']['2026-10-31'])) {
+        unset($hits['days']['2026-10-31']);
+        if (isset($hits['last']['time']) && wp_date('Y-m-d', (int) $hits['last']['time']) === '2026-10-31') {
+            unset($hits['last']);
+        }
+        update_option('cornwall_review_hits', $hits, false);
+    }
 }
 
 function cornwall_reset_customized_templates()
