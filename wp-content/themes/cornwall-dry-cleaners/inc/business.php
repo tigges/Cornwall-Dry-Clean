@@ -22,14 +22,14 @@ function cornwall_business()
         'phone_intl'     => '+44 20 8991 9413',
         'street'         => '23 Haven Lane',
         'locality'       => 'Ealing',
-        'region'         => 'London',
+        'postal_town'    => 'London',
         'postcode'       => 'W5 2HZ',
         'country'        => 'GB',
-        'lat'            => 51.51661,
-        'lng'            => -0.300303,
+        'lat'            => 51.5166877,
+        'lng'            => -0.300401,
         'maps_url'       => 'https://maps.app.goo.gl/cw7sznF2TJq2SkL69',
         'place_id'       => 'ChIJ81BJSewTdkgR1Ru6ekdBmKw',
-        'directions_url' => 'https://www.google.com/maps/dir/?api=1&destination=23+Haven+Lane,+Ealing,+London+W5+2HZ',
+        'directions_url' => 'https://www.google.com/maps/dir/?api=1&destination=Cornwall+Dry+Cleaners&destination_place_id=ChIJ81BJSewTdkgR1Ru6ekdBmKw',
         // 0 = Sunday … 6 = Saturday. null = closed.
         'hours'          => array(
             1 => array('08:00', '18:00'),
@@ -52,7 +52,7 @@ function cornwall_biz($key)
 /** "23 Haven Lane, Ealing, London W5 2HZ" */
 function cornwall_address_line()
 {
-    return cornwall_biz('street') . ', ' . cornwall_biz('locality') . ', ' . cornwall_biz('region') . ' ' . cornwall_biz('postcode');
+    return cornwall_biz('street') . ', ' . cornwall_biz('locality') . ', ' . cornwall_biz('postal_town') . ' ' . cornwall_biz('postcode');
 }
 
 function cornwall_google_place_url()

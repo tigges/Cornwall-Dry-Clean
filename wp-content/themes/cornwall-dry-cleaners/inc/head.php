@@ -327,8 +327,7 @@ function cornwall_business_schema()
         'address'     => array(
             '@type'           => 'PostalAddress',
             'streetAddress'   => cornwall_biz('street'),
-            'addressLocality' => cornwall_biz('locality'),
-            'addressRegion'   => cornwall_biz('region'),
+            'addressLocality' => cornwall_biz('postal_town'),
             'postalCode'      => cornwall_biz('postcode'),
             'addressCountry'  => cornwall_biz('country'),
         ),

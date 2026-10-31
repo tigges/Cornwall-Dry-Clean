@@ -10,10 +10,11 @@ Matches a Deployment Path of `public_html/`.
 
 **Do not merge this branch into `main`.**
 
-Theme **1.5.9** is the current Cloudways pull. It keeps everything signed off in 1.5.8 (flattened horizontal footer, Privacy/Terms, two-line Visit address, mobile header phone in the hamburger, `/review` short links with the 3-layer fallback, live hours, Settings → General controls) and adds:
+Theme **1.5.10** is the current Cloudways pull. It keeps everything signed off in 1.5.8 (flattened horizontal footer, Privacy/Terms, two-line Visit address, mobile header phone in the hamburger, `/review` short links with the 3-layer fallback, live hours, Settings → General controls) and adds:
 
 - **Site title "Cornwall Dry Cleaners", tagline "Ealing".** The version refresh sets both, plus the London timezone and UK date format. Homepage title: `Cornwall Dry Cleaners – Ealing`; inner pages drop the tagline.
-- **Static map.** The Visit map is a self-hosted OpenStreetMap image (no Google iframe, no third-party requests) that opens Google Maps when tapped, with an `© OpenStreetMap contributors` credit.
+- **Static map.** The Visit map is a self-hosted OpenStreetMap image (no Google iframe, no third-party requests) that opens Google Maps when tapped, with an `© OpenStreetMap contributors` credit. The pin sits on the Google Business Profile coordinates and is labelled with the Google name, "Cornwall Dry Cleaners".
+- **Aligned with the Google listing.** Structured data uses Google's name, coordinates and address town (`23 Haven Lane, London W5 2HZ`); Directions buttons open the Google listing itself (place ID) rather than a street address.
 - **Review dates removed.** The three reviews are unchanged; each now just says "Google review".
 - **Weekly scan email.** Every Monday at 8am (London time) Gina gets the week's `/review` scan counts per source. Change the address or send a test under **Settings → General → Weekly scan email**. Leave the address blank to stop it.
 - **Bank holidays update themselves.** The theme fetches the GOV.UK England & Wales list weekly (built-in 2026–2028 list as a fallback). Live hours and Google structured data both use it.
@@ -38,10 +39,10 @@ To go live, switch Git to **cursor/legal-pages-fed1** (this branch already conta
 3. Leave Deployment Path as `public_html/`.
 4. Click **Pull**.
 5. Purge cache: WordPress → **Breeze → Purge All Cache**, and Cloudways → **Varnish → Purge**.
-6. Hard-refresh `https://cornwalldrycleaners.com/`. Confirm `style.css` says `Version: 1.5.9`.
+6. Hard-refresh `https://cornwalldrycleaners.com/`. Confirm `style.css` says `Version: 1.5.10`.
 7. Check `/privacy/`, `/terms/`, `/review` and a made-up URL such as `/nothing-here` (should show the new 404 page).
 
-A git pull does not run “switch theme”. Version `1.5.9` rewrites Home, writes the legal pages, creates the wedding draft (only if missing), resets stored header/footer copies, sets the site title/tagline, refreshes the review fallback files, and asks Breeze to clear — but Breeze/Varnish HTML cache still needs a **purge after Pull**.
+A git pull does not run “switch theme”. Version `1.5.10` rewrites Home, writes the legal pages, creates the wedding draft (only if missing), resets stored header/footer copies, sets the site title/tagline, refreshes the review fallback files, and asks Breeze to clear — but Breeze/Varnish HTML cache still needs a **purge after Pull**.
 
 The theme no longer prints a Site Icon from Settings → General; its own favicons are used instead.
 
