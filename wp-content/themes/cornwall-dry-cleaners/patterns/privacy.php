@@ -5,13 +5,14 @@
  * Categories: featured
  * Description: Short privacy policy for the Haven Lane shop and website.
  */
+$email = esc_html(cornwall_biz('email'));
 ?>
 <!-- wp:paragraph {"className":"legal-date"} -->
-<p class="legal-date">Effective 29 October 2026</p>
+<p class="legal-date">Effective 31 October 2026</p>
 <!-- /wp:paragraph -->
 
 <!-- wp:paragraph -->
-<p>This policy is for <strong>Cornwall Dry Cleaners Ltd</strong> (Gina Zhou) at 23 Haven Lane, Ealing, London W5 2HZ. It covers this website and a visit to the shop.</p>
+<p>This policy is for <strong><?php echo esc_html(cornwall_biz('legal_name')); ?></strong> (<?php echo esc_html(cornwall_biz('owner')); ?>) at <?php echo esc_html(cornwall_address_line()); ?>. It covers this website and a visit to the shop.</p>
 <!-- /wp:paragraph -->
 
 <!-- wp:heading {"level":2} -->
@@ -23,7 +24,11 @@
 <!-- /wp:paragraph -->
 
 <!-- wp:paragraph -->
-<p>The site may record ordinary technical data (browser and pages viewed) through hosting. Google Fonts and the homepage map are provided by Google, which may collect data under its own policy. We do not use a cookie banner or analytics.</p>
+<p>The site may record ordinary technical data (browser and pages viewed) through hosting. Fonts and the map image are served from this website. The Directions, map and review links open Google, which has its own policy. We do not use tracking cookies, a cookie banner or analytics.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p>Our short review links (such as /review) count how many times each link is opened, by day. They do not store IP addresses, cookies or anything else about you.</p>
 <!-- /wp:paragraph -->
 
 <!-- wp:paragraph -->
@@ -59,7 +64,7 @@
 <!-- /wp:heading -->
 
 <!-- wp:paragraph -->
-<p>We take reasonable care with tickets and email. No website is completely secure. Links and the map go to other sites with their own policies.</p>
+<p>We take reasonable care with tickets and email. No website is completely secure. Links to Google Maps and Google reviews go to other sites with their own policies.</p>
 <!-- /wp:paragraph -->
 
 <!-- wp:heading {"level":2} -->
@@ -75,5 +80,5 @@
 <!-- /wp:heading -->
 
 <!-- wp:paragraph -->
-<p>Cornwall Dry Cleaners Ltd, 23 Haven Lane, Ealing, London W5 2HZ<br>020 8991 9413 · <a href="mailto:gina@cornwalldrycleaners.com">gina@cornwalldrycleaners.com</a></p>
+<p><?php echo esc_html(cornwall_biz('legal_name') . ', ' . cornwall_address_line()); ?><br><?php echo esc_html(cornwall_biz('phone_display')); ?> · <a href="mailto:<?php echo $email; ?>"><?php echo $email; ?></a></p>
 <!-- /wp:paragraph -->

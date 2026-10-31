@@ -1,19 +1,11 @@
-const hours = {
-  0: null,
-  1: { open: 8, close: 18 },
-  2: { open: 8, close: 18 },
-  3: { open: 8, close: 18 },
-  4: { open: 8, close: 18 },
-  5: { open: 8, close: 18 },
-  6: { open: 9, close: 17 },
-};
-
-// England & Wales bank holidays (2026–2028).
-const bankHolidays = new Set([
-  "2026-01-01", "2026-04-03", "2026-04-06", "2026-05-04", "2026-05-25", "2026-08-31", "2026-12-25", "2026-12-28",
-  "2027-01-01", "2027-03-26", "2027-03-29", "2027-05-03", "2027-05-31", "2027-08-30", "2027-12-27", "2027-12-28",
-  "2028-01-03", "2028-04-14", "2028-04-17", "2028-05-01", "2028-05-29", "2028-08-28", "2028-12-25", "2028-12-26",
-]);
+// Hours, bank holidays (GOV.UK, England & Wales) and closure dates come from
+// functions.php as window.cornwallShop. Without it the chip keeps the static
+// weekly hours printed by the page.
+const shop = window.cornwallShop || null;
+const hours = shop ? shop.hours : {};
+const bankHolidays = new Set(shop ? shop.bankHolidays : []);
+const closed = shop && shop.closed ? shop.closed : null;
+const notice = shop && shop.notice ? String(shop.notice).trim() : "";
 
 const dayNames = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
 const weekdayIndex = { Sun: 0, Mon: 1, Tue: 2, Wed: 3, Thu: 4, Fri: 5, Sat: 6 };
@@ -39,46 +31,59 @@ function londonDateParts(date = new Date()) {
 
 function formatHour(hour) {
   const suffix = hour >= 12 ? "pm" : "am";
-  const twelve = hour % 12 || 12;
-  return `${twelve}${suffix}`;
+  const whole = Math.floor(hour);
+  const minutes = Math.round((hour - whole) * 60);
+  const twelve = whole % 12 || 12;
+  return minutes ? `${twelve}:${String(minutes).padStart(2, "0")}${suffix}` : `${twelve}${suffix}`;
+}
+
+function isClosedRange(ymd) {
+  return Boolean(closed && ymd >= closed.from && ymd <= closed.to);
+}
+
+function spanFor(info) {
+  if (bankHolidays.has(info.ymd) || isClosedRange(info.ymd)) return null;
+  return hours[info.day] || null;
 }
 
 function nextOpen(baseDate = new Date()) {
-  for (let offset = 1; offset <= 10; offset += 1) {
-    const candidate = new Date(baseDate.getTime() + offset * 86400000);
-    const info = londonDateParts(candidate);
-    if (hours[info.day] && !bankHolidays.has(info.ymd)) {
-      return `${dayNames[info.day]} ${formatHour(hours[info.day].open)}`;
-    }
+  for (let offset = 1; offset <= 60; offset += 1) {
+    const info = londonDateParts(new Date(baseDate.getTime() + offset * 86400000));
+    const span = spanFor(info);
+    if (span) return `${dayNames[info.day]} ${formatHour(span[0])}`;
   }
-  return "Monday 8am";
+  return "";
 }
 
 function updateOpenStatus() {
+  if (!shop) return;
   const nowDate = new Date();
   const now = londonDateParts(nowDate);
-  const isBankHoliday = bankHolidays.has(now.ymd);
-  const today = isBankHoliday ? null : hours[now.day];
-  let text = isBankHoliday
-    ? `Closed · Bank holiday (opens ${nextOpen(nowDate)})`
-    : `Closed · opens ${nextOpen(nowDate)}`;
+  const today = spanFor(now);
+  const opens = nextOpen(nowDate);
+  let text;
 
-  if (today && now.hour >= today.open && now.hour < today.close) {
-    text = `Open now · closes ${formatHour(today.close)}`;
-  } else if (today && now.hour < today.open) {
-    text = `Closed · opens today at ${formatHour(today.open)}`;
+  if (today && now.hour >= today[0] && now.hour < today[1]) {
+    text = `Open now · closes ${formatHour(today[1])}`;
+  } else if (today && now.hour < today[0]) {
+    text = `Closed · opens today at ${formatHour(today[0])}`;
+  } else if (isClosedRange(now.ymd)) {
+    if (!notice) text = `Closed today · opens ${opens}`;
+    else text = /^closed\b/i.test(notice) ? notice : `Closed · ${notice}`;
+  } else if (bankHolidays.has(now.ymd)) {
+    text = `Closed · Bank holiday (opens ${opens})`;
+  } else {
+    text = `Closed · opens ${opens}`;
   }
 
   document.querySelectorAll("[data-open-status]").forEach((node) => {
-    const holidayClosed = node.dataset.holidayClosed === "1";
-    const holidayNotice = (node.dataset.holidayNotice || "").trim();
-    let finalText = text;
-    if (holidayClosed) {
-      finalText = holidayNotice ? `Closed · ${holidayNotice}` : `Closed today · opens ${nextOpen(nowDate)}`;
-    }
-    node.textContent = finalText;
-    node.dataset.state = finalText.startsWith("Open") ? "open" : "closed";
+    node.textContent = text;
+    node.dataset.state = text.startsWith("Open") ? "open" : "closed";
   });
+
+  if (closed && now.ymd > closed.to) {
+    document.querySelectorAll("[data-holiday-banner]").forEach((node) => node.remove());
+  }
 }
 
 function highlightToday() {

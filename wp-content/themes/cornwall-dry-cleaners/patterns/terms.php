@@ -5,13 +5,14 @@
  * Categories: featured
  * Description: Short terms for the website and a visit to the shop.
  */
+$email = esc_html(cornwall_biz('email'));
 ?>
 <!-- wp:paragraph {"className":"legal-date"} -->
-<p class="legal-date">Effective 29 October 2026</p>
+<p class="legal-date">Effective 31 October 2026</p>
 <!-- /wp:paragraph -->
 
 <!-- wp:paragraph -->
-<p>These terms cover the website and a visit to <strong>Cornwall Dry Cleaners Ltd</strong> at 23 Haven Lane, Ealing, London W5 2HZ.</p>
+<p>These terms cover the website and a visit to <strong><?php echo esc_html(cornwall_biz('legal_name')); ?></strong> at <?php echo esc_html(cornwall_address_line()); ?>.</p>
 <!-- /wp:paragraph -->
 
 <!-- wp:heading {"level":2} -->
@@ -27,7 +28,7 @@
 <!-- /wp:heading -->
 
 <!-- wp:paragraph -->
-<p>Bring garments in to the counter. We inspect them first and will say if a stain or repair is uncertain. Payment is at the counter, card or cash. Hours are on the homepage. We are usually closed on Sundays and bank holidays.</p>
+<p>Bring garments in to the counter. We inspect them first and will say if a stain or repair is uncertain. Payment is at the counter, card or cash. Hours are on the homepage. We are closed on Sundays and bank holidays.</p>
 <!-- /wp:paragraph -->
 
 <!-- wp:heading {"level":2} -->
@@ -51,5 +52,5 @@
 <!-- /wp:heading -->
 
 <!-- wp:paragraph -->
-<p>020 8991 9413 · <a href="mailto:gina@cornwalldrycleaners.com">gina@cornwalldrycleaners.com</a><br>23 Haven Lane, Ealing, London W5 2HZ</p>
+<p><?php echo esc_html(cornwall_biz('phone_display')); ?> · <a href="mailto:<?php echo $email; ?>"><?php echo $email; ?></a><br><?php echo esc_html(cornwall_address_line()); ?></p>
 <!-- /wp:paragraph -->
