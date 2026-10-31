@@ -269,7 +269,13 @@ function cornwall_send_scan_email()
     $mail = cornwall_scan_email_content();
     return wp_mail($to, $mail['subject'], $mail['body'], array('Content-Type: text/plain; charset=UTF-8'));
 }
-add_action('cornwall_weekly_scan_email', 'cornwall_send_scan_email');
+
+/** Staging clones keep the schedule but never send, so Gina only gets the live numbers. */
+function cornwall_send_weekly_scan_email()
+{
+    return cornwall_is_live() ? cornwall_send_scan_email() : false;
+}
+add_action('cornwall_weekly_scan_email', 'cornwall_send_weekly_scan_email');
 
 /** Next Monday 08:00 Europe/London as a Unix timestamp. */
 function cornwall_next_monday_8am()
@@ -433,8 +439,10 @@ function cornwall_scan_email_field()
     );
     $next = wp_next_scheduled('cornwall_weekly_scan_email');
     $test = wp_nonce_url(admin_url('admin-post.php?action=cornwall_scan_email_test'), 'cornwall_scan_email_test');
+    $live = cornwall_is_live();
     echo '<p class="description">A short summary of the review scans, every Monday at 8am. Leave blank to stop.'
-        . ($next ? ' Next email: ' . esc_html(wp_date(get_option('date_format') . ' ' . get_option('time_format'), $next)) . '.' : '')
+        . ($live && $next ? ' Next email: ' . esc_html(wp_date(get_option('date_format') . ' ' . get_option('time_format'), $next)) . '.' : '')
+        . ($live ? '' : ' <strong>This copy (' . esc_html(wp_parse_url(home_url(), PHP_URL_HOST)) . ') is not the live site, so the weekly email is off here.</strong> A test still sends.')
         . ' <a href="' . esc_url($test) . '">Send a test now</a></p>';
 }
 
