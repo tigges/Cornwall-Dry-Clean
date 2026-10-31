@@ -7,7 +7,8 @@ License: GPLv2 or later
 
 Block theme for Cornwall Dry Cleaners on Haven Lane, Ealing. Activating it (or pulling a new Version) replaces the WordPress homepage with the Blue Awning block page.
 
-Business details (address, phone, hours, services, FAQ) live in inc/business.php.
+Name, address, phone, services and FAQ live in inc/business.php. Hours, special
+days, the notice, rating, review links and analytics: WordPress → Shop details.
 
 == Cloudways git pull ==
 
