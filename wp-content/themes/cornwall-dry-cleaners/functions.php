@@ -13,6 +13,7 @@ if (! function_exists('cornwall_review_source_for_path')) {
 require_once __DIR__ . '/inc/business.php';
 require_once __DIR__ . '/inc/head.php';
 require_once __DIR__ . '/inc/settings.php';
+require_once __DIR__ . '/inc/shop-details.php';
 
 function cornwall_theme_setup()
 {
@@ -89,15 +90,16 @@ function cornwall_maybe_refresh_homepage()
 }
 add_action('init', 'cornwall_maybe_refresh_homepage', 20);
 
-/** 1.5.8 "closed today" checkbox → closure dates (it never switched itself off). */
+/** 1.5.8 "closed today" checkbox and 1.5.9 closure dates → Shop details special days. */
 function cornwall_migrate_options()
 {
     if (get_option('cornwall_holiday_closed_today', null) !== null) {
-        if (get_option('cornwall_holiday_closed_today') && cornwall_closed_range() === null) {
+        if (get_option('cornwall_holiday_closed_today') && get_option('cornwall_closed_from', '') === '') {
             update_option('cornwall_closed_from', wp_date('Y-m-d'));
         }
         delete_option('cornwall_holiday_closed_today');
     }
+    cornwall_migrate_shop_details();
 
     // 31 Oct 2026 review scans were almost all launch-day link tests, not customers.
     $hits = get_option('cornwall_review_hits');
@@ -320,6 +322,14 @@ function cornwall_llms_txt()
         'Phone: ' . cornwall_biz('phone_intl'),
         'Hours: ' . cornwall_hours_summary() . '. Closed on bank holidays.',
     );
+    $upcoming = array();
+    foreach (array_slice(cornwall_special_days(), 0, 5) as $row) {
+        $label = cornwall_special_day_label($row) . ($row['name'] !== '' ? ' (' . $row['name'] . ')' : '');
+        $upcoming[] = $label . ': ' . ($row['closed'] ? 'closed' : cornwall_format_time($row['opens'], false) . '–' . cornwall_format_time($row['closes'], false));
+    }
+    if ($upcoming) {
+        $lines[] = 'Special days: ' . implode('; ', $upcoming) . '.';
+    }
     $holiday = cornwall_holiday_notice();
     if ($holiday !== '') {
         $lines[] = 'Special hours notice: ' . $holiday;

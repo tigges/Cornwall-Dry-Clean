@@ -1,7 +1,7 @@
 <?php
 /**
- * Short review links, scan counts, the weekly scan email and the shop
- * settings under Settings → General.
+ * Short review links, scan counts and the weekly scan email. Their fields are
+ * on the Shop details page (inc/shop-details.php).
  *
  * /review, /review/qr, /review/nfc, /review/receipt, /review/web (plus /qr and
  * /nfc) 302 to the Google review form — never cached, never indexed — so the
@@ -252,11 +252,11 @@ function cornwall_scan_email_content()
     }
     $lines[] = '';
     $lines[] = 'A scan is someone opening the review link. Google shows the reviews they actually leave.';
-    $lines[] = 'Rating shown on the website: ' . cornwall_rating_value() . ' from ' . cornwall_review_count_total() . ' Google reviews. Update it under Settings → General when Google changes.';
+    $lines[] = 'Rating shown on the website: ' . cornwall_rating_value() . ' from ' . cornwall_review_count_total() . ' Google reviews. Update it under Shop details when Google changes.';
     $lines[] = '';
-    $lines[] = admin_url('options-general.php#cornwall_review_url');
+    $lines[] = cornwall_shop_details_url();
     $lines[] = '';
-    $lines[] = 'Sent every Monday morning by the website. Change the address or leave it blank to stop these emails under Settings → General.';
+    $lines[] = 'Sent every Monday morning by the website. Change the address or leave it blank to stop these emails under Shop details.';
     return array('subject' => $subject, 'body' => implode("\n", $lines));
 }
 
@@ -310,7 +310,7 @@ function cornwall_scan_email_test()
     }
     check_admin_referer('cornwall_scan_email_test');
     $sent = cornwall_send_scan_email();
-    wp_safe_redirect(add_query_arg('cornwall_scan_test', $sent ? 'sent' : 'failed', admin_url('options-general.php')));
+    wp_safe_redirect(cornwall_shop_details_url(array('cornwall_scan_test' => $sent ? 'sent' : 'failed')));
     exit;
 }
 add_action('admin_post_cornwall_scan_email_test', 'cornwall_scan_email_test');
@@ -325,55 +325,13 @@ function cornwall_scan_email_notice()
         '<div class="notice notice-%s is-dismissible"><p>%s</p></div>',
         $sent ? 'success' : 'error',
         $sent
-            ? esc_html('Test scan email sent to ' . cornwall_scan_email_to() . '. If it does not arrive, check spam or set up SMTP (Cloudways → Application → SMTP).')
+            ? esc_html('Test scan email sent to ' . cornwall_scan_email_to() . '. If it does not arrive, check spam or set up SMTP (Cloudways → Servers → SMTP).')
             : esc_html('The test scan email could not be sent. Check the address, or set up SMTP for the site.')
     );
 }
 add_action('admin_notices', 'cornwall_scan_email_notice');
 
-/* ---- Settings → General ---- */
-
-function cornwall_review_settings()
-{
-    register_setting('general', 'cornwall_review_url', array(
-        'type'              => 'string',
-        'sanitize_callback' => 'cornwall_review_sanitize_url',
-        'default'           => '',
-    ));
-    register_setting('general', 'cornwall_scan_email', array(
-        'type'              => 'string',
-        'sanitize_callback' => 'cornwall_sanitize_scan_email',
-        'default'           => cornwall_biz('email'),
-    ));
-    register_setting('general', 'cornwall_rating_value', array(
-        'type'              => 'string',
-        'sanitize_callback' => 'cornwall_sanitize_rating_value',
-        'default'           => '4.9',
-    ));
-    register_setting('general', 'cornwall_review_count_total', array(
-        'type'              => 'integer',
-        'sanitize_callback' => 'cornwall_sanitize_review_count_total',
-        'default'           => 45,
-    ));
-    register_setting('general', 'cornwall_holiday_notice', array(
-        'type'              => 'string',
-        'sanitize_callback' => 'sanitize_text_field',
-        'default'           => '',
-    ));
-    foreach (array('cornwall_closed_from', 'cornwall_closed_to') as $opt) {
-        register_setting('general', $opt, array(
-            'type'              => 'string',
-            'sanitize_callback' => 'cornwall_valid_date',
-            'default'           => '',
-        ));
-    }
-    add_settings_field('cornwall_review_url', 'Review link', 'cornwall_review_url_field', 'general', 'default', array('label_for' => 'cornwall_review_url'));
-    add_settings_field('cornwall_review_hits', 'Review scans', 'cornwall_review_hits_field', 'general');
-    add_settings_field('cornwall_scan_email', 'Weekly scan email', 'cornwall_scan_email_field', 'general', 'default', array('label_for' => 'cornwall_scan_email'));
-    add_settings_field('cornwall_rating_summary', 'Google rating & count', 'cornwall_rating_summary_field', 'general');
-    add_settings_field('cornwall_holiday_notice', 'Holiday / special hours', 'cornwall_holiday_notice_field', 'general', 'default', array('label_for' => 'cornwall_holiday_notice'));
-}
-add_action('admin_init', 'cornwall_review_settings');
+/* ---- Field helpers and sanitizers (used by Shop details) ---- */
 
 function cornwall_sanitize_scan_email($value)
 {
@@ -456,20 +414,6 @@ function cornwall_rating_summary_field()
     echo '<p class="description">Shown on the homepage hero card, the Reviews heading, Google structured data, and <code>/llms.txt</code>.</p>';
 }
 
-function cornwall_holiday_notice_field()
-{
-    printf(
-        '<input name="cornwall_holiday_notice" id="cornwall_holiday_notice" type="text" class="regular-text" value="%s" placeholder="e.g. Closed 25–28 Dec for Christmas — back Tuesday 29 Dec at 8am" />',
-        esc_attr(cornwall_holiday_notice_raw())
-    );
-    printf(
-        '<p><label for="cornwall_closed_from">Closed from </label><input name="cornwall_closed_from" id="cornwall_closed_from" type="date" value="%s" /> <label for="cornwall_closed_to"> to </label><input name="cornwall_closed_to" id="cornwall_closed_to" type="date" value="%s" /></p>',
-        esc_attr(cornwall_valid_date(get_option('cornwall_closed_from', ''))),
-        esc_attr(cornwall_valid_date(get_option('cornwall_closed_to', '')))
-    );
-    echo '<p class="description">The status pill shows “Closed” on those days, and the notice disappears by itself after the last day. For a single day, fill in just the first date. Bank holidays in England and Wales are handled automatically.</p>';
-}
-
 function cornwall_review_hits_field()
 {
     $summary = cornwall_review_hits_summary(array('today' => 1, 'week' => 7, 'month' => 30, 'all' => 0));
@@ -520,14 +464,4 @@ function cornwall_review_hits_field()
     }
     $notes[] = 'Link previews, bots and visits while logged in to WordPress are not counted.';
     echo '<p class="description">' . esc_html(implode(' · ', $notes)) . '<br>Counts only. No IP addresses, cookies or other personal data are stored.</p>';
-}
-
-function cornwall_refresh_after_shop_setting_change()
-{
-    cornwall_write_root_files();
-    cornwall_purge_page_cache();
-}
-foreach (array('cornwall_rating_value', 'cornwall_review_count_total', 'cornwall_holiday_notice', 'cornwall_closed_from', 'cornwall_closed_to') as $cornwall_opt) {
-    add_action('update_option_' . $cornwall_opt, 'cornwall_refresh_after_shop_setting_change');
-    add_action('add_option_' . $cornwall_opt, 'cornwall_refresh_after_shop_setting_change');
 }

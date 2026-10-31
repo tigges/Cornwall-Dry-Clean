@@ -28,7 +28,7 @@ $email = esc_html(cornwall_biz('email'));
 <!-- /wp:heading -->
 
 <!-- wp:paragraph -->
-<p>Bring garments in to the counter. We inspect them first and will say if a stain or repair is uncertain. Payment is at the counter, card or cash. Hours are on the homepage. We are closed on Sundays and bank holidays.</p>
+<p>Bring garments in to the counter. We inspect them first and will say if a stain or repair is uncertain. Payment is at the counter, card or cash. Hours are on the homepage. <?php echo esc_html(cornwall_closed_days_sentence(true)); ?></p>
 <!-- /wp:paragraph -->
 
 <!-- wp:heading {"level":2} -->
