@@ -11,8 +11,8 @@ Business details (address, phone, hours, services, FAQ) live in inc/business.php
 
 == Cloudways git pull ==
 
-Pull branch `cursor/legal-pages-fed1` into `public_html/` (see CLOUDWAYS.md),
-then purge Breeze and Varnish. Never pull `main` or `cursor/seo-optimisation-fed1`.
+Pull branch `main` into `public_html/` (see CLOUDWAYS.md), then purge Breeze
+and Varnish. Bump `Version` in style.css on every theme change.
 
 == Upload zip ==
 
