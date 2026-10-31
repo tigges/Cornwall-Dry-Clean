@@ -70,7 +70,7 @@ function cornwall_security_headers()
     header('X-Frame-Options: SAMEORIGIN');
     header('Referrer-Policy: strict-origin-when-cross-origin');
     header('Permissions-Policy: camera=(), microphone=(), geolocation=(), payment=()');
-    if (is_ssl() && wp_parse_url(home_url(), PHP_URL_HOST) === 'cornwalldrycleaners.com') {
+    if (is_ssl() && cornwall_is_live()) {
         header('Strict-Transport-Security: max-age=31536000');
     }
 }

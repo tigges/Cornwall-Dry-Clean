@@ -16,6 +16,7 @@ function cornwall_business()
         'copyright_name' => 'Cornwall Dry Cleaners Limited',
         'owner'          => 'Gina Zhou',
         'founded'        => '2003',
+        'domain'         => 'cornwalldrycleaners.com',
         'email'          => 'gina@cornwalldrycleaners.com',
         'phone'          => '+442089919413',
         'phone_display'  => '020 8991 9413',
@@ -47,6 +48,13 @@ function cornwall_biz($key)
 {
     $b = cornwall_business();
     return isset($b[$key]) ? $b[$key] : '';
+}
+
+/** True only on the live domain, not on staging or local copies. */
+function cornwall_is_live()
+{
+    $host = strtolower((string) wp_parse_url(home_url(), PHP_URL_HOST));
+    return in_array($host, array(cornwall_biz('domain'), 'www.' . cornwall_biz('domain')), true);
 }
 
 /** "23 Haven Lane, Ealing, London W5 2HZ" */
