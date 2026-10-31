@@ -5,30 +5,45 @@ Matches a Deployment Path of `public_html/`.
 | Field | Value |
 | --- | --- |
 | Git Remote Address | `git@github.com:tigges/Cornwall-Dry-Clean.git` |
-| Branch | `cursor/seo-optimisation-fed1` |
+| Branch | `cursor/legal-pages-fed1` |
 | Deployment Path | `public_html/` |
 
 **Do not merge this branch into `main`.**
 
-Theme **1.4.1** is the current Cloudways pull: homepage meta description and share image, WebP hero, leftover WordPress URLs removed from the sitemap, and `sameAs` on the shop schema. Title and H1 are unchanged.
+Theme **1.5.10** is the current Cloudways pull. It keeps everything signed off in 1.5.8 (flattened horizontal footer, Privacy/Terms, two-line Visit address, mobile header phone in the hamburger, `/review` short links with the 3-layer fallback, live hours, Settings → General controls) and adds:
 
-To go live from the previous Cloudways branch, switch Git to **cursor/seo-optimisation-fed1** (or merge this PR into `cursor/cloudways-public-html-fed1` and keep pulling that).
+- **Site title "Cornwall Dry Cleaners", tagline "Ealing".** The version refresh sets both, plus the London timezone and UK date format. Homepage title: `Cornwall Dry Cleaners – Ealing`; inner pages drop the tagline.
+- **Static map.** The Visit map is a self-hosted OpenStreetMap image (no Google iframe, no third-party requests) that opens Google Maps when tapped, with an `© OpenStreetMap contributors` credit. The pin sits on the Google Business Profile coordinates and is labelled with the Google name, "Cornwall Dry Cleaners".
+- **Aligned with the Google listing.** Structured data uses Google's name, coordinates and address town (`23 Haven Lane, London W5 2HZ`); Directions buttons open the Google listing itself (place ID) rather than a street address.
+- **Review dates removed.** The three reviews are unchanged; each now just says "Google review".
+- **Weekly scan email.** Every Monday at 8am (London time) Gina gets the week's `/review` scan counts per source. Change the address or send a test under **Settings → General → Weekly scan email**. Leave the address blank to stop it.
+- **Bank holidays update themselves.** The theme fetches the GOV.UK England & Wales list weekly (built-in 2026–2028 list as a fallback). Live hours and Google structured data both use it.
+- **Holiday closures by date.** The old "Closed today" tick box is replaced by **Closed from / to** dates under Settings → General → Holiday / special hours. The notice and closed status switch off by themselves after the "to" date. An existing "Closed today" tick is converted to "Closed from today".
+- **SEO / speed / tidy-up.** One shared business-data file feeds the header, footer, hours table, FAQ, structured data and `llms.txt`. Richer `LocalBusiness` schema (legal name, founded 2003, payment, area served, services, bank-holiday hours), a real 404 page (noindex), 301s away from unused WordPress views (feeds, search, author/date/category/tag archives, attachments), hidden REST user list, XML-RPC off, security headers, smaller CSS (one `site.css`, unused core presets removed), subset logo font, resized photos.
+- **Wedding dress page mockup (draft, not live).** Pages → Drafts → *Wedding dress cleaning & alterations (mockup)*, slug `/wedding-dress-cleaning-alterations/`, template *Landing page (full width)*. Highlighted `[Confirm: …]` items need Gina's answers before it is published. To publish: answer/remove each `[Confirm]` item, delete the yellow mockup banner, remove "(mockup)" from the title, then Publish.
+
+**Review links & shop settings:** `/review`, `/review/qr`, `/review/nfc`, `/review/receipt`, `/review/web` (plus `/qr` and `/nfc` shorthand) 302 to the Google review form (any case, with or without a trailing slash). Change the destination, see scan counts per source, update the Google rating/review count, set the weekly email address, or post holiday hours/closures under **Settings → General**. On version refresh the theme copies `inc/review-fallback.php` to `wp-content/mu-plugins/cornwall-review-fallback.php`, and writes `wp-content/db-error.php` and an `.htaccess` `ErrorDocument` block, so `/review*`, `/qr` and `/nfc` still redirect to the Google review form even if a plugin or theme crashes or the database is unavailable. In Cloudways, add `https://cornwalldrycleaners.com/review` and `https://cornwalldrycleaners.com/review/(.*)` to Breeze → *Never Cache URL(s)*.
+
+**Email and cron (recommended once).** Varnish/Breeze caching means WordPress's built-in scheduler only runs on uncached visits, so the Monday email can arrive late. In Cloudways → Application → **Cron Job Management**, add an hourly job:
+
+```
+wget -q -O - "https://cornwalldrycleaners.com/wp-cron.php?doing_wp_cron" >/dev/null 2>&1
+```
+
+Cloudways servers also need SMTP for reliable mail: Cloudways → Server → **SMTP** (Elastic Email or your own provider), then use **Send a test now** in Settings → General.
+
+To go live, switch Git to **cursor/legal-pages-fed1** (this branch already contains the SEO commits).
 
 1. Click **Fetch** so the latest commit appears.
-2. Select **cursor/seo-optimisation-fed1**.
+2. Select **cursor/legal-pages-fed1**.
 3. Leave Deployment Path as `public_html/`.
 4. Click **Pull**.
-5. Purge cache or the old HTML stays: WordPress → **Breeze → Purge All Cache**, or Cloudways → Application Management → **Breeze** / **Purge**.
-6. Hard-refresh `https://cornwalldrycleaners.com/`. Confirm `style.css` says `Version: 1.4.1`.
-7. After Pull, `Hello world!` is moved to Trash, `/llms.txt` plus `/indexnow.txt` start answering, and Settings → General uses the built-in UK date `d/m/Y` and time `g:i a` radios. Purge is still required.
-8. Only if the theme is not already active: Appearance → Themes → Activate **Cornwall Dry Cleaners**.
+5. Purge cache: WordPress → **Breeze → Purge All Cache**, and Cloudways → **Varnish → Purge**.
+6. Hard-refresh `https://cornwalldrycleaners.com/`. Confirm `style.css` says `Version: 1.5.10`.
+7. Check `/privacy/`, `/terms/`, `/review` and a made-up URL such as `/nothing-here` (should show the new 404 page).
 
-A git pull does not run “switch theme”. Version `1.4.1` rewrites the Home page back to the `cornwall/homepage` pattern, resets stored header/footer copies so the theme files win, trashes the default Hello world post, and asks Breeze to clear — but Breeze HTML cache (`x-cache: HIT`) is served without PHP, so **purge after Pull** is required.
+A git pull does not run “switch theme”. Version `1.5.10` rewrites Home, writes the legal pages, creates the wedding draft (only if missing), resets stored header/footer copies, sets the site title/tagline, refreshes the review fallback files, and asks Breeze to clear — but Breeze/Varnish HTML cache still needs a **purge after Pull**.
 
-This branch only contains `wp-content/themes/cornwall-dry-cleaners`. It does not include the static `index.html`, so it will not hide WordPress.
+The theme no longer prints a Site Icon from Settings → General; its own favicons are used instead.
 
-The 10am cutoff is still example copy until the shop confirms it.
-
-## After this pull (SOE Control Room)
-
-IndexNow on the Control Room is red until the hosted key matches the GitHub secret. Set `INDEXNOW_KEY` in `tigges/SOE` to the same value as `https://cornwalldrycleaners.com/indexnow.txt`, then re-run SOE. Search Console still needs a CSV import or API key — that is not a site-code change.
+This branch only contains `wp-content/themes/cornwall-dry-cleaners`.

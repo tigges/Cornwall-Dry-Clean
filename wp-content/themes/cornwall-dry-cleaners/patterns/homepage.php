@@ -6,10 +6,24 @@
  * Block Types: core/post-content
  * Description: Blue Awning homepage — hero, services, visit steps, shop story, reviews and hours.
  */
-$shop        = esc_url(get_theme_file_uri('assets/shop-front.jpg'));
-$shop_webp   = esc_url(get_theme_file_uri('assets/shop-front.webp'));
-$fascia      = esc_url(get_theme_file_uri('assets/fascia.jpg'));
-$fascia_webp = esc_url(get_theme_file_uri('assets/fascia.webp'));
+$shop            = esc_url(get_theme_file_uri('assets/shop-front.jpg'));
+$shop_webp       = esc_url(get_theme_file_uri('assets/shop-front.webp'));
+$shop_webp_640   = esc_url(get_theme_file_uri('assets/shop-front-640.webp'));
+$shop_webp_960   = esc_url(get_theme_file_uri('assets/shop-front-960.webp'));
+$fascia          = esc_url(get_theme_file_uri('assets/fascia.jpg'));
+$fascia_webp     = esc_url(get_theme_file_uri('assets/fascia.webp'));
+$fascia_webp_640 = esc_url(get_theme_file_uri('assets/fascia-640.webp'));
+$fascia_webp_960 = esc_url(get_theme_file_uri('assets/fascia-960.webp'));
+$map_webp        = esc_url(get_theme_file_uri('assets/map.webp'));
+$map_webp_640    = esc_url(get_theme_file_uri('assets/map-640.webp'));
+$rating_value    = esc_html(cornwall_rating_value());
+$review_count    = esc_html(cornwall_review_count_total());
+$review_url      = esc_url(cornwall_review_url());
+$holiday_notice  = cornwall_holiday_notice();
+$tel             = esc_attr('tel:' . cornwall_biz('phone'));
+$phone           = esc_html(cornwall_biz('phone_display'));
+$maps_url        = esc_url(cornwall_biz('maps_url'));
+$directions      = esc_url(cornwall_biz('directions_url'));
 ?>
 <!-- wp:group {"tagName":"main","className":"cornwall-main"} -->
 <main class="wp-block-group cornwall-main">
@@ -24,7 +38,7 @@ $fascia_webp = esc_url(get_theme_file_uri('assets/fascia.webp'));
       <p>Haven Lane · Ealing Broadway</p>
       <!-- /wp:paragraph -->
       <!-- wp:paragraph -->
-      <p>020 8991 9413</p>
+      <p><?php echo $phone; ?></p>
       <!-- /wp:paragraph -->
     </div>
     <!-- /wp:group -->
@@ -39,9 +53,9 @@ $fascia_webp = esc_url(get_theme_file_uri('assets/fascia.webp'));
 
     <!-- wp:html -->
     <p class="btn-row hero-actions">
-      <a class="btn btn-white" href="tel:+442089919413">Call 020 8991 9413</a>
+      <a class="btn btn-white" href="<?php echo $tel; ?>">Call <?php echo $phone; ?></a>
       <a class="btn btn-line" href="#visit">Hours</a>
-      <a class="hours-chip" href="#visit" data-open-status>Checking today’s hours…</a>
+      <a class="hours-chip" href="#visit" data-open-status><?php echo esc_html(cornwall_hours_summary(true)); ?></a>
     </p>
     <!-- /wp:html -->
   </div>
@@ -55,15 +69,15 @@ $fascia_webp = esc_url(get_theme_file_uri('assets/fascia.webp'));
   <figure class="b-photo">
     <div class="b-photo-frame">
       <picture>
-        <source srcset="<?php echo $shop_webp; ?>" type="image/webp" />
+        <source srcset="<?php echo $shop_webp_640; ?> 640w, <?php echo $shop_webp_960; ?> 960w, <?php echo $shop_webp; ?> 1600w" sizes="(max-width: 720px) calc(100vw - 32px), (max-width: 1180px) calc(100vw - 48px), 1120px" type="image/webp" />
         <img src="<?php echo $shop; ?>" width="1600" height="1066" alt="White fascia and navy awning at Cornwall Dry Cleaners" fetchpriority="high" decoding="async" />
       </picture>
       <aside class="b-rating" aria-label="Google rating">
         <p class="b-rating-kicker">Google reviews</p>
-        <p class="b-rating-score">4.9</p>
-        <p class="stars" aria-label="4.9 out of 5 stars">★★★★★</p>
-        <p>45 Google reviews</p>
-        <a href="https://maps.app.goo.gl/cw7sznF2TJq2SkL69" target="_blank" rel="noreferrer">Google reviews</a>
+        <p class="b-rating-score"><?php echo $rating_value; ?></p>
+        <p class="stars" aria-label="<?php echo $rating_value; ?> out of 5 stars">★★★★★</p>
+        <p><?php echo $review_count; ?> Google reviews</p>
+        <a href="<?php echo $maps_url; ?>" target="_blank" rel="noreferrer">Google reviews</a>
       </aside>
     </div>
   </figure>
@@ -84,71 +98,18 @@ $fascia_webp = esc_url(get_theme_file_uri('assets/fascia.webp'));
 
     <!-- wp:group {"className":"service-grid","layout":{"type":"default"}} -->
     <div class="wp-block-group service-grid">
+<?php foreach (cornwall_services() as $i => $service) : ?>
       <!-- wp:group {"className":"card service-card","layout":{"type":"default"}} -->
       <div class="wp-block-group card service-card">
         <!-- wp:heading {"level":3} -->
-        <h3 class="wp-block-heading" data-num="01">Dry cleaning</h3>
+        <h3 class="wp-block-heading" data-num="<?php echo esc_attr(sprintf('%02d', $i + 1)); ?>"><?php echo esc_html($service[0]); ?></h3>
         <!-- /wp:heading -->
         <!-- wp:paragraph {"className":"muted"} -->
-        <p class="muted">Suits, coats and office wear, cleaned and pressed.</p>
+        <p class="muted"><?php echo esc_html($service[1]); ?></p>
         <!-- /wp:paragraph -->
       </div>
       <!-- /wp:group -->
-
-      <!-- wp:group {"className":"card service-card","layout":{"type":"default"}} -->
-      <div class="wp-block-group card service-card">
-        <!-- wp:heading {"level":3} -->
-        <h3 class="wp-block-heading" data-num="02">Stain removal</h3>
-        <!-- /wp:heading -->
-        <!-- wp:paragraph {"className":"muted"} -->
-        <p class="muted">We inspect first and say honestly what will come out.</p>
-        <!-- /wp:paragraph -->
-      </div>
-      <!-- /wp:group -->
-
-      <!-- wp:group {"className":"card service-card","layout":{"type":"default"}} -->
-      <div class="wp-block-group card service-card">
-        <!-- wp:heading {"level":3} -->
-        <h3 class="wp-block-heading" data-num="03">Laundry</h3>
-        <!-- /wp:heading -->
-        <!-- wp:paragraph {"className":"muted"} -->
-        <p class="muted">Service washes for homes and Airbnb hosts, on time.</p>
-        <!-- /wp:paragraph -->
-      </div>
-      <!-- /wp:group -->
-
-      <!-- wp:group {"className":"card service-card","layout":{"type":"default"}} -->
-      <div class="wp-block-group card service-card">
-        <!-- wp:heading {"level":3} -->
-        <h3 class="wp-block-heading" data-num="04">Repairs &amp; alterations</h3>
-        <!-- /wp:heading -->
-        <!-- wp:paragraph {"className":"muted"} -->
-        <p class="muted">Hems, zips, stitching and loose buttons.</p>
-        <!-- /wp:paragraph -->
-      </div>
-      <!-- /wp:group -->
-
-      <!-- wp:group {"className":"card service-card","layout":{"type":"default"}} -->
-      <div class="wp-block-group card service-card">
-        <!-- wp:heading {"level":3} -->
-        <h3 class="wp-block-heading" data-num="05">Formal &amp; luxury pieces</h3>
-        <!-- /wp:heading -->
-        <!-- wp:paragraph {"className":"muted"} -->
-        <p class="muted">Wedding and cocktail pieces, wool and restored goods.</p>
-        <!-- /wp:paragraph -->
-      </div>
-      <!-- /wp:group -->
-
-      <!-- wp:group {"className":"card service-card","layout":{"type":"default"}} -->
-      <div class="wp-block-group card service-card">
-        <!-- wp:heading {"level":3} -->
-        <h3 class="wp-block-heading" data-num="06">Express service</h3>
-        <!-- /wp:heading -->
-        <!-- wp:paragraph {"className":"muted"} -->
-        <p class="muted">Often next day if dropped in by 10am. Ask at the counter.</p>
-        <!-- /wp:paragraph -->
-      </div>
-      <!-- /wp:group -->
+<?php endforeach; ?>
     </div>
     <!-- /wp:group -->
   </div>
@@ -236,8 +197,8 @@ $fascia_webp = esc_url(get_theme_file_uri('assets/fascia.webp'));
     <!-- wp:html -->
     <figure class="wp-block-image size-full story-photo">
       <picture>
-        <source srcset="<?php echo $fascia_webp; ?>" type="image/webp" />
-        <img src="<?php echo $fascia; ?>" width="1600" height="930" alt="Cornwall script lettering and navy awning on the Haven Lane fascia" decoding="async" />
+        <source srcset="<?php echo $fascia_webp_640; ?> 640w, <?php echo $fascia_webp_960; ?> 960w, <?php echo $fascia_webp; ?> 1600w" sizes="(max-width: 900px) calc(100vw - 32px), 560px" type="image/webp" />
+        <img src="<?php echo $fascia; ?>" width="1600" height="930" alt="Cornwall script lettering and navy awning on the Haven Lane fascia" loading="lazy" decoding="async" />
       </picture>
     </figure>
     <!-- /wp:html -->
@@ -250,7 +211,7 @@ $fascia_webp = esc_url(get_theme_file_uri('assets/fascia.webp'));
       </blockquote>
       <!-- /wp:quote -->
       <!-- wp:paragraph -->
-      <p>Google review · December 2025</p>
+      <p>Google review</p>
       <!-- /wp:paragraph -->
     </div>
     <!-- /wp:group -->
@@ -267,7 +228,7 @@ $fascia_webp = esc_url(get_theme_file_uri('assets/fascia.webp'));
     <p class="eyebrow">From the Google listing</p>
     <!-- /wp:paragraph -->
     <!-- wp:heading -->
-    <h2 class="wp-block-heading">4.9 from people who use the shop.</h2>
+    <h2 class="wp-block-heading"><?php echo $rating_value; ?> from people who use the shop.</h2>
     <!-- /wp:heading -->
     <!-- wp:paragraph {"className":"muted"} -->
     <p class="muted">Stain removal, next-day work and repairs.</p>
@@ -293,7 +254,7 @@ $fascia_webp = esc_url(get_theme_file_uri('assets/fascia.webp'));
         </blockquote>
         <!-- /wp:quote -->
         <!-- wp:paragraph {"className":"muted"} -->
-        <p class="muted">Google review · December 2025</p>
+        <p class="muted">Google review</p>
         <!-- /wp:paragraph -->
       </div>
       <!-- /wp:group -->
@@ -316,7 +277,7 @@ $fascia_webp = esc_url(get_theme_file_uri('assets/fascia.webp'));
         </blockquote>
         <!-- /wp:quote -->
         <!-- wp:paragraph {"className":"muted"} -->
-        <p class="muted">Google review · December 2025</p>
+        <p class="muted">Google review</p>
         <!-- /wp:paragraph -->
       </div>
       <!-- /wp:group -->
@@ -339,7 +300,7 @@ $fascia_webp = esc_url(get_theme_file_uri('assets/fascia.webp'));
         </blockquote>
         <!-- /wp:quote -->
         <!-- wp:paragraph {"className":"muted"} -->
-        <p class="muted">Google review · December 2025</p>
+        <p class="muted">Google review</p>
         <!-- /wp:paragraph -->
       </div>
       <!-- /wp:group -->
@@ -349,10 +310,10 @@ $fascia_webp = esc_url(get_theme_file_uri('assets/fascia.webp'));
     <!-- wp:buttons {"className":"follow-on btn-row"} -->
     <div class="wp-block-buttons follow-on btn-row">
       <!-- wp:button {"backgroundColor":"navy","textColor":"white","className":"btn-navy"} -->
-      <div class="wp-block-button btn-navy"><a class="wp-block-button__link has-white-color has-navy-background-color has-text-color has-background wp-element-button" href="https://maps.app.goo.gl/cw7sznF2TJq2SkL69" target="_blank" rel="noreferrer">All reviews</a></div>
+      <div class="wp-block-button btn-navy"><a class="wp-block-button__link has-white-color has-navy-background-color has-text-color has-background wp-element-button" href="<?php echo $maps_url; ?>" target="_blank" rel="noreferrer">All reviews</a></div>
       <!-- /wp:button -->
       <!-- wp:button {"className":"btn-line"} -->
-      <div class="wp-block-button btn-line"><a class="wp-block-button__link wp-element-button" href="https://maps.app.goo.gl/cw7sznF2TJq2SkL69" target="_blank" rel="noreferrer">Write a review</a></div>
+      <div class="wp-block-button btn-line"><a class="wp-block-button__link wp-element-button" href="<?php echo $review_url; ?>" data-review-link="/review/web" target="_blank" rel="noreferrer">Write a review</a></div>
       <!-- /wp:button -->
     </div>
     <!-- /wp:buttons -->
@@ -368,16 +329,26 @@ $fascia_webp = esc_url(get_theme_file_uri('assets/fascia.webp'));
     <div class="visit-locate">
       <div>
         <p class="eyebrow">Visit the shop</p>
-        <h2>23 Haven Lane, Ealing, W5 2HZ</h2>
+        <h2 class="visit-address">
+          <span class="visit-street"><?php echo esc_html(cornwall_biz('street')); ?></span>
+          <span class="visit-locality"><?php echo esc_html(cornwall_biz('locality') . ', ' . cornwall_biz('postcode')); ?></span>
+        </h2>
         <p class="muted">1 minute from Haven Green / Ealing Broadway station. White fascia, blue awning — not on the Broadway itself.</p>
-        <p class="phone-xl"><a href="tel:+442089919413">020 8991 9413</a></p>
+        <p class="phone-xl"><a href="<?php echo $tel; ?>"><?php echo $phone; ?></a></p>
         <p class="btn-row">
-          <a class="btn btn-navy" href="tel:+442089919413">Call</a>
-          <a class="btn btn-line" href="https://www.google.com/maps/dir/?api=1&amp;destination=23+Haven+Lane,+Ealing,+London+W5+2HZ" target="_blank" rel="noreferrer">Directions</a>
+          <a class="btn btn-navy" href="<?php echo $tel; ?>">Call</a>
+          <a class="btn btn-line" href="<?php echo $directions; ?>" target="_blank" rel="noreferrer">Directions</a>
         </p>
       </div>
       <div class="map-frame">
-        <iframe class="map" title="Map showing Cornwall Dry Cleaners on Haven Lane, Ealing" src="https://maps.google.com/maps?q=Cornwall+Dry+Cleaners,+23+Haven+Lane,+Ealing+W5+2HZ&amp;z=16&amp;output=embed" loading="lazy"></iframe>
+        <a class="map-link" href="<?php echo $maps_url; ?>" target="_blank" rel="noreferrer">
+          <picture>
+            <source srcset="<?php echo $map_webp_640; ?> 640w, <?php echo $map_webp; ?> 1200w" sizes="(max-width: 799px) calc(100vw - 24px), 560px" type="image/webp" />
+            <img src="<?php echo $map_webp; ?>" width="1200" height="800" alt="Map: Cornwall Dry Cleaners on Haven Lane, by Haven Green and Ealing Broadway station" loading="lazy" decoding="async" />
+          </picture>
+          <span class="map-label">Open in Google Maps</span>
+        </a>
+        <a class="map-credit" href="https://www.openstreetmap.org/copyright" target="_blank" rel="noreferrer">© OpenStreetMap contributors</a>
       </div>
     </div>
     <div class="visit-plan">
@@ -385,42 +356,27 @@ $fascia_webp = esc_url(get_theme_file_uri('assets/fascia.webp'));
         <table class="hours hours-table">
           <caption>Opening hours</caption>
           <tbody>
-            <tr data-day="1"><th>Monday</th><td>8:00am – 6:00pm</td></tr>
-            <tr data-day="2"><th>Tuesday</th><td>8:00am – 6:00pm</td></tr>
-            <tr data-day="3"><th>Wednesday</th><td>8:00am – 6:00pm</td></tr>
-            <tr data-day="4"><th>Thursday</th><td>8:00am – 6:00pm</td></tr>
-            <tr data-day="5"><th>Friday</th><td>8:00am – 6:00pm</td></tr>
-            <tr data-day="6"><th>Saturday</th><td>9:00am – 5:00pm</td></tr>
-            <tr data-day="0"><th>Sunday</th><td>Closed</td></tr>
+<?php foreach (cornwall_biz('hours') as $day => $span) : ?>
+            <tr data-day="<?php echo (int) $day; ?>"><th><?php echo esc_html(cornwall_day_names()[$day]); ?></th><td><?php echo $span === null ? 'Closed' : esc_html(cornwall_format_time($span[0]) . ' – ' . cornwall_format_time($span[1])); ?></td></tr>
+<?php endforeach; ?>
           </tbody>
         </table>
+        <?php if ($holiday_notice !== '') : ?>
+        <p class="holiday-notice" data-holiday-banner><?php echo esc_html($holiday_notice); ?></p>
+        <?php endif; ?>
         <p class="muted">Closed on bank holidays — call the day before if you are unsure.</p>
       </div>
-      <nav class="visit-faq" id="faq" aria-label="Frequently asked questions">
+      <section class="visit-faq" id="faq" aria-label="Frequently asked questions">
         <p class="faq-caption">Questions</p>
         <div class="faq-list">
+<?php foreach (cornwall_faqs() as $faq) : ?>
           <details>
-            <summary>How long does it take?</summary>
-            <p>Often next day if dropped in by 10am. Repairs and wedding pieces can take longer — we will say when you drop off.</p>
+            <summary><?php echo esc_html($faq[0]); ?></summary>
+            <p><?php echo esc_html($faq[1]); ?></p>
           </details>
-          <details>
-            <summary>Collect or deliver?</summary>
-            <p>No. Drop in on Haven Lane.</p>
-          </details>
-          <details>
-            <summary>Cards or cash?</summary>
-            <p>Both. Contactless at the counter.</p>
-          </details>
-          <details>
-            <summary>Bank holidays?</summary>
-            <p>Usually closed. Call the day before if you need to be sure.</p>
-          </details>
-          <details>
-            <summary>Not sure we can take it?</summary>
-            <p>Bring it in. We inspect first and say honestly what will come out.</p>
-          </details>
+<?php endforeach; ?>
         </div>
-      </nav>
+      </section>
     </div>
   </div>
   <!-- /wp:html -->

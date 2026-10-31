@@ -9,6 +9,8 @@
     },
     "color": {
       "defaultPalette": false,
+      "defaultGradients": false,
+      "defaultDuotone": false,
       "palette": [
         { "slug": "navy", "color": "#003868", "name": "Awning navy" },
         { "slug": "blue", "color": "#2F5480", "name": "Script blue" },
@@ -20,21 +22,21 @@
       ]
     },
     "typography": {
+      "defaultFontSizes": false,
       "fontFamilies": [
         {
           "slug": "dm-sans",
           "name": "DM Sans",
           "fontFamily": "\"DM Sans\", \"Avenir Next\", \"Segoe UI\", sans-serif"
-        },
-        {
-          "slug": "great-vibes",
-          "name": "Great Vibes",
-          "fontFamily": "\"Great Vibes\", \"Snell Roundhand\", cursive"
         }
       ]
     },
     "spacing": {
+      "defaultSpacingSizes": false,
       "units": ["px", "em", "rem", "%", "vw"]
+    },
+    "shadow": {
+      "defaultPresets": false
     }
   },
   "styles": {
@@ -63,6 +65,7 @@
     { "name": "footer", "title": "Footer", "area": "footer" }
   ],
   "customTemplates": [
-    { "name": "front-page", "title": "Homepage", "postTypes": ["page"] }
+    { "name": "front-page", "title": "Homepage", "postTypes": ["page"] },
+    { "name": "landing", "title": "Landing page (full width)", "postTypes": ["page"] }
   ]
 }
