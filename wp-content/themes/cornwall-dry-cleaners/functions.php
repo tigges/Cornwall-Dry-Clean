@@ -15,6 +15,11 @@ require_once __DIR__ . '/inc/head.php';
 require_once __DIR__ . '/inc/settings.php';
 require_once __DIR__ . '/inc/shop-details.php';
 require_once __DIR__ . '/inc/mail.php';
+require_once __DIR__ . '/inc/content.php';
+require_once __DIR__ . '/inc/services.php';
+require_once __DIR__ . '/inc/prices.php';
+require_once __DIR__ . '/inc/reviews.php';
+require_once __DIR__ . '/inc/faqs.php';
 
 function cornwall_theme_setup()
 {
@@ -101,6 +106,7 @@ function cornwall_migrate_options()
         delete_option('cornwall_holiday_closed_today');
     }
     cornwall_migrate_shop_details();
+    cornwall_content_seed();
 
     // 31 Oct 2026 review scans were almost all launch-day link tests, not customers.
     $hits = get_option('cornwall_review_hits');
@@ -310,10 +316,18 @@ add_action('template_redirect', 'cornwall_serve_root_files', 0);
 function cornwall_llms_txt()
 {
     $services = array();
-    foreach (cornwall_services() as $service) {
-        if ($service[0] !== 'Express service') {
-            $services[] = strtolower(str_replace(' & ', ' and ', $service[0]));
+    foreach (cornwall_content_items_for('services', 'home') as $service) {
+        if ($service['title'] !== 'Express service') {
+            $services[] = strtolower(str_replace(' & ', ' and ', cornwall_content_fill($service['title'])));
         }
+    }
+    $prices = array();
+    foreach (cornwall_prices_grouped(cornwall_content_items_for('prices', 'home')) as $category => $rows) {
+        $parts = array();
+        foreach ($rows as $row) {
+            $parts[] = cornwall_content_fill($row['name']) . ' ' . cornwall_price_text($row);
+        }
+        $prices[] = $category . ': ' . implode(', ', $parts);
     }
     $lines = array(
         '# ' . cornwall_biz('name'),
@@ -335,7 +349,12 @@ function cornwall_llms_txt()
     if ($holiday !== '') {
         $lines[] = 'Special hours notice: ' . $holiday;
     }
-    $lines[] = 'Services: ' . implode(', ', $services) . '. Often next day if dropped in by 10am.';
+    if ($services) {
+        $lines[] = 'Services: ' . implode(', ', $services) . '. Often next day if dropped in by 10am.';
+    }
+    if ($prices) {
+        $lines[] = 'Prices: ' . implode('. ', $prices) . '. Confirmed at the counter.';
+    }
     $lines[] = 'Payment: cash, card and contactless at the counter. No online booking, collection or delivery — drop in at the shop.';
     $lines[] = 'Reviews: ' . cornwall_rating_value() . ' out of 5 from ' . cornwall_review_count_total() . ' Google reviews.';
     $lines[] = 'Website: ' . home_url('/');
