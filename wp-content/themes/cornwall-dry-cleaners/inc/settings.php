@@ -320,13 +320,15 @@ function cornwall_scan_email_notice()
     if (! isset($_GET['cornwall_scan_test'])) {
         return;
     }
-    $sent = $_GET['cornwall_scan_test'] === 'sent';
+    $sent   = $_GET['cornwall_scan_test'] === 'sent';
+    $status = get_option('cornwall_mail_status');
+    $reason = ! $sent && is_array($status) && empty($status['ok']) && ! empty($status['message']) ? ' The mail server said: ' . $status['message'] : '';
     printf(
         '<div class="notice notice-%s is-dismissible"><p>%s</p></div>',
         $sent ? 'success' : 'error',
         $sent
-            ? esc_html('Test scan email sent to ' . cornwall_scan_email_to() . '. If it does not arrive, check spam or set up SMTP (Cloudways → Servers → SMTP).')
-            : esc_html('The test scan email could not be sent. Check the address, or set up SMTP for the site.')
+            ? esc_html('Test scan email sent to ' . cornwall_scan_email_to() . '. If it does not arrive, check spam, and check Email sending below.')
+            : esc_html('The test scan email could not be sent. Check the address and Email sending below.' . $reason)
     );
 }
 add_action('admin_notices', 'cornwall_scan_email_notice');

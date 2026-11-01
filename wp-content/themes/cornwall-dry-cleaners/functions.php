@@ -14,6 +14,7 @@ require_once __DIR__ . '/inc/business.php';
 require_once __DIR__ . '/inc/head.php';
 require_once __DIR__ . '/inc/settings.php';
 require_once __DIR__ . '/inc/shop-details.php';
+require_once __DIR__ . '/inc/mail.php';
 
 function cornwall_theme_setup()
 {

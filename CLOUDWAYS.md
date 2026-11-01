@@ -56,13 +56,14 @@ Theme **1.5.12** adds the staging guard and clears the 31 October 2026 review-sc
 wget -q -O - "https://cornwalldrycleaners.com/wp-cron.php?doing_wp_cron" >/dev/null 2>&1
 ```
 
-Cloudways servers also need SMTP for reliable mail. The domain's mail is Google Workspace (MX `smtp.google.com`, SPF `include:_spf.google.com`), so send through Gmail:
+Email goes through the **Google Workspace SMTP relay** (theme 1.6.3), set up for this site only, so the other apps on the Cloudways server are not affected and no password is stored. The domain's mail is Google Workspace (MX `smtp.google.com`, SPF `include:_spf.google.com`).
 
-1. In the Google account that will send (e.g. `gina@cornwalldrycleaners.com`), turn on **2-Step Verification**, then create an **App password** at `https://myaccount.google.com/apppasswords` (name it "Cloudways"). Copy the 16-character password.
-2. Cloudways → **Servers** → this server → **SMTP** (left menu, under Server Management) → **Your own SMTP** → provider **Gmail** (or *Other*): host `smtp.gmail.com`, port `587`, TLS, username = the full Google address, password = the app password. Save.
-3. WordPress → **Shop details → Review links → Weekly scan email** → **Send a test now**, and check the inbox (and spam).
+1. Google Admin (`admin.google.com`, super admin) → **Apps → Google Workspace → Gmail → Routing → SMTP relay service → Configure**: allowed senders **Only addresses in my domains**; authentication **Only accept mail from the specified IP addresses** with the Cloudways server's Public IP (Cloudways → Servers → AQUARI → Master Credentials, or the IP on the Servers list); leave "Require SMTP Authentication" off; tick **Require TLS encryption**. Save (can take up to an hour).
+2. Gmail → **Authenticate email**: make sure DKIM is on for `cornwalldrycleaners.com` (add the TXT record it gives you if not).
+3. WordPress → **Shop details → Email sending** → tick **Send the website's email through the Google Workspace SMTP relay** → Save.
+4. **Shop details → Review links → Weekly scan email → Send a test now**, and check the inbox (and spam). If it fails, the message under Email sending shows Google's answer; "Mail relay denied [IP]" means that IP must be added in step 1.
 
-Messages are sent as the Google account used in step 2, so SPF/DKIM already pass; no DNS changes are needed. Elastic Email (Cloudways add-on) also works but needs an extra SPF/DKIM DNS record.
+Mail is sent as `wordpress@cornwalldrycleaners.com` ("Cornwall Dry Cleaners website") on `smtp-relay.gmail.com:587` with TLS. Only the live address uses the relay; staging uses the server's own mail. Leave Cloudways → Servers → SMTP unset.
 
 To deploy (Cloudways → Application → **Deployment via Git**):
 
