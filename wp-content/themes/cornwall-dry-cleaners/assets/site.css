@@ -1048,6 +1048,58 @@ html {
   font-weight: 500;
 }
 
+/* ---- Notice banner (Shop details) ---- */
+.site-notice {
+  --notice-bg: var(--mist, #e8eef4);
+  --notice-fg: var(--ink, #122033);
+  background: var(--notice-bg);
+  color: var(--notice-fg);
+  font-family: var(--sans);
+  font-size: 0.88rem;
+  font-weight: 500;
+  line-height: 1.4;
+}
+.site-notice[hidden] { display: none; }
+.site-notice--blue { --notice-bg: #2f5480; --notice-fg: #fff; }
+.site-notice--navy { --notice-bg: #00294d; --notice-fg: #fff; }
+.site-notice--ink { --notice-bg: #122033; --notice-fg: #fff; }
+.site-notice-inner {
+  position: relative;
+  width: min(calc(100% - 2rem), 70rem);
+  margin: 0 auto;
+  padding: 0.5rem 2.25rem;
+  text-align: center;
+}
+.site-notice p { margin: 0; }
+.site-notice a {
+  color: inherit;
+  font-weight: 650;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+  white-space: nowrap;
+}
+.site-notice-close {
+  position: absolute;
+  top: 50%;
+  right: 0;
+  transform: translateY(-50%);
+  width: 2rem;
+  height: 2rem;
+  border: 0;
+  border-radius: 999px;
+  background: transparent;
+  color: inherit;
+  font-size: 1.3rem;
+  line-height: 1;
+  cursor: pointer;
+}
+.site-notice-close:hover,
+.site-notice-close:focus-visible { background: rgba(127, 140, 160, 0.2); }
+@media (max-width: 599px) {
+  .site-notice-inner { width: 100%; padding: 0.45rem 2.5rem 0.45rem 1rem; text-align: left; font-size: 0.84rem; }
+  .site-notice-close { right: 0.35rem; }
+}
+
 
 /* ---- 404 ---- */
 .not-found { padding: 1.5rem 0 2.5rem; }
