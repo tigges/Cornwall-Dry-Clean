@@ -359,6 +359,13 @@ function cornwall_shop_details_page()
     </div>
 
     <div class="card">
+      <h2>Email sending</h2>
+      <p><label><input type="checkbox" name="smtp_relay" value="1" <?php checked(cornwall_smtp_relay_on()); ?> /> Send the website’s email through the Google Workspace SMTP relay (<code><?php echo esc_html(cornwall_smtp_relay_host()); ?></code>)</label></p>
+      <p class="description"><?php echo esc_html(cornwall_mail_status_text()); ?></p>
+      <p class="description">Tick this once the relay is switched on in Google Admin → Apps → Google Workspace → Gmail → Routing → SMTP relay service: allowed senders “Only addresses in my domains”, “Only accept mail from the specified IP addresses” with the Cloudways server IP, and “Require TLS encryption”. No password is needed. Then use “Send a test now” above. Only the live site uses the relay.</p>
+    </div>
+
+    <div class="card">
       <h2>Visitor analytics</h2>
       <p class="description">Plausible: cookie-free, no personal data, no cookie banner needed. Counts visits, pages, where visitors came from, and taps on Call, Directions, the map and “Write a review”. Loads only on <?php echo esc_html(cornwall_biz('domain')); ?> for visitors who are not logged in to WordPress.</p>
       <p><label><input type="checkbox" name="analytics_on" value="1" <?php checked($analytics['on']); ?> /> Use Plausible</label></p>
@@ -499,6 +506,7 @@ function cornwall_shop_details_save()
     update_option('cornwall_review_count_total', cornwall_sanitize_review_count_total(isset($post['cornwall_review_count_total']) ? $post['cornwall_review_count_total'] : 0), false);
     update_option('cornwall_review_url', cornwall_review_sanitize_url(isset($post['cornwall_review_url']) ? $post['cornwall_review_url'] : ''));
     update_option('cornwall_scan_email', cornwall_sanitize_scan_email(isset($post['cornwall_scan_email']) ? $post['cornwall_scan_email'] : ''), false);
+    update_option('cornwall_smtp_relay', ! empty($post['smtp_relay']), false);
 
     $site = cornwall_sanitize_analytics_site(isset($post['analytics_site']) ? $post['analytics_site'] : '');
     if ($site === '' && trim((string) (isset($post['analytics_site']) ? $post['analytics_site'] : '')) !== '') {

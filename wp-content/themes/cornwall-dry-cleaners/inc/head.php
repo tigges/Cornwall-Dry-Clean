@@ -304,17 +304,7 @@ function cornwall_special_hours_spec()
 function cornwall_business_schema()
 {
     $home = home_url('/');
-    $offers = array();
-    foreach (cornwall_services() as $service) {
-        $offers[] = array(
-            '@type'       => 'Offer',
-            'itemOffered' => array(
-                '@type'       => 'Service',
-                'name'        => $service[0],
-                'description' => $service[1],
-            ),
-        );
-    }
+    $offers = cornwall_offer_schema('home');
     $data = array(
         '@type'       => array('DryCleaningOrLaundry', 'LocalBusiness'),
         '@id'         => $home . '#business',
@@ -353,11 +343,6 @@ function cornwall_business_schema()
         'hasMap'      => cornwall_biz('maps_url'),
         'sameAs'      => array(cornwall_biz('maps_url'), cornwall_google_place_url()),
         'openingHoursSpecification' => cornwall_opening_hours_spec(),
-        'hasOfferCatalog' => array(
-            '@type'           => 'OfferCatalog',
-            'name'            => 'Dry cleaning, laundry and repairs',
-            'itemListElement' => $offers,
-        ),
         'aggregateRating' => array(
             '@type'       => 'AggregateRating',
             'ratingValue' => cornwall_rating_value(),
@@ -365,11 +350,105 @@ function cornwall_business_schema()
             'bestRating'  => '5',
         ),
     );
+    if ($offers) {
+        $data['hasOfferCatalog'] = array(
+            '@type'           => 'OfferCatalog',
+            'name'            => 'Dry cleaning, laundry and repairs',
+            'itemListElement' => $offers,
+        );
+    }
     $special = cornwall_special_hours_spec();
     if (! empty($special)) {
         $data['specialOpeningHoursSpecification'] = $special;
     }
+    if (is_front_page()) {
+        $reviews = cornwall_review_schema('home');
+        if ($reviews) {
+            $data['review'] = $reviews;
+        }
+    }
     return $data;
+}
+
+/* Built from the Page content lists, so the data matches what each page shows. */
+
+/** Services, then prices, shown on $page. */
+function cornwall_offer_schema($page)
+{
+    $offers = array();
+    try {
+        foreach (cornwall_content_items_for('services', $page) as $item) {
+            $offers[] = array(
+                '@type'       => 'Offer',
+                'itemOffered' => array(
+                    '@type'       => 'Service',
+                    'name'        => cornwall_content_fill($item['title']),
+                    'description' => cornwall_content_fill($item['text']),
+                ),
+            );
+        }
+    } catch (Throwable $e) {
+        $offers = array();
+    }
+    try {
+        foreach (cornwall_content_items_for('prices', $page) as $item) {
+            $offer = array(
+                '@type'         => 'Offer',
+                'priceCurrency' => 'GBP',
+                'itemOffered'   => array(
+                    '@type'    => 'Service',
+                    'name'     => cornwall_content_fill($item['name']),
+                    'category' => $item['category'],
+                ),
+            );
+            if ($item['kind'] === 'from') {
+                $offer['priceSpecification'] = array('@type' => 'PriceSpecification', 'minPrice' => $item['price'], 'priceCurrency' => 'GBP');
+            } else {
+                $offer['price'] = $item['price'];
+            }
+            $offers[] = $offer;
+        }
+    } catch (Throwable $e) {
+        return $offers;
+    }
+    return $offers;
+}
+
+/** FAQPage for the questions shown on $page, or null when there are none. */
+function cornwall_faq_schema($page)
+{
+    try {
+        $questions = array();
+        foreach (cornwall_content_items_for('faqs', $page) as $item) {
+            $questions[] = array(
+                '@type'          => 'Question',
+                'name'           => cornwall_content_fill($item['q']),
+                'acceptedAnswer' => array('@type' => 'Answer', 'text' => cornwall_content_fill($item['a'])),
+            );
+        }
+    } catch (Throwable $e) {
+        return null;
+    }
+    return $questions ? array('@type' => 'FAQPage', '@id' => home_url('/') . '#faq', 'mainEntity' => $questions) : null;
+}
+
+/** Review for each review shown on $page that has a reviewer name. */
+function cornwall_review_schema($page)
+{
+    $reviews = array();
+    try {
+        foreach (cornwall_reviews_named($page) as $item) {
+            $reviews[] = array(
+                '@type'        => 'Review',
+                'reviewBody'   => cornwall_content_fill($item['text']),
+                'author'       => array('@type' => 'Person', 'name' => $item['name']),
+                'reviewRating' => array('@type' => 'Rating', 'ratingValue' => $item['stars'], 'bestRating' => '5'),
+            );
+        }
+    } catch (Throwable $e) {
+        return array();
+    }
+    return $reviews;
 }
 
 function cornwall_json_ld()
@@ -401,21 +480,12 @@ function cornwall_json_ld()
         ),
     );
     if (is_front_page()) {
-        $questions = array();
-        foreach (cornwall_faqs() as $faq) {
-            $questions[] = array(
-                '@type'          => 'Question',
-                'name'           => $faq[0],
-                'acceptedAnswer' => array('@type' => 'Answer', 'text' => $faq[1]),
-            );
+        $faq = cornwall_faq_schema('home');
+        if ($faq) {
+            $graph[] = $faq;
         }
-        $graph[] = array(
-            '@type'      => 'FAQPage',
-            '@id'        => $home . '#faq',
-            'mainEntity' => $questions,
-        );
     }
     $data = array('@context' => 'https://schema.org', '@graph' => $graph);
-    echo '<script type="application/ld+json">' . wp_json_encode($data, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE) . '</script>' . "\n";
+    echo '<script type="application/ld+json">' . wp_json_encode($data, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE | JSON_HEX_TAG) . '</script>' . "\n";
 }
 add_action('wp_head', 'cornwall_json_ld', 20);

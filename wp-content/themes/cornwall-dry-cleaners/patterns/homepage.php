@@ -98,6 +98,7 @@ $directions      = esc_url(cornwall_biz('directions_url'));
 
     <!-- wp:group {"className":"service-grid","layout":{"type":"default"}} -->
     <div class="wp-block-group service-grid">
+<!-- site-services:home section -->
 <?php foreach (cornwall_services() as $i => $service) : ?>
       <!-- wp:group {"className":"card service-card","layout":{"type":"default"}} -->
       <div class="wp-block-group card service-card">
@@ -110,12 +111,27 @@ $directions      = esc_url(cornwall_biz('directions_url'));
       </div>
       <!-- /wp:group -->
 <?php endforeach; ?>
+<!-- /site-services:home -->
     </div>
     <!-- /wp:group -->
   </div>
   <!-- /wp:group -->
 </section>
 <!-- /wp:group -->
+
+<!-- wp:html -->
+<section class="section prices" id="prices">
+  <div class="wrap">
+    <p class="eyebrow">Prices</p>
+    <h2>Prices at the counter.</h2>
+    <p class="muted">We confirm the price before we start.</p>
+    <div class="price-grid">
+<!-- site-prices:home section -->
+<!-- /site-prices:home -->
+    </div>
+  </div>
+</section>
+<!-- /wp:html -->
 
 <!-- wp:group {"tagName":"section","className":"steps","layout":{"type":"default"}} -->
 <section class="wp-block-group steps">
@@ -203,6 +219,7 @@ $directions      = esc_url(cornwall_biz('directions_url'));
     </figure>
     <!-- /wp:html -->
 
+<!-- site-reviews:home quote -->
     <!-- wp:group {"className":"card quote-panel","layout":{"type":"default"}} -->
     <div class="wp-block-group card quote-panel">
       <!-- wp:quote -->
@@ -215,6 +232,7 @@ $directions      = esc_url(cornwall_biz('directions_url'));
       <!-- /wp:paragraph -->
     </div>
     <!-- /wp:group -->
+<!-- /site-reviews:home -->
   </div>
   <!-- /wp:group -->
 </section>
@@ -236,6 +254,7 @@ $directions      = esc_url(cornwall_biz('directions_url'));
 
     <!-- wp:group {"className":"review-grid","layout":{"type":"default"}} -->
     <div class="wp-block-group review-grid">
+<!-- site-reviews:home cards section -->
       <!-- wp:group {"className":"card","layout":{"type":"default"}} -->
       <div class="wp-block-group card">
         <!-- wp:group {"className":"review-meta","layout":{"type":"flex","flexWrap":"nowrap","justifyContent":"space-between"}} -->
@@ -304,6 +323,7 @@ $directions      = esc_url(cornwall_biz('directions_url'));
         <!-- /wp:paragraph -->
       </div>
       <!-- /wp:group -->
+<!-- /site-reviews:home -->
     </div>
     <!-- /wp:group -->
 
@@ -369,12 +389,14 @@ $directions      = esc_url(cornwall_biz('directions_url'));
       <section class="visit-faq" id="faq" aria-label="Frequently asked questions">
         <p class="faq-caption">Questions</p>
         <div class="faq-list">
+<!-- site-faqs:home section -->
 <?php foreach (cornwall_faqs() as $faq) : ?>
           <details>
             <summary><?php echo esc_html($faq[0]); ?></summary>
             <p><?php echo esc_html($faq[1]); ?></p>
           </details>
 <?php endforeach; ?>
+<!-- /site-faqs:home -->
         </div>
       </section>
     </div>
