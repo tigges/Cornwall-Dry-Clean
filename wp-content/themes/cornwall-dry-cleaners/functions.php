@@ -20,6 +20,7 @@ require_once __DIR__ . '/inc/services.php';
 require_once __DIR__ . '/inc/prices.php';
 require_once __DIR__ . '/inc/reviews.php';
 require_once __DIR__ . '/inc/faqs.php';
+require_once __DIR__ . '/inc/site-map.php';
 
 function cornwall_theme_setup()
 {
