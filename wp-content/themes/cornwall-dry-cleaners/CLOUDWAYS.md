@@ -16,4 +16,4 @@ This repository is pulled into the WordPress `public_html/`. Full notes: `CLOUDW
 
 For the weekly email, switch on the Google Workspace SMTP relay for the server IP (Google Admin → Gmail → Routing → SMTP relay service, IP only, TLS), tick Shop details → Email sending (1.6.3; live site only, no password) and add an hourly Cloudways cron job: `wget -q -O - "https://cornwalldrycleaners.com/wp-cron.php?doing_wp_cron" >/dev/null 2>&1`.
 
-Name, address, phone, services and FAQ live in `inc/business.php`; hours, special days and the notice are edited in **Shop details**.
+Name, address and phone live in `inc/business.php`; hours, special days and the notice are edited in **Shop details**; services, prices, reviews and FAQs in **Page content** (1.7.0; `inc/content.php` plus one file per list). Test: `wp eval-file wp-content/themes/cornwall-dry-cleaners/tests/content-editor-test.php`.

@@ -60,6 +60,20 @@ $tbc = function ($note) {
         <p class="muted"><?php echo esc_html($card[1]); ?><?php echo $tbc($card[2]); ?></p>
       </div>
 <?php endforeach; ?>
+<!-- site-services:wedding start=<?php echo count($cards) + 1; ?> -->
+<!-- /site-services:wedding -->
+    </div>
+  </div>
+</section>
+
+<section class="section prices" id="wedding-prices">
+  <div class="wrap">
+    <p class="eyebrow">Prices</p>
+    <h2>Prices at the counter.</h2>
+    <p class="muted">We confirm the price before we start.</p>
+    <div class="price-grid">
+<!-- site-prices:wedding section -->
+<!-- /site-prices:wedding -->
     </div>
   </div>
 </section>
@@ -90,10 +104,12 @@ $tbc = function ($note) {
 
 <section class="section story">
   <div class="wrap landing-split">
+<!-- site-reviews:wedding quote -->
     <div class="card quote-panel">
       <blockquote><p>“These guys really care about the quality of the service they provide and clearly check your goods before handing them back.”</p></blockquote>
       <p>Google review</p>
     </div>
+<!-- /site-reviews:wedding -->
     <div class="visit-faq landing-faq" aria-label="Wedding questions">
       <p class="faq-caption">Questions</p>
       <div class="faq-list">
@@ -103,6 +119,8 @@ $tbc = function ($note) {
           <p><?php echo esc_html($faq[1]); ?><?php echo $tbc($faq[2]); ?></p>
         </details>
 <?php endforeach; ?>
+<!-- site-faqs:wedding -->
+<!-- /site-faqs:wedding -->
       </div>
     </div>
   </div>

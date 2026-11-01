@@ -169,6 +169,20 @@ document.addEventListener("click", (event) => {
   if (name) window.plausible(name, { props: { where: trackArea(link), page: location.pathname } });
 });
 
+// Questions come from Page content → FAQs; each <details> carries its data-id.
+function setupQuestions() {
+  const questions = document.querySelectorAll("details[data-id]");
+  const target = location.hash ? document.getElementById(decodeURIComponent(location.hash.slice(1))) : null;
+  if (target && target.matches("details[data-id]")) target.open = true;
+  questions.forEach((item) => {
+    item.addEventListener("toggle", () => {
+      if (!item.open || typeof window.plausible !== "function") return;
+      const summary = item.querySelector("summary");
+      window.plausible("Question", { props: { question: summary ? summary.textContent.trim() : item.dataset.id, page: location.pathname } });
+    });
+  });
+}
+
 const year = document.querySelector("[data-year]");
 if (year) year.textContent = String(new Date().getFullYear());
 document.querySelectorAll("a[data-review-link]").forEach((link) => {
@@ -177,6 +191,7 @@ document.querySelectorAll("a[data-review-link]").forEach((link) => {
 updateOpenStatus();
 highlightToday();
 setupNav();
+setupQuestions();
 setInterval(() => {
   updateOpenStatus();
   highlightToday();
