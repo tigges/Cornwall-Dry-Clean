@@ -371,13 +371,55 @@ function cornwall_notice_window()
     );
 }
 
-/** The notice if today is inside its show-from / show-until dates, else ''. */
+/** Colour slug => array(label, background, text). Brand palette only. */
+function cornwall_notice_colours()
+{
+    return array(
+        'mist' => array('Light blue', '#E8EEF4', '#122033'),
+        'blue' => array('Blue', '#2F5480', '#FFFFFF'),
+        'navy' => array('Navy', '#00294d', '#FFFFFF'),
+        'ink'  => array('Dark', '#122033', '#FFFFFF'),
+    );
+}
+
+/** "/visit", "#faq", https://…, tel: or mailto:, else ''. */
+function cornwall_sanitize_notice_link($value)
+{
+    $value = trim((string) $value);
+    if ($value === '') {
+        return '';
+    }
+    if (preg_match('#^(/(?!/)|\#)#', $value)) {
+        return preg_match('#^[^\s<>"\']+$#', $value) ? $value : '';
+    }
+    return (string) esc_url_raw($value, array('https', 'http', 'tel', 'mailto'));
+}
+
+/** Notice banner settings. Before 1.6.2 a saved message always showed, so "on" defaults to having one. */
+function cornwall_notice_settings()
+{
+    $saved   = get_option('cornwall_notice_banner');
+    $saved   = is_array($saved) ? $saved : array();
+    $colours = cornwall_notice_colours();
+    $colour  = isset($saved['colour']) && isset($colours[$saved['colour']]) ? $saved['colour'] : 'mist';
+    $days    = isset($saved['auto_days']) ? (int) $saved['auto_days'] : 14;
+    return array(
+        'on'        => array_key_exists('on', $saved) ? (bool) $saved['on'] : cornwall_holiday_notice_raw() !== '',
+        'link_text' => isset($saved['link_text']) ? (string) $saved['link_text'] : '',
+        'link'      => isset($saved['link']) ? cornwall_sanitize_notice_link($saved['link']) : '',
+        'colour'    => $colour,
+        'auto'      => array_key_exists('auto', $saved) ? (bool) $saved['auto'] : true,
+        'auto_days' => max(1, min(60, $days)),
+    );
+}
+
+/** The notice if it is switched on and today is inside its show-from / show-until dates, else ''. */
 function cornwall_holiday_notice()
 {
     $notice = cornwall_holiday_notice_raw();
     $window = cornwall_notice_window();
     $today  = wp_date('Y-m-d');
-    if ($notice === '' || ($window['from'] !== '' && strcmp($today, $window['from']) < 0) || ($window['to'] !== '' && strcmp($today, $window['to']) > 0)) {
+    if ($notice === '' || ! cornwall_notice_settings()['on'] || ($window['from'] !== '' && strcmp($today, $window['from']) < 0) || ($window['to'] !== '' && strcmp($today, $window['to']) > 0)) {
         return '';
     }
     return $notice;
@@ -427,7 +469,7 @@ function cornwall_shop_data_for_js()
         'hours'        => $hours,
         'bankHolidays' => $holidays,
         'special'      => (object) $special,
-        'notice'       => cornwall_holiday_notice_raw(),
+        'notice'       => cornwall_notice_settings()['on'] ? cornwall_holiday_notice_raw() : '',
         'noticeFrom'   => $window['from'],
         'noticeTo'     => $window['to'],
     );

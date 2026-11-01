@@ -142,6 +142,7 @@ function setupNav() {
 // Plausible custom events (goals: Call, Directions, Map, Write a review, Email).
 // The tag only loads on the live site, so this is a no-op everywhere else.
 function trackArea(link) {
+  if (link.closest(".site-notice")) return "notice";
   if (link.closest(".mobile-cta")) return "sticky bar";
   if (link.closest(".mobile-nav")) return "menu";
   if (link.closest(".cornwall-header")) return "header";

@@ -50,6 +50,119 @@ function cornwall_analytics_tag()
 }
 add_action('wp_head', 'cornwall_analytics_tag', 5);
 
+/* ---- Notice banner (above the header on every page) ---- */
+
+/**
+ * Upcoming special days and bank holidays as [Y-m-d, closed, opens, closes, name, bank].
+ * Covers more than the longest announcement lead so cached pages still have the dates.
+ */
+function cornwall_notice_upcoming_dates()
+{
+    $tz      = wp_timezone();
+    $day     = new DateTimeImmutable('today', $tz);
+    $special = cornwall_special_dates();
+    $bank    = array_flip(cornwall_bank_holidays());
+    $dates   = array();
+    for ($i = 0; $i < 120; $i++, $day = $day->modify('+1 day')) {
+        $ymd = $day->format('Y-m-d');
+        if (isset($special[$ymd])) {
+            $row     = $special[$ymd];
+            $dates[] = array($ymd, $row['closed'] ? 1 : 0, $row['closed'] ? 0 : cornwall_hhmm_to_decimal($row['opens']), $row['closed'] ? 0 : cornwall_hhmm_to_decimal($row['closes']), $row['name'], 0);
+        } elseif (isset($bank[$ymd])) {
+            $dates[] = array($ymd, 1, 0, 0, '', 1);
+        }
+    }
+    return $dates;
+}
+
+/**
+ * Printed hidden at the top of <body>; the inline script picks today's message
+ * (London date) so it stays right on cached pages, and skips it if this visitor
+ * closed the same words before.
+ */
+function cornwall_site_notice()
+{
+    $settings = cornwall_notice_settings();
+    $window   = cornwall_notice_window();
+    $text     = $settings['on'] ? cornwall_holiday_notice_raw() : '';
+    $dates    = $settings['auto'] ? cornwall_notice_upcoming_dates() : array();
+    if ($text === '' && ! $dates) {
+        return;
+    }
+    $data = array(
+        'manual' => array(
+            'text'     => $text,
+            'from'     => $window['from'],
+            'to'       => $window['to'],
+            'linkText' => $settings['link'] !== '' ? $settings['link_text'] : '',
+            'link'     => $settings['link_text'] !== '' ? $settings['link'] : '',
+        ),
+        'days'  => $settings['auto'] ? $settings['auto_days'] : 0,
+        'dates' => $dates,
+    );
+    ?>
+<div class="site-notice site-notice--<?php echo esc_attr($settings['colour']); ?>" data-site-notice role="region" aria-label="Notice" hidden><div class="site-notice-inner"><p data-notice-text></p><button type="button" class="site-notice-close" aria-label="Close notice">&times;</button></div></div>
+<script>
+(function () {
+  var data = <?php echo wp_json_encode($data, JSON_HEX_TAG | JSON_HEX_AMP | JSON_UNESCAPED_UNICODE); ?>;
+  var bar = document.currentScript.previousElementSibling;
+  var key = "cornwallNoticeClosed";
+  var parts = Object.fromEntries(new Intl.DateTimeFormat("en-GB", { timeZone: "Europe/London", year: "numeric", month: "2-digit", day: "2-digit" }).formatToParts(new Date()).map(function (p) { return [p.type, p.value]; }));
+  var today = parts.year + "-" + parts.month + "-" + parts.day;
+  function toDate(ymd) { var p = ymd.split("-"); return new Date(Date.UTC(+p[0], +p[1] - 1, +p[2])); }
+  function addDays(ymd, n) { return new Date(toDate(ymd).getTime() + n * 86400000).toISOString().slice(0, 10); }
+  function label(ymd) { return new Intl.DateTimeFormat("en-GB", { timeZone: "UTC", weekday: "short", day: "numeric", month: "short" }).format(toDate(ymd)); }
+  function range(g) { return g.from === g.to ? label(g.from) : label(g.from) + " – " + label(g.to); }
+  function hour(h) { var w = Math.floor(h), m = Math.round((h - w) * 60); return (w % 12 || 12) + (m ? ":" + String(m).padStart(2, "0") : "") + (h >= 12 ? "pm" : "am"); }
+  function list(items) { return items.length < 2 ? items.join("") : items.slice(0, -1).join(", ") + " and " + items[items.length - 1]; }
+
+  var m = data.manual, text = "", link = null;
+  if (m.text && (!m.from || today >= m.from) && (!m.to || today <= m.to)) {
+    text = m.text;
+    if (m.link && m.linkText) link = [m.linkText, m.link];
+  } else if (data.days) {
+    var end = addDays(today, data.days), groups = [];
+    data.dates.forEach(function (x) {
+      if (x[0] < today || x[0] > end) return;
+      var sig = x.slice(1).join("|"), g = groups[groups.length - 1];
+      if (g && g.sig === sig && addDays(g.to, 1) === x[0]) g.to = x[0];
+      else groups.push({ sig: sig, from: x[0], to: x[0], closed: x[1], opens: x[2], closes: x[3], name: x[4], bank: x[5] });
+    });
+    var closed = groups.filter(function (g) { return g.closed; });
+    var allBank = closed.length && closed.every(function (g) { return g.bank && !g.name; });
+    var sentences = [];
+    if (closed.length) {
+      var labels = closed.map(function (g) { return range(g) + (allBank ? "" : g.name ? " (" + g.name + ")" : g.bank ? " (bank holiday)" : ""); });
+      var many = closed.length > 1 || closed[0].from !== closed[0].to;
+      sentences.push([closed[0].from, "Closed " + list(labels) + (allBank ? (many ? " (bank holidays)" : " (bank holiday)") : "")]);
+    }
+    groups.filter(function (g) { return !g.closed; }).forEach(function (g) {
+      sentences.push([g.from, range(g) + (g.name ? " (" + g.name + ")" : "") + ": open " + hour(g.opens) + " – " + hour(g.closes)]);
+    });
+    sentences.sort(function (a, b) { return a[0] < b[0] ? -1 : 1; });
+    if (sentences.length) text = sentences.map(function (s) { return s[1]; }).join(". ") + ".";
+  }
+  try { if (!text || localStorage.getItem(key) === text) { bar.remove(); return; } } catch (e) { if (!text) { bar.remove(); return; } }
+
+  var p = bar.querySelector("[data-notice-text]");
+  p.textContent = text + (link ? " " : "");
+  if (link) {
+    var a = document.createElement("a");
+    a.href = link[1];
+    a.textContent = link[0];
+    p.append(a);
+  }
+  bar.hidden = false;
+  bar.querySelector("button").addEventListener("click", function () {
+    try { localStorage.setItem(key, text); } catch (e) {}
+    bar.remove();
+  });
+})();
+</script>
+    <?php
+}
+add_action('wp_body_open', 'cornwall_site_notice');
+
 /* ---- Moving 1.5.x settings over ---- */
 
 /** "Closed from / to" (1.5.9–1.5.12) becomes a special day; the notice keeps ending on its last day. */
@@ -132,6 +245,7 @@ function cornwall_shop_details_page()
     $defaults = cornwall_default_hours();
     $special  = cornwall_special_days();
     $window   = cornwall_notice_window();
+    $banner   = cornwall_notice_settings();
     $analytics = cornwall_analytics_settings();
     $errors   = get_transient('cornwall_shop_errors_' . get_current_user_id());
     delete_transient('cornwall_shop_errors_' . get_current_user_id());
@@ -206,15 +320,27 @@ function cornwall_shop_details_page()
     </div>
 
     <div class="card">
-      <h2>Notice</h2>
-      <p class="description">Shown in the Visit section under the hours. On a closed special day without a name, the “Open now” pill shows it too if it starts with “Closed”.</p>
+      <h2>Notice banner</h2>
+      <p class="description">A thin bar above the header on every page. Visitors can close it; it comes back if you change the words. Your own notice also shows under the opening hours on the homepage.</p>
+      <p><label><input type="checkbox" name="notice_on" value="1" <?php checked($banner['on']); ?> /> Show my notice</label></p>
       <p><label for="cornwall_holiday_notice"><strong>Message</strong></label><br>
-        <input name="cornwall_holiday_notice" id="cornwall_holiday_notice" type="text" class="large-text" value="<?php echo esc_attr(cornwall_holiday_notice_raw()); ?>" placeholder="e.g. Closed 25–28 Dec for Christmas — back Tuesday 29 Dec at 8am" /></p>
+        <input name="cornwall_holiday_notice" id="cornwall_holiday_notice" type="text" class="large-text" maxlength="160" value="<?php echo esc_attr(cornwall_holiday_notice_raw()); ?>" placeholder="e.g. Closed 25–28 Dec for Christmas — back Tuesday 29 Dec at 8am" /></p>
       <div class="cornwall-row">
+        <p><label for="cornwall_notice_link_text">Link text <span class="description">(optional)</span></label><input type="text" id="cornwall_notice_link_text" name="notice_link_text" maxlength="40" value="<?php echo esc_attr($banner['link_text']); ?>" placeholder="Opening hours" /></p>
+        <p><label for="cornwall_notice_link">Link <span class="description">(optional)</span></label><input type="text" id="cornwall_notice_link" name="notice_link" class="regular-text" value="<?php echo esc_attr($banner['link']); ?>" placeholder="/#visit or https://…" /></p>
         <p><label for="cornwall_notice_from">Show from</label><input type="date" id="cornwall_notice_from" name="cornwall_notice_from" value="<?php echo esc_attr($window['from']); ?>" /></p>
         <p><label for="cornwall_notice_to">Show until</label><input type="date" id="cornwall_notice_to" name="cornwall_notice_to" value="<?php echo esc_attr($window['to']); ?>" /></p>
       </div>
-      <p class="description">Leave both dates empty to show it until you clear the message.</p>
+      <p class="description">Leave both dates empty to show it until you untick it. On a closed special day without a name, the “Open now” pill shows the notice too if it starts with “Closed”.</p>
+      <p><label for="cornwall_notice_colour"><strong>Colour</strong></label><br>
+        <select id="cornwall_notice_colour" name="notice_colour">
+        <?php foreach (cornwall_notice_colours() as $slug => $colour) : ?>
+          <option value="<?php echo esc_attr($slug); ?>" <?php selected($banner['colour'], $slug); ?>><?php echo esc_html($colour[0]); ?></option>
+        <?php endforeach; ?>
+        </select></p>
+      <p><label><input type="checkbox" name="notice_auto" value="1" <?php checked($banner['auto']); ?> /> When my notice is off, announce bank holidays and special days automatically starting</label>
+        <input type="number" name="notice_auto_days" min="1" max="60" step="1" class="small-text" value="<?php echo (int) $banner['auto_days']; ?>" aria-label="Days before" /> days before.</p>
+      <p class="description">For example: “Closed Fri 25 Dec and Mon 28 Dec (bank holidays).” Named special days use their name; special hours read “Wed 23 Dec (Late opening): open 8am – 8pm.”</p>
     </div>
 
     <div class="card">
@@ -350,6 +476,24 @@ function cornwall_shop_details_save()
     }
     update_option('cornwall_notice_from', $notice_from, false);
     update_option('cornwall_notice_to', $notice_to, false);
+
+    $link_text = mb_substr(sanitize_text_field(isset($post['notice_link_text']) ? (string) $post['notice_link_text'] : ''), 0, 40);
+    $link_raw  = isset($post['notice_link']) ? trim((string) $post['notice_link']) : '';
+    $link      = cornwall_sanitize_notice_link($link_raw);
+    if ($link_raw !== '' && $link === '') {
+        $errors[] = 'The notice link must start with / or https:// (or be tel: / mailto:). It was cleared.';
+    } elseif (($link_text === '') !== ($link === '')) {
+        $errors[] = 'The notice link needs both a link text and a link, so it is not shown yet.';
+    }
+    $colour = isset($post['notice_colour']) ? (string) $post['notice_colour'] : '';
+    update_option('cornwall_notice_banner', array(
+        'on'        => ! empty($post['notice_on']),
+        'link_text' => $link_text,
+        'link'      => $link,
+        'colour'    => array_key_exists($colour, cornwall_notice_colours()) ? $colour : 'mist',
+        'auto'      => ! empty($post['notice_auto']),
+        'auto_days' => max(1, min(60, (int) (isset($post['notice_auto_days']) ? $post['notice_auto_days'] : 14))),
+    ), false);
 
     update_option('cornwall_rating_value', cornwall_sanitize_rating_value(isset($post['cornwall_rating_value']) ? $post['cornwall_rating_value'] : ''), false);
     update_option('cornwall_review_count_total', cornwall_sanitize_review_count_total(isset($post['cornwall_review_count_total']) ? $post['cornwall_review_count_total'] : 0), false);
